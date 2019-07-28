@@ -1,0 +1,9 @@
+*.class
+\.metadata/
+\.RemoteSystemsTempFiles/
+\Scrapbook/
+\Servers/
+\Acme-Conference/target/
+\Acme-Conference/.settings/
+\Acme-Conference/.classpath
+\Acme-Conference/src/main/resources/Entities.map
