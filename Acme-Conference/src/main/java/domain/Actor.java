@@ -19,11 +19,11 @@ import security.UserAccount;
 public class Actor extends DomainEntity implements Cloneable {
 
 	private String	name;
+	private String	middleName;
 	private String	surname;
 	private String	photo;
 	private String	phone;
 	private String	address;
-	private double	vatNumber;
 
 
 	@NotBlank
@@ -33,6 +33,15 @@ public class Actor extends DomainEntity implements Cloneable {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	@NotBlank
+	public String getMiddleName() {
+		return this.middleName;
+	}
+
+	public void setMiddleName(final String middleName) {
+		this.middleName = middleName;
 	}
 
 	@NotBlank
@@ -67,15 +76,6 @@ public class Actor extends DomainEntity implements Cloneable {
 
 	public void setAddress(final String address) {
 		this.address = address;
-	}
-
-	@NotNull
-	public double getVatNumber() {
-		return this.vatNumber;
-	}
-
-	public void setVatNumber(final double vatNumber) {
-		this.vatNumber = vatNumber;
 	}
 
 
