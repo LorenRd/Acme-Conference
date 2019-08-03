@@ -53,6 +53,17 @@
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
+		
+		<security:intercept-url pattern="/conference/list.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/display.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/author/register.do" access="permitAll" /> 
+		<security:intercept-url pattern="/author/edit.do" access="hasRole('AUTHOR')" />
+		<security:intercept-url pattern="/author/display.do" access="hasRole('AUTHOR')" /> 
+		
+		<security:intercept-url pattern="/reviewer/register.do" access="permitAll" /> 
+		<security:intercept-url pattern="/reviewer/edit.do" access="hasRole('REVIEWER')" />
+		<security:intercept-url pattern="/reviewer/display.do" access="hasRole('REVIEWER')" /> 
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
