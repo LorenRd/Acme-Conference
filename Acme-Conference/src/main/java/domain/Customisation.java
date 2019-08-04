@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -9,7 +10,6 @@ import javax.persistence.Entity;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
 import cz.jirutka.validator.collection.constraints.EachNotBlank;
@@ -18,12 +18,23 @@ import cz.jirutka.validator.collection.constraints.EachNotBlank;
 @Access(AccessType.PROPERTY)
 public class Customisation extends DomainEntity {
 
-	private String welcomeBanner;
-	private String welcomeMessageEn;
-	private String welcomeMessageEs;
-	private String countryCode;
-	private Double vatNumber;
-	private Collection<String> scoreWords;
+	private String				systemName;
+	private String				welcomeBanner;
+	private String				welcomeMessageEn;
+	private String				welcomeMessageEs;
+	private String				countryCode;
+	private Collection<String>	creditCardsMakes;
+	private Collection<String>	topics;
+
+
+	@NotBlank
+	public String getSystemName() {
+		return this.systemName;
+	}
+
+	public void setSystemName(final String systemName) {
+		this.systemName = systemName;
+	}
 
 	@NotBlank
 	@URL
@@ -62,22 +73,23 @@ public class Customisation extends DomainEntity {
 		this.countryCode = countryCode;
 	}
 
-	@Range(min = 0, max = 100)
-	public Double getVatNumber() {
-		return vatNumber;
+	@ElementCollection
+	@EachNotBlank
+	public Collection<String> getCreditCardsMakes() {
+		return this.creditCardsMakes;
 	}
 
-	public void setVatNumber(Double vatNumber) {
-		this.vatNumber = vatNumber;
+	public void setCreditCardsMakes(final Collection<String> creditCardsMakes) {
+		this.creditCardsMakes = creditCardsMakes;
 	}
 
 	@ElementCollection
 	@EachNotBlank
-	public Collection<String> getScoreWords() {
-		return scoreWords;
+	public Collection<String> getTopics() {
+		return this.topics;
 	}
 
-	public void setScoreWords(Collection<String> scoreWords) {
-		this.scoreWords = scoreWords;
+	public void setTopics(final Collection<String> topics) {
+		this.topics = topics;
 	}
 }

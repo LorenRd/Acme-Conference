@@ -42,31 +42,59 @@ public class ConferenceService {
 
 	// Business Methods
 
-	public Collection<Conference> findForthcoming() {
+	public Collection<Conference> findFinalForthcoming() {
 		Collection<Conference> result;
 
-		result = this.conferenceRepository.findForthcoming();
+		result = this.conferenceRepository.findFinalForthcoming();
 		return result;
 	}
 
-	public Collection<Conference> findPast() {
+	public Collection<Conference> findFinalPast() {
 		Collection<Conference> result;
 
-		result = this.conferenceRepository.findPast();
+		result = this.conferenceRepository.findFinalPast();
 		return result;
 	}
 
-	public Collection<Conference> findRunning() {
+	public Collection<Conference> findFinalRunning() {
 		Collection<Conference> result;
 
-		result = this.conferenceRepository.findRunning();
+		result = this.conferenceRepository.findFinalRunning();
 		return result;
 	}
 
-	public Collection<Conference> findByKeyword(final String keyword) {
+	public Collection<Conference> findFinalByKeyword(final String keyword) {
 		Collection<Conference> result;
 
-		result = this.conferenceRepository.findByKeyword(keyword);
+		result = this.conferenceRepository.findFinalByKeyword(keyword);
+		return result;
+	}
+
+	public Collection<Conference> findFinalForthcomingByKeyword(final String keyword) {
+		Collection<Conference> result;
+
+		result = this.conferenceRepository.findFinalForthcomingByKeyword(keyword);
+		return result;
+	}
+
+	public Collection<Conference> findFinalPastByKeyword(final String keyword) {
+		Collection<Conference> result;
+
+		result = this.conferenceRepository.findFinalPastByKeyword(keyword);
+		return result;
+	}
+
+	public Collection<Conference> findFinalRunningByKeyword(final String keyword) {
+		Collection<Conference> result;
+
+		result = this.conferenceRepository.findFinalRunningByKeyword(keyword);
+		return result;
+	}
+
+	public Collection<Conference> findFinals() {
+		Collection<Conference> result;
+
+		result = this.conferenceRepository.findFinals();
 		return result;
 	}
 }

@@ -55,6 +55,9 @@
 		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
 		
 		<security:intercept-url pattern="/conference/list.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/listForthcoming.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/listPast.do" access="permitAll" />
+		<security:intercept-url pattern="/conference/listRunning.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/display.do" access="permitAll" />
 		
 		<security:intercept-url pattern="/author/register.do" access="permitAll" /> 
