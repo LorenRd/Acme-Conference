@@ -21,7 +21,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<jstl:if test="${permission }">
+
 
 	<form:form action="${actionURI}" modelAttribute="author" id="form">
 
@@ -75,6 +75,13 @@
 				<br />
 				<br />
 
+				<input type="submit" name="register" id="register"
+				value="<spring:message code="author.save" />" >&nbsp; 
+		
+				<acme:cancel url="welcome/index.do" code="author.cancel"/>
+				<br />
+				<br />
+
 
 			</jstl:when>
 			<jstl:otherwise>
@@ -82,25 +89,14 @@
 
 				<form:hidden path="userAccount" />
 
+				<input type="submit" name="save" id="save"
+				value="<spring:message code="author.save" />" >&nbsp; 
+		
+				<acme:cancel url="welcome/index.do" code="author.cancel"/>
+				<br />
+				<br />
 
 			</jstl:otherwise>
 		</jstl:choose>
 
-
-		<input type="submit" name="save" id="save"
-		value="<spring:message code="rookie.save" />" />
-		<input type="button" name="cancel"
-		value="<spring:message code="rookie.cancel" />"
-		onclick="javascript: relativeRedir('${redirectURI}');" />
-		<br />
-		<br />
-
 	</form:form>
-
-</jstl:if>
-
-<jstl:if test="${!permission }">
-	<h3>
-		<spring:message code="author.nopermission" />
-	</h3>
-</jstl:if>

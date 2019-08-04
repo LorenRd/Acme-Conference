@@ -21,8 +21,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<jstl:if test="${permission }">
-
 	<form:form action="${actionURI}" modelAttribute="reviewer" id="form">
 
 		<form:hidden path="id"/>
@@ -41,6 +39,9 @@
 	<acme:textbox code="reviewer.address" path="address"/>
 	
 	<acme:textbox code="reviewer.photo" path="photo"/>
+	
+	<acme:textarea code="reviewer.expertises" path="expertises"/>
+	
 	<br />
 	<br />
 
@@ -88,19 +89,11 @@
 
 
 		<input type="submit" name="save" id="save"
-		value="<spring:message code="rookie.save" />" />
+		value="<spring:message code="reviewer.save" />" />
 		<input type="button" name="cancel"
-		value="<spring:message code="rookie.cancel" />"
+		value="<spring:message code="reviewer.cancel" />"
 		onclick="javascript: relativeRedir('${redirectURI}');" />
 		<br />
 		<br />
 
 	</form:form>
-
-</jstl:if>
-
-<jstl:if test="${!permission }">
-	<h3>
-		<spring:message code="reviewer.nopermission" />
-	</h3>
-</jstl:if>
