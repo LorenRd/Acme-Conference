@@ -42,7 +42,16 @@
 		</security:authorize>
 		
 		<security:authorize access="isAnonymous()">
-			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
+			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a>
+			<ul>
+					<li class="arrow"></li>
+					<li><a href="author/register.do"><spring:message
+								code="master.page.register.author" /></a></li>
+					<li class="arrow"></li>
+					<li><a href="reviewer/register.do"><spring:message
+								code="master.page.register.reviewer" /></a></li>
+								
+				</ul></li>
 			<li><a class="fNiv"><spring:message code="master.page.terms" /></a>
 				<ul>
 					<li class="arrow"></li>
@@ -55,7 +64,18 @@
 								code="master.page.terms" /></a></li>
 					</jstl:if>
 				</ul>
-			</li>	
+			</li>
+			<li>
+				<a class="fNiv"> 
+					<spring:message code="master.page.conferences" /> 
+				</a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="conference/listForthcoming.do"><spring:message code="master.page.listForthcoming" /></a></li>
+					<li><a href="conference/listPast.do"><spring:message code="master.page.listPast" /></a></li>
+					<li><a href="conference/listRunning.do"><spring:message code="master.page.listRunning" /></a></li>					
+				</ul>
+			</li>
 		</security:authorize>
 		
 		<security:authorize access="isAuthenticated()">
@@ -66,10 +86,28 @@
 				</a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="profile/action-1.do"><spring:message code="master.page.profile.action.1" /></a></li>
-					<li><a href="profile/action-2.do"><spring:message code="master.page.profile.action.2" /></a></li>
-					<li><a href="profile/action-3.do"><spring:message code="master.page.profile.action.3" /></a></li>					
+					<security:authorize access="hasRole('AUTHOR')">
+					<li><a href="author/display.do"><spring:message code="master.page.profile" /></a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('REVIEWER')">
+					<li><a href="reviewer/display.do"><spring:message code="master.page.profile" /></a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('ADMIN')">
+					<li><a href="administrator/viewProfile.do"><spring:message code="master.page.profile" /></a></li>
+					</security:authorize>
+					<li><a href="message/actor/list.do"><spring:message code="master.page.profile.messages" /></a></li>					
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
+				</ul>
+			</li>
+			<li>
+				<a class="fNiv"> 
+					<spring:message code="master.page.conferences" /> 
+				</a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="conference/listForthcoming.do"><spring:message code="master.page.listForthcoming" /></a></li>
+					<li><a href="conference/listPast.do"><spring:message code="master.page.listPast" /></a></li>
+					<li><a href="conference/listRunning.do"><spring:message code="master.page.listRunning" /></a></li>					
 				</ul>
 			</li>
 		</security:authorize>

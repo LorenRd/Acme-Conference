@@ -36,6 +36,15 @@
 		<bean class="converters.UserAccountToStringConverter" />
 		<bean class="converters.StringToUserAccountConverter" />
 		
+		<bean class="converters.AuthorToStringConverter" />
+		<bean class="converters.StringToAuthorConverter" />
+		
+		<bean class="converters.ReviewerToStringConverter" />
+		<bean class="converters.StringToReviewerConverter" />
+		
+		<bean class="converters.ConferenceToStringConverter" />
+		<bean class="converters.StringToConferenceConverter" />
+		
 	</util:list>
 	
 </beans>
