@@ -1,5 +1,6 @@
 package controllers.author;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import services.AuthorService;
+import services.SubmissionService;
 
 import controllers.AbstractController;
 import domain.Author;
@@ -101,6 +105,66 @@ public class SubmissionAuthorController extends AbstractController {
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
 
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(submission,
+					"submission.commit.error");
+		}
+		return result;
+	}
+
+	// Edit
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int submissionId) {
+		ModelAndView result;
+		Submission submission;
+
+		submission = this.submissionService.findOne(submissionId);
+		Assert.notNull(submission);
+		result = this.createEditModelAndView(submission);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(
+			@ModelAttribute("submission") Submission submission,
+			final BindingResult binding) {
+		ModelAndView result;
+
+		try {
+			submission = this.submissionService
+					.reconstruct(submission, binding);
+			if (binding.hasErrors()) {
+				result = this.createModelAndView(submission);
+				for (final ObjectError e : binding.getAllErrors())
+					System.out.println(e.getObjectName() + " error ["
+							+ e.getDefaultMessage() + "] "
+							+ Arrays.toString(e.getCodes()));
+			} else {
+				submission = this.submissionService.save(submission);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			}
+
+		} catch (final Throwable oops) {
+			result = this.createModelAndView(submission,
+					"submission.commit.error");
+		}
+		return result;
+	}
+
+	// Delete
+
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete(final int submissionId) {
+		ModelAndView result;
+		Submission submission;
+
+		submission = this.submissionService.findOne(submissionId);
+
+		try {
+			this.submissionService.delete(submission);
+			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(submission,
 					"submission.commit.error");
