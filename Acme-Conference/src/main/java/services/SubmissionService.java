@@ -2,6 +2,7 @@ package services;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,6 @@ public class SubmissionService {
 	private AuthorService authorService;
 
 	@Autowired
-	private ActorService actorService;
-
-	@Autowired
 	private Validator validator;
 
 	// Simple CRUD Methods
@@ -57,8 +55,6 @@ public class SubmissionService {
 		result.setStatus("UNDER-REVIEW");
 		result.setMoment(new Date(System.currentTimeMillis() - 1));
 
-		Assert.isTrue(result.getConference().getSubmissionDeadline()
-				.after(result.getMoment()));
 		return result;
 	}
 
@@ -124,14 +120,27 @@ public class SubmissionService {
 
 		text = name + middleName + surname;
 
-		// TODO: HACER LA FUNCIÓN PARA CONSEGUIR UNA CADENA DE TEXTO
-		// ALFANUMÉRICA DE 4 CARACTERES
+		randomAlphanumeric = this.getAlphaNumeric();
 
 		result = text + "-" + randomAlphanumeric;
 		if (this.repeatedTicker(author, result))
 			this.generateTicker(author);
 
 		return result;
+	}
+
+	public String getAlphaNumeric() {
+		char[] ch = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
+				'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+				'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+		char[] c = new char[4];
+		Random random = new Random();
+		for (int i = 0; i < 4; i++) {
+			c[i] = ch[random.nextInt(ch.length)];
+		}
+
+		return new String(c);
 	}
 
 	public boolean repeatedTicker(final Author author, final String ticker) {

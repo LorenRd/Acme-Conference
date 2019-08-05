@@ -24,11 +24,11 @@
 		<value>/views/author/messages</value>
 		<value>/views/reviewer/messages</value>
 		<value>/views/conference/messages</value>
-		<value>/views/registration/messages</value>
+		<!-- <value>/views/registration/messages</value> -->
 		<value>/views/creditCard/messages</value>
 		<value>/views/submission/messages</value>
-		<value>/views/paper/messages</value>
-		<value>/views/cameraReadyPaper/messages</value>
+<!-- 		<value>/views/paper/messages</value>
+		<value>/views/cameraReadyPaper/messages</value> -->
 	</util:list>
 
 </beans>

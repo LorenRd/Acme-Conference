@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AuthorService;
+import services.ConferenceService;
 import services.SubmissionService;
 
 import controllers.AbstractController;
 import domain.Author;
+import domain.Conference;
 import domain.Submission;
 
 @Controller
@@ -30,6 +32,9 @@ public class SubmissionAuthorController extends AbstractController {
 
 	@Autowired
 	private AuthorService authorService;
+
+	@Autowired
+	private ConferenceService conferenceService;
 
 	// Listing
 
@@ -203,9 +208,13 @@ public class SubmissionAuthorController extends AbstractController {
 	private ModelAndView createModelAndView(final Submission submission,
 			final String messageCode) {
 		ModelAndView result;
+		Collection<Conference> conferences;
+
+		conferences = this.conferenceService.findAvailableConferences();
 
 		result = new ModelAndView("submission/create");
 		result.addObject("submission", submission);
+		result.addObject("conferences", conferences);
 		result.addObject("message", messageCode);
 		return result;
 	}

@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -17,8 +16,7 @@ public class ConferenceService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ConferenceRepository	conferenceRepository;
-
+	private ConferenceRepository conferenceRepository;
 
 	// Supporting services ----------------------------------------------------
 
@@ -70,10 +68,12 @@ public class ConferenceService {
 		return result;
 	}
 
-	public Collection<Conference> findFinalForthcomingByKeyword(final String keyword) {
+	public Collection<Conference> findFinalForthcomingByKeyword(
+			final String keyword) {
 		Collection<Conference> result;
 
-		result = this.conferenceRepository.findFinalForthcomingByKeyword(keyword);
+		result = this.conferenceRepository
+				.findFinalForthcomingByKeyword(keyword);
 		return result;
 	}
 
@@ -97,4 +97,12 @@ public class ConferenceService {
 		result = this.conferenceRepository.findFinals();
 		return result;
 	}
+
+	public Collection<Conference> findAvailableConferences() {
+		Collection<Conference> result;
+
+		result = this.conferenceRepository.findAvailableConferences();
+		return result;
+	}
+
 }
