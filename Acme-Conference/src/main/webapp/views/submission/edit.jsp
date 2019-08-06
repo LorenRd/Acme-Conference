@@ -18,9 +18,8 @@
 
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="submission/author/edit.do" modelAttribute="submission">
+<form:form action="submission/author/edit.do" modelAttribute="submissionForm">
 		<form:hidden path="id"/>
-		<form:hidden path="version"/>
 		
 		
 		<acme:textbox code="submission.status" path="status"/>

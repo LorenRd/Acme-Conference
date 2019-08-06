@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ConferenceRepository;
+import repositories.SubmissionRepository;
 import domain.Conference;
+import domain.Submission;
 
 @Service
 @Transactional
@@ -17,6 +19,9 @@ public class ConferenceService {
 	// Managed repository -----------------------------------------------------
 	@Autowired
 	private ConferenceRepository conferenceRepository;
+
+	@Autowired
+	private SubmissionRepository submissionRepository;
 
 	// Supporting services ----------------------------------------------------
 
@@ -99,10 +104,19 @@ public class ConferenceService {
 	}
 
 	public Collection<Conference> findAvailableConferences() {
-		Collection<Conference> result;
+		Collection<Conference> result = this.findFinals();
+		Collection<Conference> finals = this.findFinals();
+		Collection<Submission> allSubmissions = this.submissionRepository
+				.findAll();
 
-		result = this.conferenceRepository.findAvailableConferences();
+		for (Submission s : allSubmissions) {
+			for (Conference c : finals) {
+				if (s.getConference().equals(c)) {
+					result.remove(c);
+				}
+			}
+		}
+
 		return result;
 	}
-
 }

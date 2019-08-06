@@ -3,6 +3,8 @@ package controllers.author;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -21,9 +23,9 @@ import services.SubmissionService;
 
 import controllers.AbstractController;
 import domain.Author;
-import domain.Conference;
 import domain.Paper;
 import domain.Submission;
+import forms.SubmissionForm;
 
 @Controller
 @RequestMapping("/submission/author")
@@ -90,35 +92,37 @@ public class SubmissionAuthorController extends AbstractController {
 	public ModelAndView create() {
 		ModelAndView result;
 		Submission submission;
+		SubmissionForm submissionForm;
 
 		submission = this.submissionService.create();
-		result = this.createModelAndView(submission);
+		submissionForm = this.submissionService.construct(submission);
+		result = this.createEditModelAndView(submissionForm);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 	public ModelAndView create(
-			@ModelAttribute("submission") Submission submission,
+			@ModelAttribute("submissionForm") @Valid final SubmissionForm submissionForm,
 			final BindingResult binding) {
 		ModelAndView result;
+		Submission submission;
 
 		try {
-			submission = this.submissionService
-					.reconstruct(submission, binding);
+			submission = this.submissionService.reconstruct(submissionForm,
+					binding);
 			if (binding.hasErrors()) {
-				result = this.createModelAndView(submission);
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error ["
 							+ e.getDefaultMessage() + "] "
 							+ Arrays.toString(e.getCodes()));
+				result = this.createEditModelAndView(submissionForm);
 			} else {
 				submission = this.submissionService.save(submission);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
-
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(submission,
+			result = this.createEditModelAndView(submissionForm,
 					"submission.commit.error");
 		}
 		return result;
@@ -130,36 +134,38 @@ public class SubmissionAuthorController extends AbstractController {
 	public ModelAndView edit(@RequestParam final int submissionId) {
 		ModelAndView result;
 		Submission submission;
+		SubmissionForm submissionForm;
 
 		submission = this.submissionService.findOne(submissionId);
+		submissionForm = this.submissionService.construct(submission);
 		Assert.notNull(submission);
-		result = this.createEditModelAndView(submission);
+		result = this.createEditModelAndView(submissionForm);
 
 		return result;
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(
-			@ModelAttribute("submission") Submission submission,
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "edit")
+	public ModelAndView edit(
+			@ModelAttribute("submissionForm") @Valid final SubmissionForm submissionForm,
 			final BindingResult binding) {
 		ModelAndView result;
+		Submission submission;
 
 		try {
-			submission = this.submissionService
-					.reconstruct(submission, binding);
+			submission = this.submissionService.reconstruct(submissionForm,
+					binding);
 			if (binding.hasErrors()) {
-				result = this.createModelAndView(submission);
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error ["
 							+ e.getDefaultMessage() + "] "
 							+ Arrays.toString(e.getCodes()));
+				result = this.createEditModelAndView(submissionForm);
 			} else {
-				submission = this.submissionService.save(submission);
+				this.submissionService.save(submission);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
-
 		} catch (final Throwable oops) {
-			result = this.createModelAndView(submission,
+			result = this.createEditModelAndView(submissionForm,
 					"submission.commit.error");
 		}
 		return result;
@@ -178,7 +184,7 @@ public class SubmissionAuthorController extends AbstractController {
 			this.submissionService.delete(submission);
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(submission,
+			result = this.deleteModelAndView(submission,
 					"submission.commit.error");
 		}
 		return result;
@@ -186,15 +192,38 @@ public class SubmissionAuthorController extends AbstractController {
 
 	// -------------------
 
-	protected ModelAndView createEditModelAndView(final Submission submission) {
+	protected ModelAndView createEditModelAndView(
+			final SubmissionForm submissionForm) {
+		ModelAndView result;
+		result = this.createEditModelAndView(submissionForm, null);
+		return result;
+	}
+
+	private ModelAndView createEditModelAndView(
+			final SubmissionForm submissionForm, final String messageCode) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(submission, null);
+		if (submissionForm.getId() != 0)
+			result = new ModelAndView("submission/edit");
+		else
+			result = new ModelAndView("submission/create");
+
+		result.addObject("submissionForm", submissionForm);
+		result.addObject("conferences",
+				this.conferenceService.findAvailableConferences());
+		result.addObject("message", messageCode);
+		return result;
+	}
+
+	protected ModelAndView deleteModelAndView(final Submission submission) {
+		ModelAndView result;
+
+		result = this.deleteModelAndView(submission, null);
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Submission submission,
+	protected ModelAndView deleteModelAndView(final Submission submission,
 			final String messageCode) {
 		ModelAndView result;
 
@@ -202,27 +231,6 @@ public class SubmissionAuthorController extends AbstractController {
 		result.addObject("submission", submission);
 		result.addObject("message", messageCode);
 
-		return result;
-	}
-
-	private ModelAndView createModelAndView(final Submission submission) {
-		ModelAndView result;
-
-		result = this.createModelAndView(submission, null);
-		return result;
-	}
-
-	private ModelAndView createModelAndView(final Submission submission,
-			final String messageCode) {
-		ModelAndView result;
-		Collection<Conference> conferences;
-
-		conferences = this.conferenceService.findAvailableConferences();
-
-		result = new ModelAndView("submission/create");
-		result.addObject("submission", submission);
-		result.addObject("conferences", conferences);
-		result.addObject("message", messageCode);
 		return result;
 	}
 

@@ -14,7 +14,9 @@ import org.springframework.validation.Validator;
 import repositories.SubmissionRepository;
 
 import domain.Author;
+import domain.Paper;
 import domain.Submission;
+import forms.SubmissionForm;
 
 @Service
 @Transactional
@@ -28,6 +30,9 @@ public class SubmissionService {
 
 	@Autowired
 	private AuthorService authorService;
+
+	@Autowired
+	private PaperService paperService;
 
 	@Autowired
 	private Validator validator;
@@ -75,14 +80,15 @@ public class SubmissionService {
 	}
 
 	public void delete(final Submission submission) {
-		Author principal;
+		final Paper paper;
 
 		Assert.notNull(submission);
+		Assert.isTrue(submission.getId() != 0);
 
-		principal = this.authorService.findByPrincipal();
-		Assert.notNull(principal);
+		paper = this.paperService.findBySubmission(submission.getId());
 
-		Assert.isTrue(submission.getAuthor().getId() == principal.getId());
+		if (paper != null)
+			this.paperService.delete(paper);
 
 		this.submissionRepository.delete(submission);
 	}
@@ -156,32 +162,39 @@ public class SubmissionService {
 		return isRepeated;
 	}
 
-	public Submission reconstruct(final Submission submission,
+	public Submission reconstruct(final SubmissionForm submissionForm,
 			final BindingResult binding) {
 		Submission result;
-		if (submission.getId() == 0) {
-			result = submission;
+		if (submissionForm.getId() == 0) {
+			result = this.create();
 			result.setAuthor(this.authorService.findByPrincipal());
-			result.setTicker(this.generateTicker(result.getAuthor()));
-			result.setConference(submission.getConference());
+			result.setConference(submissionForm.getConference());
 			result.setMoment(new Date(System.currentTimeMillis() - 1));
+			result.setTicker(this.generateTicker(this.authorService
+					.findByPrincipal()));
 			result.setStatus("UNDER-REVIEW");
+
 		} else {
-			result = this.submissionRepository.findOne(submission.getId());
-
-			result.setStatus(submission.getStatus());
+			result = this.submissionRepository.findOne(submissionForm.getId());
+			final Paper paper = new Paper();
+			paper.setTitle(submissionForm.getTitle());
+			paper.setAuthor(submissionForm.getAuthorPaper());
+			paper.setSummary(submissionForm.getSummary());
+			paper.setDocument(submissionForm.getDocument());
+			paper.setSubmission(result);
+			
 		}
-
-		if (submission.getConference().getSubmissionDeadline()
-				.before(submission.getMoment())) {
-			binding.rejectValue("submissionDeadline",
-					"conference.validation.submissionDeadline",
-					"Submission deadline has elapsed");
-		}
-
 		this.validator.validate(result, binding);
-
+		this.submissionRepository.flush();
 		return result;
+	}
+
+	public SubmissionForm construct(final Submission submission) {
+		final SubmissionForm submissionForm = new SubmissionForm();
+		submissionForm.setId(submission.getId());
+		submissionForm.setConference(submission.getConference());
+		submissionForm.setStatus(submission.getStatus());
+		return submissionForm;
 	}
 
 }

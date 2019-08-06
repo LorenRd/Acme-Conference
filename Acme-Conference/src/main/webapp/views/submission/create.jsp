@@ -18,14 +18,25 @@
 
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="submission/author/create.do" modelAttribute="submission">
+<form:form action="submission/author/create.do" modelAttribute="submissionForm">
 		<form:hidden path="id"/>
-		<form:hidden path="version"/>
+		
+		<spring:message code="submission.conference" />
 		
 		<form:select id="conference" path="conference">
 		<form:options items="${conferences}" itemLabel="title" />
 		</form:select>
 		<br />
+		
+		<h3><spring:message code="submission.paper" /></h3>
+		
+		<acme:textbox code="submission.paper.title" path="title"/>
+		
+		<acme:textbox code="submission.paper.authorPaper" path="authorPaper"/>
+		
+		<acme:textbox code="submission.paper.summary" path="summary"/>
+		
+		<acme:textbox code="submission.paper.document" path="document"/>
 		
 		<acme:submit name="save" code="submission.save"/>
 

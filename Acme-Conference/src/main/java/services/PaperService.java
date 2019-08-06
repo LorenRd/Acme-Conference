@@ -15,6 +15,11 @@ public class PaperService {
 	@Autowired
 	private PaperRepository paperRepository;
 
+	// Simple CRUD Methods
+	public void delete(Paper paper) {
+		this.paperRepository.delete(paper);
+	}
+
 	// Business Methods
 
 	public Paper findBySubmission(final int submissionId) {
