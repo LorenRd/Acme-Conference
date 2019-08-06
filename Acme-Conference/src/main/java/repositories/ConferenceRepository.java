@@ -37,6 +37,8 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 	@Query("select c from Conference c where c.isFinal = true")
 	Collection<Conference> findFinals();
 	
-	@Query("select c from Conference c where c.isFinal = true and ")
-	Collection<Conference> findAvailableConferences();
+	//TODO: Conseguir esta query
+	
+//	@Query("select c from Conference c where c.isFinal = true and ")
+//	Collection<Conference> findAvailableConferences();
 }

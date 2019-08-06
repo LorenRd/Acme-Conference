@@ -19,6 +19,12 @@
 		<b><spring:message code="submission.status" /></b>:
 		<jstl:out value="${submission.status}"/><br/>
 
+		<!-- Paper -->
+		<b><spring:message code="submission.paper" /></b>:
+		<a href="paper/display.do?paperId=${paper.id}">
+			<jstl:out value="${paper.title}"/>
+		</a><br/>
+
 <security:authorize access="hasRole('AUTHOR')">
 <jstl:if test="${submission.author.userAccount.username == pageContext.request.userPrincipal.name}">
 <br/>
