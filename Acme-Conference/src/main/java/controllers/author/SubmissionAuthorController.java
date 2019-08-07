@@ -18,12 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AuthorService;
 import services.ConferenceService;
-import services.PaperService;
 import services.SubmissionService;
 
 import controllers.AbstractController;
 import domain.Author;
-import domain.Paper;
 import domain.Submission;
 import forms.SubmissionForm;
 
@@ -39,9 +37,6 @@ public class SubmissionAuthorController extends AbstractController {
 
 	@Autowired
 	private ConferenceService conferenceService;
-
-	@Autowired
-	private PaperService paperService;
 
 	// Listing
 
@@ -67,22 +62,14 @@ public class SubmissionAuthorController extends AbstractController {
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int submissionId) {
-		// Inicializa resultado
-		ModelAndView result;
+		final ModelAndView result;
 		Submission submission;
-		Paper paper = this.paperService.findBySubmission(submissionId);
 
-		// Busca en el repositorio
 		submission = this.submissionService.findOne(submissionId);
-		Assert.notNull(submission);
 
-		// Crea y añade objetos a la vista
 		result = new ModelAndView("submission/display");
-		result.addObject("requestURI", "submission/display.do");
 		result.addObject("submission", submission);
-		result.addObject("paper", paper);
-
-		// Envía la vista
+		result.addObject("requestURI", "submission/display.do");
 		return result;
 	}
 

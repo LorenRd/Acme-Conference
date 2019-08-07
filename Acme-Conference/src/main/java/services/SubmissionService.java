@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.PaperRepository;
 import repositories.SubmissionRepository;
 
 import domain.Author;
@@ -25,6 +26,9 @@ public class SubmissionService {
 	// Managed repository -----------------------------------------------------
 	@Autowired
 	private SubmissionRepository submissionRepository;
+
+	@Autowired
+	private PaperRepository paperRepository;
 
 	// Supporting services ----------------------------------------------------
 
@@ -54,11 +58,14 @@ public class SubmissionService {
 		principal = this.authorService.findByPrincipal();
 		Assert.notNull(principal);
 
+		Paper paper = new Paper();
+
 		result = new Submission();
 		result.setAuthor(principal);
 		result.setTicker(this.generateTicker(principal));
 		result.setStatus("UNDER-REVIEW");
 		result.setMoment(new Date(System.currentTimeMillis() - 1));
+		result.setPaper(paper);
 
 		return result;
 	}
@@ -66,12 +73,18 @@ public class SubmissionService {
 	public Submission save(final Submission submission) {
 		Author principal;
 		Submission result;
+		Paper paper;
 
 		principal = this.authorService.findByPrincipal();
 		Assert.notNull(principal);
 
 		Assert.notNull(submission);
 		Assert.isTrue(submission.getAuthor() == principal);
+
+		paper = submission.getPaper();
+		Assert.notNull(paper);
+		this.paperRepository.save(paper);
+		this.paperRepository.flush();
 
 		result = this.submissionRepository.save(submission);
 		Assert.notNull(result);
@@ -85,7 +98,7 @@ public class SubmissionService {
 		Assert.notNull(submission);
 		Assert.isTrue(submission.getId() != 0);
 
-		paper = this.paperService.findBySubmission(submission.getId());
+		paper = submission.getPaper();
 
 		if (paper != null)
 			this.paperService.delete(paper);
@@ -167,12 +180,16 @@ public class SubmissionService {
 		Submission result;
 		if (submissionForm.getId() == 0) {
 			result = this.create();
-			result.setAuthor(this.authorService.findByPrincipal());
-			result.setConference(submissionForm.getConference());
-			result.setMoment(new Date(System.currentTimeMillis() - 1));
 			result.setTicker(this.generateTicker(this.authorService
 					.findByPrincipal()));
+			result.setMoment(new Date(System.currentTimeMillis() - 1));
 			result.setStatus("UNDER-REVIEW");
+			result.setAuthor(this.authorService.findByPrincipal());
+			result.setConference(submissionForm.getConference());
+			result.getPaper().setTitle(submissionForm.getTitle());
+			result.getPaper().setAuthor(submissionForm.getAuthorPaper());
+			result.getPaper().setSummary(submissionForm.getSummary());
+			result.getPaper().setDocument(submissionForm.getDocument());
 
 		} else {
 			result = this.submissionRepository.findOne(submissionForm.getId());
@@ -181,8 +198,25 @@ public class SubmissionService {
 			paper.setAuthor(submissionForm.getAuthorPaper());
 			paper.setSummary(submissionForm.getSummary());
 			paper.setDocument(submissionForm.getDocument());
-			paper.setSubmission(result);
-			
+			result.setPaper(paper);
+
+			if (submissionForm.getTitle().isEmpty()) {
+				binding.rejectValue("title", "submission.validation.title",
+						"Must not be blank");
+			}
+			if (submissionForm.getAuthorPaper().isEmpty()) {
+				binding.rejectValue("author", "submission.validation.author",
+						"Must not be blank");
+			}
+			if (submissionForm.getSummary().isEmpty()) {
+				binding.rejectValue("summary", "submission.validation.summary",
+						"Must not be blank");
+			}
+			if (submissionForm.getDocument().isEmpty()) {
+				binding.rejectValue("document",
+						"submission.validation.document", "Must not be blank");
+			}
+
 		}
 		this.validator.validate(result, binding);
 		this.submissionRepository.flush();
@@ -193,7 +227,6 @@ public class SubmissionService {
 		final SubmissionForm submissionForm = new SubmissionForm();
 		submissionForm.setId(submission.getId());
 		submissionForm.setConference(submission.getConference());
-		submissionForm.setStatus(submission.getStatus());
 		return submissionForm;
 	}
 

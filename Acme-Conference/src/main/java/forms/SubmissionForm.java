@@ -3,26 +3,13 @@ package forms;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.validator.constraints.NotBlank;
 
 import domain.Conference;
 
 public class SubmissionForm {
 
-	private String status;
 	private Conference conference;
-
-	@NotBlank
-	@Pattern(regexp = "^UNDER-REVIEW|REJECTED|ACCEPTED$")
-	public String getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(final String status) {
-		this.status = status;
-	}
 
 	@NotNull
 	@Valid

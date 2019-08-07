@@ -19,11 +19,20 @@
 		<b><spring:message code="submission.status" /></b>:
 		<jstl:out value="${submission.status}"/><br/>
 
-		<!-- Paper -->
-		<b><spring:message code="submission.paper" /></b>:
-		<a href="paper/display.do?paperId=${paper.id}">
-			<jstl:out value="${paper.title}"/>
-		</a><br/>
+		<h3><spring:message code="submission.paper" /></h3>
+
+		<b><spring:message code="submission.paper.title" /></b>:
+		<jstl:out value="${submission.paper.title}"/><br/>
+		
+		<b><spring:message code="submission.paper.author" /></b>:
+		<jstl:out value="${submission.paper.author}"/><br/>
+		
+		<b><spring:message code="submission.paper.summary" /></b>:
+		<jstl:out value="${submission.paper.summary}"/><br/>
+		
+		<b><spring:message code="submission.paper.document" /></b>:
+		<jstl:out value="${submission.paper.document}"/><br/>
+
 
 <security:authorize access="hasRole('AUTHOR')">
 <jstl:if test="${submission.author.userAccount.username == pageContext.request.userPrincipal.name}">

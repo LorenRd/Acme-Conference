@@ -321,6 +321,8 @@
 		<property name="status" value="UNDER-REVIEW" />
 		<property name="author" ref="author1" />
 		<property name="conference" ref="conference1" />
+		<property name="paper" ref="paper1" />
+		<property name="cameraReadyPaper" ref="cameraReadyPaper1" />
 	</bean>
 
 	<bean class="domain.Submission" id="submission2">
@@ -329,6 +331,8 @@
 		<property name="status" value="REJECTED" />
 		<property name="author" ref="author2" />
 		<property name="conference" ref="conference2" />
+		<property name="paper" ref="paper2" />
+		<property name="cameraReadyPaper" ref="cameraReadyPaper2" />
 	</bean>
 
 	<bean class="domain.Submission" id="submission3">
@@ -337,6 +341,7 @@
 		<property name="status" value="ACCEPTED" />
 		<property name="author" ref="author3" />
 		<property name="conference" ref="conference3" />
+		<property name="paper" ref="paper3" />
 	</bean>
 
 	<!-- Paper -->
@@ -346,7 +351,6 @@
 		<property name="author" value="Antonio" />
 		<property name="summary" value="Summary paper 1" />
 		<property name="document" value="Document paper 1" />
-		<property name="submission" ref="submission1" />
 	</bean>
 
 	<bean class="domain.Paper" id="paper2">
@@ -354,7 +358,6 @@
 		<property name="author" value="Lidia" />
 		<property name="summary" value="Summary paper 2" />
 		<property name="document" value="Document paper 2" />
-		<property name="submission" ref="submission2" />
 	</bean>
 
 	<bean class="domain.Paper" id="paper3">
@@ -362,7 +365,6 @@
 		<property name="author" value="Mario" />
 		<property name="summary" value="Summary paper 3" />
 		<property name="document" value="Document paper 3" />
-		<property name="submission" ref="submission3" />
 	</bean>
 
 	<!-- CameraReadyPaper -->
@@ -372,7 +374,6 @@
 		<property name="author" value="Isabel" />
 		<property name="summary" value="Summary cameraReadyPaper 1" />
 		<property name="document" value="Document cameraReadyPaper 1" />
-		<property name="submission" ref="submission1" />
 	</bean>
 
 	<bean class="domain.CameraReadyPaper" id="cameraReadyPaper2">
@@ -380,7 +381,6 @@
 		<property name="author" value="Marta" />
 		<property name="summary" value="Summary cameraReadyPaper 2" />
 		<property name="document" value="Document cameraReadyPaper 2" />
-		<property name="submission" ref="submission2" />
 	</bean>
 
 	<!-- Credit Card -->
