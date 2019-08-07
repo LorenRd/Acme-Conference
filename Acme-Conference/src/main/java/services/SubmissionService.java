@@ -85,7 +85,7 @@ public class SubmissionService {
 		Assert.notNull(submission);
 		Assert.isTrue(submission.getId() != 0);
 
-		paper = this.paperService.findBySubmission(submission.getId());
+		paper = submission.getPaper();
 
 		if (paper != null)
 			this.paperService.delete(paper);
@@ -181,8 +181,25 @@ public class SubmissionService {
 			paper.setAuthor(submissionForm.getAuthorPaper());
 			paper.setSummary(submissionForm.getSummary());
 			paper.setDocument(submissionForm.getDocument());
-			paper.setSubmission(result);
-			
+			result.setPaper(paper);
+
+			if (submissionForm.getTitle().isEmpty()) {
+				binding.rejectValue("title", "submission.validation.title",
+						"Must not be blank");
+			}
+			if (submissionForm.getAuthorPaper().isEmpty()) {
+				binding.rejectValue("author", "submission.validation.author",
+						"Must not be blank");
+			}
+			if (submissionForm.getSummary().isEmpty()) {
+				binding.rejectValue("summary", "submission.validation.summary",
+						"Must not be blank");
+			}
+			if (submissionForm.getDocument().isEmpty()) {
+				binding.rejectValue("document",
+						"submission.validation.document", "Must not be blank");
+			}
+
 		}
 		this.validator.validate(result, binding);
 		this.submissionRepository.flush();
@@ -193,7 +210,6 @@ public class SubmissionService {
 		final SubmissionForm submissionForm = new SubmissionForm();
 		submissionForm.setId(submission.getId());
 		submissionForm.setConference(submission.getConference());
-		submissionForm.setStatus(submission.getStatus());
 		return submissionForm;
 	}
 
