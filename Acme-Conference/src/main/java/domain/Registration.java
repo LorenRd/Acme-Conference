@@ -31,7 +31,7 @@ public class Registration extends DomainEntity {
 
 	@NotNull
 	@Valid
-	@OneToOne(optional = false)
+	@ManyToOne(optional = false)
 	public Conference getConference() {
 		return this.conference;
 	}

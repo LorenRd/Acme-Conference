@@ -1,6 +1,6 @@
 package forms;
 
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
@@ -13,7 +13,7 @@ public class SubmissionForm {
 
 	@NotNull
 	@Valid
-	@OneToOne(optional = false)
+	@ManyToOne(optional = false)
 	public Conference getConference() {
 		return this.conference;
 	}

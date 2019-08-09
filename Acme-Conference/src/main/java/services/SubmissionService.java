@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +61,10 @@ public class SubmissionService {
 		Assert.notNull(principal);
 
 		Paper paper = new Paper();
+		paper.setTitle("");
+		paper.setAuthor("");
+		paper.setDocument("");
+		paper.setSummary("");
 
 		result = new Submission();
 		result.setAuthor(principal);
@@ -81,10 +87,9 @@ public class SubmissionService {
 		Assert.notNull(submission);
 		Assert.isTrue(submission.getAuthor() == principal);
 
-		paper = submission.getPaper();
-		Assert.notNull(paper);
-		this.paperRepository.save(paper);
-		this.paperRepository.flush();
+		paper = this.paperRepository.save(submission.getPaper());
+
+		submission.setPaper(paper);
 
 		result = this.submissionRepository.save(submission);
 		Assert.notNull(result);
@@ -193,33 +198,17 @@ public class SubmissionService {
 
 		} else {
 			result = this.submissionRepository.findOne(submissionForm.getId());
-			final Paper paper = new Paper();
-			paper.setTitle(submissionForm.getTitle());
-			paper.setAuthor(submissionForm.getAuthorPaper());
-			paper.setSummary(submissionForm.getSummary());
-			paper.setDocument(submissionForm.getDocument());
-			result.setPaper(paper);
-
-			if (submissionForm.getTitle().isEmpty()) {
-				binding.rejectValue("title", "submission.validation.title",
-						"Must not be blank");
-			}
-			if (submissionForm.getAuthorPaper().isEmpty()) {
-				binding.rejectValue("author", "submission.validation.author",
-						"Must not be blank");
-			}
-			if (submissionForm.getSummary().isEmpty()) {
-				binding.rejectValue("summary", "submission.validation.summary",
-						"Must not be blank");
-			}
-			if (submissionForm.getDocument().isEmpty()) {
-				binding.rejectValue("document",
-						"submission.validation.document", "Must not be blank");
-			}
-
+			result.getPaper().setTitle(submissionForm.getTitle());
+			result.getPaper().setAuthor(submissionForm.getAuthorPaper());
+			result.getPaper().setSummary(submissionForm.getSummary());
+			result.getPaper().setDocument(submissionForm.getDocument());
 		}
+
 		this.validator.validate(result, binding);
-		this.submissionRepository.flush();
+		if (binding.hasErrors()) {
+			throw new ValidationException();
+		}
+
 		return result;
 	}
 
@@ -227,6 +216,10 @@ public class SubmissionService {
 		final SubmissionForm submissionForm = new SubmissionForm();
 		submissionForm.setId(submission.getId());
 		submissionForm.setConference(submission.getConference());
+		submissionForm.setTitle(submission.getPaper().getTitle());
+		submissionForm.setAuthorPaper(submission.getPaper().getAuthor());
+		submissionForm.setSummary(submission.getPaper().getSummary());
+		submissionForm.setDocument(submission.getPaper().getDocument());
 		return submissionForm;
 	}
 

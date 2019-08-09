@@ -21,9 +21,15 @@
 <form:form action="submission/author/edit.do" modelAttribute="submissionForm">
 		<form:hidden path="id"/>
 		
+		<h3><spring:message code="submission.paper" /></h3>
 		
-		<acme:textbox code="submission.status" path="status"/>
-		<br />
+		<acme:textbox code="submission.paper.title" path="title"/>
+		
+		<acme:textbox code="submission.paper.authorPaper" path="authorPaper"/>
+		
+		<acme:textbox code="submission.paper.summary" path="summary"/>
+		
+		<acme:textbox code="submission.paper.document" path="document"/>
 		
 		<acme:submit name="save" code="submission.save"/>
 

@@ -1,15 +1,13 @@
 package controllers.author;
 
-import java.util.Arrays;
 import java.util.Collection;
 
-import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -90,27 +88,25 @@ public class SubmissionAuthorController extends AbstractController {
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 	public ModelAndView create(
-			@ModelAttribute("submissionForm") @Valid final SubmissionForm submissionForm,
+			@ModelAttribute("submissionForm") SubmissionForm submissionForm,
 			final BindingResult binding) {
 		ModelAndView result;
-		Submission submission;
+		Submission submission = null;
 
 		try {
 			submission = this.submissionService.reconstruct(submissionForm,
 					binding);
-			if (binding.hasErrors()) {
-				for (final ObjectError e : binding.getAllErrors())
-					System.out.println(e.getObjectName() + " error ["
-							+ e.getDefaultMessage() + "] "
-							+ Arrays.toString(e.getCodes()));
-				result = this.createEditModelAndView(submissionForm);
-			} else {
-				submission = this.submissionService.save(submission);
-				result = new ModelAndView("redirect:/welcome/index.do");
-			}
+			this.submissionService.save(submission);
+			result = new ModelAndView("redirect:/welcome/index.do");
+		} catch (ValidationException oops) {
+			submissionForm = this.submissionService.construct(submission);
+			result = this.createEditModelAndView(submissionForm);
+			oops.printStackTrace();
 		} catch (final Throwable oops) {
+			submissionForm = this.submissionService.construct(submission);
 			result = this.createEditModelAndView(submissionForm,
 					"submission.commit.error");
+			oops.printStackTrace();
 		}
 		return result;
 	}
@@ -131,9 +127,9 @@ public class SubmissionAuthorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "edit")
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView edit(
-			@ModelAttribute("submissionForm") @Valid final SubmissionForm submissionForm,
+			@ModelAttribute("submissionForm") SubmissionForm submissionForm,
 			final BindingResult binding) {
 		ModelAndView result;
 		Submission submission;
@@ -141,19 +137,15 @@ public class SubmissionAuthorController extends AbstractController {
 		try {
 			submission = this.submissionService.reconstruct(submissionForm,
 					binding);
-			if (binding.hasErrors()) {
-				for (final ObjectError e : binding.getAllErrors())
-					System.out.println(e.getObjectName() + " error ["
-							+ e.getDefaultMessage() + "] "
-							+ Arrays.toString(e.getCodes()));
-				result = this.createEditModelAndView(submissionForm);
-			} else {
-				this.submissionService.save(submission);
-				result = new ModelAndView("redirect:/welcome/index.do");
-			}
+			this.submissionService.save(submission);
+			result = new ModelAndView("redirect:/welcome/index.do");
+		} catch (ValidationException oops) {
+			result = this.createEditModelAndView(submissionForm);
+			oops.printStackTrace();
 		} catch (final Throwable oops) {
 			result = this.createEditModelAndView(submissionForm,
 					"submission.commit.error");
+			oops.printStackTrace();
 		}
 		return result;
 	}
