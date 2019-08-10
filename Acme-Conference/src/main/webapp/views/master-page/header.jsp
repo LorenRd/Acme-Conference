@@ -25,8 +25,7 @@
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
-					<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>					
+					<li><a href="administrator/register.do"><spring:message code="master.page.administrator.register"/></a></li>				
 				</ul>
 			</li>
 		</security:authorize>
@@ -93,7 +92,7 @@
 					<li><a href="reviewer/display.do"><spring:message code="master.page.profile" /></a></li>
 					</security:authorize>
 					<security:authorize access="hasRole('ADMIN')">
-					<li><a href="administrator/viewProfile.do"><spring:message code="master.page.profile" /></a></li>
+					<li><a href="administrator/display.do"><spring:message code="master.page.profile" /></a></li>
 					</security:authorize>
 					<li><a href="message/actor/list.do"><spring:message code="master.page.profile.messages" /></a></li>					
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>

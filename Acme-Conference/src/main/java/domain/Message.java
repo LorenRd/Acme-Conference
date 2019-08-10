@@ -3,6 +3,7 @@ package domain;
 
 import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
@@ -24,6 +25,7 @@ public class Message extends DomainEntity {
 	private Date	moment;
 	private String	subject;
 	private String	body;
+	private String	topic;
 
 
 	@NotNull
@@ -56,6 +58,15 @@ public class Message extends DomainEntity {
 		this.body = body;
 	}
 
+	@NotBlank
+	public String getTopic() {
+		return this.topic;
+	}
+
+	public void setTopic(final String topic) {
+		this.topic = topic;
+	}
+
 
 	// Relationships----------------------------------------------
 
@@ -82,6 +93,5 @@ public class Message extends DomainEntity {
 	public void setRecipients(final Collection<Actor> recipients) {
 		this.recipients = recipients;
 	}
-
 
 }
