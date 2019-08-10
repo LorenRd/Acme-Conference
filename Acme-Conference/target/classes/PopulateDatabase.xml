@@ -209,6 +209,12 @@
 		<property name="phone" value="+34923683246" />
 		<property name="address" value="Calle Clarín, 16" />
 		<property name="userAccount" ref="userAccount7" />
+		<property name="expertises">
+			<list>
+				<value>expertise 1</value>
+				<value>expertise 2</value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean class="domain.Reviewer" id="reviewer2">
@@ -220,6 +226,11 @@
 		<property name="phone" value="+34635214235" />
 		<property name="address" value="Calle Duque de Abrahantes, 3" />
 		<property name="userAccount" ref="userAccount8" />
+		<property name="expertises">
+			<list>
+				<value>expertise 3</value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean class="domain.Reviewer" id="reviewer3">
@@ -298,10 +309,68 @@
 		</property>
 		<property name="topics">
 			<list>
-				
+				<value>INQUIRY</value>
+				<value>REBUTTAL</value>
+				<value>REGISTRATION</value>
+				<value>TOPICS</value>
+				<value>OTHER</value>
 			</list>
 		</property>
 
+	</bean>
+	
+	<!-- Messages -->
+	
+	<bean class="domain.Message" id="message1">
+		<property name="moment" value="14/07/2018 12:00" />
+		<property name="subject" value="Seguridad" />
+		<property name="body" value="Mensaje de seguridad." />
+		<property name="topic" value="INQUIRY" />
+
+		<!-- Quien lo envia -->
+		<property name="sender" ref="administrator1" />
+
+		<!-- A quien va -->
+		<property name="recipients">
+			<list>
+				<ref bean="author1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="domain.Message" id="message2">
+		<property name="moment" value="15/07/2018 12:00" />
+		<property name="subject" value="Seguridad" />
+		<property name="body" value="Mensaje de prueba de seguridad." />
+		<property name="topic" value="TOPICS" />
+
+		<!-- Quien lo envia -->
+		<property name="sender" ref="administrator1" />
+
+		<!-- A quien va -->
+		<property name="recipients">
+			<list>
+				<ref bean="author2" />
+				<ref bean="reviewer1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="domain.Message" id="message3">
+		<property name="moment" value="18/07/2018 12:00" />
+		<property name="subject" value="Seguridad" />
+		<property name="body" value="Mensaje seguro." />
+		<property name="topic" value="OTHER" />
+
+		<!-- Quien lo envia -->
+		<property name="sender" ref="administrator1" />
+
+		<!-- A quien va -->
+		<property name="recipients">
+			<list>
+				<ref bean="reviewer2" />
+			</list>
+		</property>
 	</bean>
 	
 </beans>
