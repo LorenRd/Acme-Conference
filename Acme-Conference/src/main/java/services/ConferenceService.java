@@ -2,7 +2,6 @@
 package services;
 
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,9 +91,21 @@ public class ConferenceService {
 	}
 
 	public Collection<Conference> findFinals() {
+
 		Collection<Conference> result;
 
 		result = this.conferenceRepository.findFinals();
 		return result;
 	}
+
+	public Collection<Conference> findByAdministratorId(int administratorId) {
+
+		Collection<Conference> result;
+
+		result = this.conferenceRepository.findByAdministratorId(administratorId);
+		return result;
+	}
+
+
+
 }

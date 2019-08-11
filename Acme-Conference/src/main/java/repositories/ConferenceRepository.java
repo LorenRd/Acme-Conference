@@ -36,4 +36,12 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select c from Conference c where c.isFinal = true")
 	Collection<Conference> findFinals();
+	
+	@Query("select c from Conference c where c.administrator.id = ?1")
+	Collection<Conference> findByAdministratorId(int administratorId);
+	
+	@Query("select c from Conference c where c.administrator.id = ?1 AND c.submissionDeadline < NOW() AND c.submissionDeadline > ?2")
+	Collection<Conference> submissionDeadline5daysOverByAdministratorId(int administratorId, String dateMax);
+	
+	
 }
