@@ -43,5 +43,13 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.submissionDeadline < NOW() AND c.submissionDeadline > ?2")
 	Collection<Conference> submissionDeadline5daysOverByAdministratorId(int administratorId, String dateMax);
 	
+	@Query("select c from Conference c where c.administrator.id = ?1 AND c.notificationDeadline > ?2")
+	Collection<Conference> notificationDeadline5daysOrLessByAdministratorId(int administratorId, String dateMax);
 	
+	@Query("select c from Conference c where c.administrator.id = ?1 AND c.cameraReadyDeadline > ?2")
+	Collection<Conference> cameraReadyDeadline5daysOrLessByAdministratorId(int administratorId, String dateMax);
+		
+	@Query("select c from Conference c where c.administrator.id = ?1 AND c.startDate > ?2")
+	Collection<Conference> conferences5daysOrLessByAdministratorId(int administratorId, String dateMax);
+		
 }
