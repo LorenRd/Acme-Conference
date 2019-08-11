@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="submission/list" extends="master.page">
+		<put-attribute name="title" value="Lista de presentaciones" />
+		<put-attribute name="body" value="/views/submission/list.jsp" />
+	</definition>
+
+	<definition name="submission/display" extends="master.page">
+		<put-attribute name="title" value="Mostrar presentación" />
+		<put-attribute name="body" value="/views/submission/display.jsp" />
+	</definition>
+
+	<definition name="submission/create" extends="master.page">
+		<put-attribute name="title" value="Crear una presentación nueva" />
+		<put-attribute name="body" value="/views/submission/create.jsp" />
+	</definition>
+
+	<definition name="submission/edit" extends="master.page">
+		<put-attribute name="title" value="Editar la presentación" />
+		<put-attribute name="body" value="/views/submission/edit.jsp" />
+	</definition>
+
+</tiles-definitions>

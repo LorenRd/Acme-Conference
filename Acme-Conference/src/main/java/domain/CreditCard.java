@@ -1,4 +1,3 @@
-
 package domain;
 
 import javax.persistence.Access;
@@ -14,13 +13,12 @@ import org.hibernate.validator.constraints.Range;
 @Access(AccessType.PROPERTY)
 public class CreditCard extends DomainEntity {
 
-	private String	holderName;
-	private String	brandName;
-	private String	number;
-	private int		expirationMonth;
-	private int		expirationYear;
-	private int		CVV;
-
+	private String holderName;
+	private String brandName;
+	private String number;
+	private int expirationMonth;
+	private int expirationYear;
+	private int CVV;
 
 	@NotBlank
 	public String getHolderName() {
@@ -71,7 +69,7 @@ public class CreditCard extends DomainEntity {
 	}
 
 	@NotNull
-	@Range(min = 100, max = 999)
+	@Range(min = 000, max = 999)
 	public int getCVV() {
 		return this.CVV;
 	}

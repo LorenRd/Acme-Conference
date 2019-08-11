@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -8,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ConferenceRepository;
+import repositories.SubmissionRepository;
 import domain.Conference;
+import domain.Submission;
 
 @Service
 @Transactional
@@ -16,8 +17,10 @@ public class ConferenceService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ConferenceRepository	conferenceRepository;
+	private ConferenceRepository conferenceRepository;
 
+	@Autowired
+	private SubmissionRepository submissionRepository;
 
 	// Supporting services ----------------------------------------------------
 
@@ -69,10 +72,12 @@ public class ConferenceService {
 		return result;
 	}
 
-	public Collection<Conference> findFinalForthcomingByKeyword(final String keyword) {
+	public Collection<Conference> findFinalForthcomingByKeyword(
+			final String keyword) {
 		Collection<Conference> result;
 
-		result = this.conferenceRepository.findFinalForthcomingByKeyword(keyword);
+		result = this.conferenceRepository
+				.findFinalForthcomingByKeyword(keyword);
 		return result;
 	}
 
@@ -95,6 +100,23 @@ public class ConferenceService {
 		Collection<Conference> result;
 
 		result = this.conferenceRepository.findFinals();
+		return result;
+	}
+
+	public Collection<Conference> findAvailableConferences() {
+		Collection<Conference> result = this.findFinals();
+		Collection<Conference> finals = this.findFinals();
+		Collection<Submission> allSubmissions = this.submissionRepository
+				.findAll();
+
+		for (Submission s : allSubmissions) {
+			for (Conference c : finals) {
+				if (s.getConference().equals(c)) {
+					result.remove(c);
+				}
+			}
+		}
+
 		return result;
 	}
 
