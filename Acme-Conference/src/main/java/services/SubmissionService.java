@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
@@ -108,7 +109,7 @@ public class SubmissionService {
 		if (paper != null) {
 			this.paperService.delete(paper);
 		}
-		
+
 		this.submissionRepository.delete(submission);
 	}
 
@@ -222,6 +223,22 @@ public class SubmissionService {
 		submissionForm.setSummary(submission.getPaper().getSummary());
 		submissionForm.setDocument(submission.getPaper().getDocument());
 		return submissionForm;
+	}
+
+	public Collection<Submission> findAvailableSubmissions() {
+		Collection<Submission> result = new ArrayList<Submission>();
+		Collection<Submission> accepted = this.submissionRepository
+				.findAcceptedSubmissions();
+
+		Date date = new Date();
+
+		for (Submission s : accepted) {
+			if (s.getConference().getCameraReadyDeadline().after(date)) {
+				result.add(s);
+			}
+		}
+
+		return result;
 	}
 
 }

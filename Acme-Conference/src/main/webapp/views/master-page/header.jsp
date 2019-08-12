@@ -68,7 +68,8 @@
 			<li><a class="fNiv"><spring:message	code="master.page.author" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="submission/author/list.do"><spring:message code="master.page.author.submissions" /></a></li>										
+					<li><a href="submission/author/list.do"><spring:message code="master.page.author.submissions" /></a></li>
+					<li><a href="cameraReadyPaper/author/list.do"><spring:message code="master.page.author.cameraReadyPapers" /></a></li>										
 				</ul>
 			</li>
 		</security:authorize>
