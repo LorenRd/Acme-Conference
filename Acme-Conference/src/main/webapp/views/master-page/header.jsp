@@ -51,19 +51,6 @@
 								code="master.page.register.reviewer" /></a></li>
 								
 				</ul></li>
-			<li><a class="fNiv"><spring:message code="master.page.terms" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<jstl:if test="${cookie['language'].getValue()=='en'}">
-					<li><a href="terms/englishTerms.do"><spring:message
-								code="master.page.terms" /></a></li>
-					</jstl:if>
-					<jstl:if test="${cookie['language'].getValue()=='es'}">
-					<li><a href="terms/terms.do"><spring:message
-								code="master.page.terms" /></a></li>
-					</jstl:if>
-				</ul>
-			</li>
 			<li>
 				<a class="fNiv"> 
 					<spring:message code="master.page.conferences" /> 
@@ -73,6 +60,15 @@
 					<li><a href="conference/listForthcoming.do"><spring:message code="master.page.listForthcoming" /></a></li>
 					<li><a href="conference/listPast.do"><spring:message code="master.page.listPast" /></a></li>
 					<li><a href="conference/listRunning.do"><spring:message code="master.page.listRunning" /></a></li>					
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('AUTHOR')">
+			<li><a class="fNiv"><spring:message	code="master.page.author" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="submission/author/list.do"><spring:message code="master.page.author.submissions" /></a></li>										
 				</ul>
 			</li>
 		</security:authorize>
