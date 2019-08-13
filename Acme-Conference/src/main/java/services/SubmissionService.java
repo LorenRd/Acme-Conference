@@ -225,7 +225,7 @@ public class SubmissionService {
 		return submissionForm;
 	}
 
-	public Collection<Submission> findAvailableSubmissions() {
+	public Collection<Submission> findAvailableSubmissions(final int authorId) {
 		Collection<Submission> result = new ArrayList<Submission>();
 		Collection<Submission> accepted = this.submissionRepository
 				.findAcceptedSubmissions();
@@ -233,7 +233,8 @@ public class SubmissionService {
 		Date date = new Date();
 
 		for (Submission s : accepted) {
-			if (s.getConference().getCameraReadyDeadline().after(date)) {
+			if (s.getConference().getCameraReadyDeadline().after(date)
+					&& s.getAuthor().getId() == authorId) {
 				result.add(s);
 			}
 		}
