@@ -287,7 +287,7 @@
 
 		<property name="administrator" ref="administrator2" />
 	</bean>
-	
+
 	<bean class="domain.Conference" id="conference4">
 		<property name="title" value="Conference 4 title" />
 		<property name="acronym" value="GBK" />
@@ -333,7 +333,6 @@
 		<property name="author" ref="author1" />
 		<property name="conference" ref="conference1" />
 		<property name="paper" ref="paper1" />
-		<property name="cameraReadyPaper" ref="cameraReadyPaper1" />
 	</bean>
 
 	<bean class="domain.Submission" id="submission2">
@@ -343,7 +342,6 @@
 		<property name="author" ref="author2" />
 		<property name="conference" ref="conference2" />
 		<property name="paper" ref="paper2" />
-		<property name="cameraReadyPaper" ref="cameraReadyPaper2" />
 	</bean>
 
 	<bean class="domain.Submission" id="submission3">
@@ -385,6 +383,7 @@
 		<property name="author" value="Isabel" />
 		<property name="summary" value="Summary cameraReadyPaper 1" />
 		<property name="document" value="Document cameraReadyPaper 1" />
+		<property name="submission" ref="submission1" />
 	</bean>
 
 	<bean class="domain.CameraReadyPaper" id="cameraReadyPaper2">
@@ -392,6 +391,7 @@
 		<property name="author" value="Marta" />
 		<property name="summary" value="Summary cameraReadyPaper 2" />
 		<property name="document" value="Document cameraReadyPaper 2" />
+		<property name="submission" ref="submission2" />
 	</bean>
 
 	<!-- Credit Card -->
@@ -423,9 +423,9 @@
 		<property name="CVV" value="943" />
 	</bean>
 
-	
+
 	<!-- Customisation -->
-	
+
 	<bean id="customisation" class="domain.Customisation">
 		<property name="systemName" value="Acme Conference" />
 		<property name="welcomeBanner" value="https://i.imgur.com/5EfQQQX.png" />
@@ -434,7 +434,7 @@
 		<property name="countryCode" value="+34" />
 		<property name="creditCardsMakes">
 			<list>
-				
+
 			</list>
 		</property>
 		<property name="topics">
@@ -448,9 +448,9 @@
 		</property>
 
 	</bean>
-	
+
 	<!-- Messages -->
-	
+
 	<bean class="domain.Message" id="message1">
 		<property name="moment" value="14/07/2018 12:00" />
 		<property name="subject" value="Seguridad" />
@@ -467,7 +467,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean class="domain.Message" id="message2">
 		<property name="moment" value="15/07/2018 12:00" />
 		<property name="subject" value="Seguridad" />
@@ -485,7 +485,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean class="domain.Message" id="message3">
 		<property name="moment" value="18/07/2018 12:00" />
 		<property name="subject" value="Seguridad" />
@@ -502,5 +502,5 @@
 			</list>
 		</property>
 	</bean>
-	
+
 </beans>

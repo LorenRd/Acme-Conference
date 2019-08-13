@@ -79,6 +79,13 @@
 		<security:intercept-url pattern="/submission/author/delete.do" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/submission/author/display.do" access="hasRole('AUTHOR')"/>		
 		<security:intercept-url pattern="/submission/author/cancel.do" access="hasRole('AUTHOR')"/>	
+		
+		<security:intercept-url pattern="/cameraReadyPaper/author/list.do" access="hasRole('AUTHOR')"/>
+		<security:intercept-url pattern="/cameraReadyPaper/author/create.do" access="hasRole('AUTHOR')"/>
+		<security:intercept-url pattern="/cameraReadyPaper/author/edit.do" access="hasRole('AUTHOR')"/>
+		<security:intercept-url pattern="/cameraReadyPaper/author/delete.do" access="hasRole('AUTHOR')"/>
+		<security:intercept-url pattern="/cameraReadyPaper/author/display.do" access="hasRole('AUTHOR')"/>		
+		<security:intercept-url pattern="/cameraReadyPaper/author/cancel.do" access="hasRole('AUTHOR')"/>	
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

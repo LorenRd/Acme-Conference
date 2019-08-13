@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="cameraReadyPaper/list" extends="master.page">
+		<put-attribute name="title" value="Camera ready papers' list" />
+		<put-attribute name="body" value="/views/cameraReadyPaper/list.jsp" />
+	</definition>
+
+	<definition name="cameraReadyPaper/display" extends="master.page">
+		<put-attribute name="title" value="Display camera ready paper" />
+		<put-attribute name="body" value="/views/cameraReadyPaper/display.jsp" />
+	</definition>
+
+	<definition name="cameraReadyPaper/create" extends="master.page">
+		<put-attribute name="title" value="Create camera ready paper" />
+		<put-attribute name="body" value="/views/cameraReadyPaper/create.jsp" />
+	</definition>
+
+	<definition name="cameraReadyPaper/edit" extends="master.page">
+		<put-attribute name="title" value="Edit camera ready paper" />
+		<put-attribute name="body" value="/views/cameraReadyPaper/edit.jsp" />
+	</definition>
+
+</tiles-definitions>

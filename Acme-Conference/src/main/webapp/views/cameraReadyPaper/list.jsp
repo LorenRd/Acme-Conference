@@ -11,28 +11,27 @@
 
 <!-- Listing grid -->
 
-<display:table name="submissions" id="row" requestURI="${requestURI}"
+<display:table name="cameraReadyPapers" id="row" requestURI="${requestURI}"
 	pagesize="5" class="displaytag">
 	
 	<!-- Display -->
 	<display:column>
-		<a href="submission/author/display.do?submissionId=${row.id}"><spring:message code="submission.display"/></a>
+		<a href="cameraReadyPaper/author/display.do?cameraReadyPaperId=${row.id}"><spring:message code="cameraReadyPaper.display"/></a>
 	</display:column>
 
 	<!-- Attributes -->
-	<spring:message code="submission.conference" var="conferenceTitleHeader" />
-	<display:column property="conference.title" title="${conferenceTitleHeader}"
+	<spring:message code="cameraReadyPaper.submission" var="submissionTickerHeader" />
+	<display:column property="submission.ticker" title="${submissionTickerHeader}"
 		sortable="true" />
 		
-	<spring:message code="submission.ticker" var="tickerHeader" />
-	<display:column property="ticker" title="${tickerHeader}"
+	<spring:message code="cameraReadyPaper.title" var="titleHeader" />
+	<display:column property="title" title="${titleHeader}"
 		sortable="true" />	
 		
-	<spring:message code="submission.moment" var="momentHeader" />
-	<display:column property="moment" title="${momentHeader}"
+	<spring:message code="cameraReadyPaper.author" var="authorHeader" />
+	<display:column property="author" title="${authorHeader}"
 		sortable="true" />
 		
 </display:table>
 
-<acme:button url="submission/author/create.do" code="submission.create"/>
 <acme:button url="cameraReadyPaper/author/create.do" code="cameraReadyPaper.create"/>
