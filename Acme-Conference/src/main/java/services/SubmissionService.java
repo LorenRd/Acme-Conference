@@ -1,7 +1,11 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.validation.ValidationException;
@@ -222,5 +226,38 @@ public class SubmissionService {
 		submissionForm.setDocument(submission.getPaper().getDocument());
 		return submissionForm;
 	}
+	
+	public Collection<Submission> findAllByAdministratorId(final int administratorId) {
+		Collection<Submission> result;
+		result = new ArrayList<Submission>();
+		result = this.submissionRepository.findAllByAdministrator(administratorId);
+
+		return result;
+	}
+	
+	public Map<String, List<Submission>> groupByStatus(final Collection<Submission> submissions) {
+		final Map<String, List<Submission>> result = new HashMap<String, List<Submission>>();
+
+		Assert.notNull(submissions);
+		for (final Submission r : submissions)
+			if (result.containsKey(r.getStatus()))
+				result.get(r.getStatus()).add(r);
+			else {
+				final List<Submission> l = new ArrayList<Submission>();
+				l.add(r);
+				result.put(r.getStatus(), l);
+			}
+
+		if (!result.containsKey("ACCEPTED"))
+			result.put("ACCEPTED", new ArrayList<Submission>());
+		if (!result.containsKey("UNDER-REVIEW"))
+			result.put("UNDER-REVIEW", new ArrayList<Submission>());
+		if (!result.containsKey("REJECTED"))
+			result.put("REJECTED", new ArrayList<Submission>());
+
+
+		return result;
+	}
+
 
 }

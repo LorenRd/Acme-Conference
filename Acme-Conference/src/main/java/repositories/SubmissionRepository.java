@@ -18,4 +18,6 @@ public interface SubmissionRepository extends
 	@Query("select count(s) from Submission s where s.author.id = ?1 AND s.ticker = ?2")
 	Integer findRepeatedTickers(int authorId, String ticker);
 
+	@Query("select s from Submission s join s.conference c where c.administrator.id = ?1")
+	Collection<Submission> findAllByAdministrator(int administratorId);
 }
