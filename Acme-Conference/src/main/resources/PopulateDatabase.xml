@@ -434,7 +434,7 @@
 		<property name="welcomeMessageEs"
 			value="“¡Bienvenidos a Acme Conference! Su gestor de eventos científicos" />
 		<property name="countryCode" value="+34" />
-		<property name="creditCardsMakes">
+		<property name="creditCardMakes">
 			<list>
 				<value>VISA</value>
 				<value>MASTER</value>
