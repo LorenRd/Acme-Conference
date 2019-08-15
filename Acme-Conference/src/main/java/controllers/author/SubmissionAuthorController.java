@@ -99,11 +99,11 @@ public class SubmissionAuthorController extends AbstractController {
 			this.submissionService.save(submission);
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (ValidationException oops) {
-			submissionForm = this.submissionService.construct(submission);
+			// submissionForm = this.submissionService.construct(submission);
 			result = this.createEditModelAndView(submissionForm);
 			oops.printStackTrace();
 		} catch (final Throwable oops) {
-			submissionForm = this.submissionService.construct(submission);
+			// submissionForm = this.submissionService.construct(submission);
 			result = this.createEditModelAndView(submissionForm,
 					"submission.commit.error");
 			oops.printStackTrace();

@@ -25,7 +25,7 @@
 		
 		<acme:textbox code="submission.paper.title" path="title"/>
 		
-		<acme:textbox code="submission.paper.authorPaper" path="authorPaper"/>
+		<acme:textbox code="submission.paper.author" path="author"/>
 		
 		<acme:textbox code="submission.paper.summary" path="summary"/>
 		

@@ -56,25 +56,33 @@ public class SubmissionService {
 
 	public Submission create() {
 		Submission result;
-		final Author principal;
-
-		principal = this.authorService.findByPrincipal();
-		Assert.notNull(principal);
-
-		Paper paper = new Paper();
-		paper.setTitle("");
-		paper.setAuthor("");
-		paper.setDocument("");
-		paper.setSummary("");
 
 		result = new Submission();
-		result.setAuthor(principal);
-		result.setTicker(this.generateTicker(principal));
-		result.setStatus("UNDER-REVIEW");
-		result.setMoment(new Date(System.currentTimeMillis() - 1));
-		result.setPaper(paper);
+		result.setPaper(null);
 
 		return result;
+		
+//		Submission result;
+//		final Author principal;
+//
+//		principal = this.authorService.findByPrincipal();
+//		Assert.notNull(principal);
+//
+//		Paper paper = new Paper();
+//		paper.setTitle("");
+//		paper.setAuthor("");
+//		paper.setDocument("");
+//		paper.setSummary("");
+//
+//		result = new Submission();
+//		result.setAuthor(principal);
+//		result.setTicker(this.generateTicker(principal));
+//		result.setStatus("UNDER-REVIEW");
+//		result.setMoment(new Date(System.currentTimeMillis() - 1));
+//		result.setPaper(paper);
+//
+		//		return result;
+		
 	}
 
 	public Submission save(final Submission submission) {
@@ -187,21 +195,24 @@ public class SubmissionService {
 		Submission result;
 		if (submissionForm.getId() == 0) {
 			result = this.create();
+			Paper paper = new Paper();
 			result.setTicker(this.generateTicker(this.authorService
 					.findByPrincipal()));
 			result.setMoment(new Date(System.currentTimeMillis() - 1));
 			result.setStatus("UNDER-REVIEW");
 			result.setAuthor(this.authorService.findByPrincipal());
 			result.setConference(submissionForm.getConference());
-			result.getPaper().setTitle(submissionForm.getTitle());
-			result.getPaper().setAuthor(submissionForm.getAuthorPaper());
-			result.getPaper().setSummary(submissionForm.getSummary());
-			result.getPaper().setDocument(submissionForm.getDocument());
+			paper.setTitle(submissionForm.getTitle());
+			paper.setAuthor(submissionForm.getAuthor());
+			paper.setSummary(submissionForm.getSummary());
+			paper.setDocument(submissionForm.getDocument());
+			this.paperService.save(paper);
+			result.setPaper(paper);
 
 		} else {
 			result = this.submissionRepository.findOne(submissionForm.getId());
 			result.getPaper().setTitle(submissionForm.getTitle());
-			result.getPaper().setAuthor(submissionForm.getAuthorPaper());
+			result.getPaper().setAuthor(submissionForm.getAuthor());
 			result.getPaper().setSummary(submissionForm.getSummary());
 			result.getPaper().setDocument(submissionForm.getDocument());
 		}
@@ -219,7 +230,7 @@ public class SubmissionService {
 		submissionForm.setId(submission.getId());
 		submissionForm.setConference(submission.getConference());
 		submissionForm.setTitle(submission.getPaper().getTitle());
-		submissionForm.setAuthorPaper(submission.getPaper().getAuthor());
+		submissionForm.setAuthor(submission.getPaper().getAuthor());
 		submissionForm.setSummary(submission.getPaper().getSummary());
 		submissionForm.setDocument(submission.getPaper().getDocument());
 		return submissionForm;
