@@ -13,7 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ConferenceRepository;
-import repositories.SubmissionRepository;
+import repositories.ReportRepository;
 import domain.Administrator;
 import domain.Conference;
 import domain.Report;
@@ -28,10 +28,13 @@ public class ConferenceService {
 	private ConferenceRepository conferenceRepository;
 
 	@Autowired
-	private SubmissionRepository submissionRepository;
+	private ReportRepository reportRepository;
 
 	// Supporting services ----------------------------------------------------
 
+	@Autowired
+	private SubmissionService submissionService;
+	
 	@Autowired
 	private AdministratorService administratorService;
 	
@@ -182,8 +185,7 @@ public class ConferenceService {
 	public Collection<Conference> findAvailableConferences() {
 		Collection<Conference> result = this.findFinals();
 		Collection<Conference> finals = this.findFinals();
-		Collection<Submission> allSubmissions = this.submissionRepository
-				.findAll();
+		Collection<Submission> allSubmissions = this.submissionService.findAll();
 
 		for (Submission s : allSubmissions) {
 			for (Conference c : finals) {
@@ -260,12 +262,26 @@ public class ConferenceService {
 	public void analyseSubmissions(final Conference conference){
 		Collection<Submission> submissions;
 		
-		submissions = this.submissionRepository.findAllByConferenceId(conference.getId());
+		submissions = this.submissionService.findAllByConferenceId(conference.getId());
 		
 		for (Submission s : submissions) {
 			Collection<Report> reports;
-			
-			
+			int possitive = 0;
+			int negative = 0;
+			reports = this.reportRepository.findReportsBySubmissionId(s.getId());
+			for (Report r : reports) {
+				if(r.getDecision().equals("ACCEPT") || r.getDecision().equals("BORDER-LINE")){
+					possitive++;
+				}else {
+					negative++;
+				}
+			}
+			if(possitive>=negative){
+				s.setStatus("ACCEPTED");
+			}else {
+				s.setStatus("REJECTED");
+			}
+			this.submissionService.save(s);
 		}
 		
 		

@@ -61,7 +61,24 @@ public class SubmissionService {
 		Assert.notNull(result);
 		return result;
 	}
+	
+	public Collection<Submission> findAll() {
+		Collection<Submission> result;
 
+		result = this.submissionRepository.findAll();
+		Assert.notNull(result);
+		return result;
+	}
+	
+	
+	public Collection<Submission> findAllByConferenceId(final int conferenceId) {
+		Collection<Submission> result;
+
+		result = this.submissionRepository.findAllByConferenceId(conferenceId);
+		Assert.notNull(result);
+		return result;
+	}
+	
 	public Submission create() {
 		Submission result;
 		final Author principal;
