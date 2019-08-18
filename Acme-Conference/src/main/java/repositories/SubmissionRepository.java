@@ -20,4 +20,10 @@ public interface SubmissionRepository extends
 
 	@Query("select s from Submission s join s.conference c where c.administrator.id = ?1")
 	Collection<Submission> findAllByAdministrator(int administratorId);
+	
+	@Query("select s from Submission s where status like 'UNDER-REVIEW'")
+	Collection<Submission> findSubmissionUnderReview();
+	
+	@Query("select s from Submission s where s.conference.id = ?1")
+	Collection<Submission> findAllByConferenceId(int conferenceId);
 }

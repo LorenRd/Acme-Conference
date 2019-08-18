@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
@@ -7,6 +8,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -63,6 +65,7 @@ public class Submission extends DomainEntity {
 	private Author author;
 	public Paper paper;
 	public CameraReadyPaper cameraReadypaper;
+	private Collection<Reviewer> reviewers;
 
 	@NotNull
 	@Valid
@@ -105,6 +108,16 @@ public class Submission extends DomainEntity {
 
 	public void setCameraReadyPaper(final CameraReadyPaper cameraReadypaper) {
 		this.cameraReadypaper = cameraReadypaper;
+	}
+
+	@Valid
+	@OneToMany
+	public Collection<Reviewer> getReviewers() {
+		return this.reviewers;
+	}
+
+	public void setReviewers(Collection<Reviewer> reviewers) {
+		this.reviewers = reviewers;
 	}
 
 }

@@ -244,6 +244,21 @@ public class ConferenceAdministratorController extends AbstractController {
 			return result;
 		}
 
+		//Analiza todas las submissions de una conference y les cambia el estado a Accepted o Rejected
+		
+		@RequestMapping(value = "/display", method = RequestMethod.GET, params ="analyseSubmissions")
+		public ModelAndView computeScore(final int conferenceId){
+			final ModelAndView result;
+			Conference conference;
+			
+			conference = this.conferenceService.findOne(conferenceId);
+			 
+			this.conferenceService.analyseSubmissions(conference);
+			
+			result = new ModelAndView("redirect:display.do");
+			
+			return result;
+		}
 		
 		
 		// -------------------

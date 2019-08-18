@@ -98,6 +98,19 @@ public class SubmissionAdministratorController extends AbstractController {
 
 		return result;
 	}
+	
+	//Assing reviewers procedure
+	@RequestMapping(value = "/list", method = RequestMethod.GET, params ="assignReviewers")
+	public ModelAndView assignReviewers(){
+		final ModelAndView result;
+		
+		this.submissionService.reviewerAssignation();
+		
+		result = new ModelAndView("redirect:list.do");
+		
+		return result;
+	}
+	
 
 	
 }

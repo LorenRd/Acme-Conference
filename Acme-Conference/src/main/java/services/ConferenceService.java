@@ -16,6 +16,7 @@ import repositories.ConferenceRepository;
 import repositories.SubmissionRepository;
 import domain.Administrator;
 import domain.Conference;
+import domain.Report;
 import domain.Submission;
 
 @Service
@@ -36,6 +37,8 @@ public class ConferenceService {
 	
 	@Autowired
 	private Validator			validator;
+	
+	
 	// Simple CRUD Methods
 
 	public Conference findOne(final int conferenceid) {
@@ -253,4 +256,20 @@ public class ConferenceService {
 		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
 		return result;
 	}
+	
+	public void analyseSubmissions(final Conference conference){
+		Collection<Submission> submissions;
+		
+		submissions = this.submissionRepository.findAllByConferenceId(conference.getId());
+		
+		for (Submission s : submissions) {
+			Collection<Report> reports;
+			
+			
+		}
+		
+		
+	}
+	
+	
 }

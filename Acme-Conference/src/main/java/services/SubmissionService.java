@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -22,6 +23,7 @@ import repositories.SubmissionRepository;
 
 import domain.Author;
 import domain.Paper;
+import domain.Reviewer;
 import domain.Submission;
 import forms.SubmissionForm;
 
@@ -40,6 +42,9 @@ public class SubmissionService {
 
 	@Autowired
 	private AuthorService authorService;
+	
+	@Autowired
+	private ReviewerService reviewerService;
 
 	@Autowired
 	private PaperService paperService;
@@ -259,5 +264,36 @@ public class SubmissionService {
 		return result;
 	}
 
+	@SuppressWarnings("null")
+	public void reviewerAssignation (){
+		Collection <Submission> submissions;
+		Collection <Reviewer> reviewers;
+		
+		submissions = this.submissionRepository.findSubmissionUnderReview();
+		reviewers = this.reviewerService.findAll();
+		
+		Iterator<Reviewer> revIterator = reviewers.iterator();
+		
+		for (Submission s: submissions) {
+			Collection <Reviewer> submissionReviewers = null;
+
+			if(s.getReviewers().isEmpty()){
+				for (Reviewer r : reviewers) {
+					revIterator.next();
+					for (String e: r.getExpertises()) {
+						if(s.getConference().getTitle().toLowerCase().contains(e.toLowerCase()) || s.getConference().getSummary().toLowerCase().contains(e.toLowerCase())){
+							submissionReviewers.add(r);
+						}	
+					}
+				if(!revIterator.hasNext() && submissionReviewers.isEmpty()){
+					submissionReviewers.add(r);
+				}
+				}
+			}
+			s.setReviewers(submissionReviewers);
+			this.save(s);
+		}
+						
+	}
 
 }

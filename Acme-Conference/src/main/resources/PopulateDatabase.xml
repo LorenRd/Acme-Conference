@@ -334,6 +334,13 @@
 		<property name="conference" ref="conference1" />
 		<property name="paper" ref="paper1" />
 		<property name="cameraReadyPaper" ref="cameraReadyPaper1" />
+		<property name="reviewers">
+			<list>
+				<ref bean="reviewer1" />
+				<ref bean="reviewer2" />
+				<ref bean="reviewer3" />
+			</list>
+		</property>
 	</bean>
 
 	<bean class="domain.Submission" id="submission2">
@@ -353,6 +360,7 @@
 		<property name="author" ref="author3" />
 		<property name="conference" ref="conference3" />
 		<property name="paper" ref="paper3" />
+
 	</bean>
 
 	<!-- Paper -->
