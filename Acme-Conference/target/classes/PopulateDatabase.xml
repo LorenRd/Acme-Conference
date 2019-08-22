@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- 
- * PopulateDatabase.xml
- *
- * Copyright (C) 2019 Universidad de Sevilla
- * 
- * The use of this project is hereby constrained to the conditions of the 
- * TDG Licence, a copy of which you may download from 
- * http://www.tdg-seville.info/License.html
- -->
+<!-- * PopulateDatabase.xml * * Copyright (C) 2019 Universidad de Sevilla 
+	* * The use of this project is hereby constrained to the conditions of the 
+	* TDG Licence, a copy of which you may download from * http://www.tdg-seville.info/License.html -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	">
-	
+
 	<!-- User accounts -->
 
 	<bean id="userAccount1" class="security.UserAccount">
@@ -53,7 +47,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="userAccount4" class="security.UserAccount">
 		<property name="username" value="author1" />
 		<property name="password" value="b312ba4ffd5245fa2a1ab819ec0d0347" />
@@ -65,7 +59,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="userAccount5" class="security.UserAccount">
 		<property name="username" value="author2" />
 		<property name="password" value="9bd97baef2b853ec00cc3cffd269f679" />
@@ -77,7 +71,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="userAccount6" class="security.UserAccount">
 		<property name="username" value="author3" />
 		<property name="password" value="c59a474d5ade296a15ebc40d6c4e8e11" />
@@ -89,7 +83,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="userAccount7" class="security.UserAccount">
 		<property name="username" value="reviewer1" />
 		<property name="password" value="6ce19528a40dde9521d97cf7ba264eca" />
@@ -101,7 +95,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="userAccount8" class="security.UserAccount">
 		<property name="username" value="reviewer2" />
 		<property name="password" value="2693b57f0f59df94caacefb811e99851" />
@@ -113,7 +107,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="userAccount9" class="security.UserAccount">
 		<property name="username" value="reviewer3" />
 		<property name="password" value="315d31e7c8f3a136610aafa220d689be" />
@@ -125,11 +119,11 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Other domain beans come here -->
-	
+
 	<!-- Administrators -->
-	
+
 	<bean class="domain.Administrator" id="administrator1">
 		<property name="name" value="Lorenzo" />
 		<property name="middleName" value="Rondan" />
@@ -140,7 +134,7 @@
 		<property name="address" value="C/ A nº1 Sevilla" />
 		<property name="userAccount" ref="userAccount1" />
 	</bean>
-	
+
 	<bean class="domain.Administrator" id="administrator2">
 		<property name="name" value="Sergio" />
 		<property name="middleName" value="Adebayors" />
@@ -151,7 +145,7 @@
 		<property name="address" value="C/ H nº3 Granada" />
 		<property name="userAccount" ref="userAccount2" />
 	</bean>
-	
+
 	<bean class="domain.Administrator" id="administrator3">
 		<property name="name" value="Francisco" />
 		<property name="middleName" value="Javier" />
@@ -162,9 +156,9 @@
 		<property name="address" value="C/ H nº6 Sevilla" />
 		<property name="userAccount" ref="userAccount3" />
 	</bean>
-	
+
 	<!-- Authors -->
-	
+
 	<bean class="domain.Author" id="author1">
 		<property name="name" value="Francisco" />
 		<property name="middleName" value="Ferreras" />
@@ -197,9 +191,9 @@
 		<property name="address" value="Calle Musica, 1, CP: 32123, Cadiz" />
 		<property name="userAccount" ref="userAccount6" />
 	</bean>
-	
+
 	<!-- Reviewers -->
-	
+
 	<bean class="domain.Reviewer" id="reviewer1">
 		<property name="name" value="Pepe" />
 		<property name="middleName" value="Morato" />
@@ -216,7 +210,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean class="domain.Reviewer" id="reviewer2">
 		<property name="name" value="Luis" />
 		<property name="middleName" value="Mateos" />
@@ -232,7 +226,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean class="domain.Reviewer" id="reviewer3">
 		<property name="name" value="Maria" />
 		<property name="middleName" value="del Mar" />
@@ -243,9 +237,9 @@
 		<property name="address" value="Calle Musica, 1, CP: 32123, Cadiz" />
 		<property name="userAccount" ref="userAccount9" />
 	</bean>
-	
+
 	<!-- Conferences -->
-	
+
 	<bean class="domain.Conference" id="conference1">
 		<property name="title" value="Conference 1 title" />
 		<property name="acronym" value="COT" />
@@ -258,10 +252,10 @@
 		<property name="summary" value="Conference 1 summary" />
 		<property name="fee" value="10.0" />
 		<property name="isFinal" value="false" />
-		
+
 		<property name="administrator" ref="administrator1" />
 	</bean>
-	
+
 	<bean class="domain.Conference" id="conference2">
 		<property name="title" value="Conference 2 title" />
 		<property name="acronym" value="CTT" />
@@ -274,10 +268,10 @@
 		<property name="summary" value="Conference 2 summary" />
 		<property name="fee" value="100.0" />
 		<property name="isFinal" value="true" />
-		
+
 		<property name="administrator" ref="administrator1" />
 	</bean>
-	
+
 	<bean class="domain.Conference" id="conference3">
 		<property name="title" value="Conference 3 title" />
 		<property name="acronym" value="CHT" />
@@ -290,12 +284,148 @@
 		<property name="summary" value="Conference 2 summary" />
 		<property name="fee" value="50.0" />
 		<property name="isFinal" value="true" />
-		
+
 		<property name="administrator" ref="administrator2" />
 	</bean>
-	
+
+	<bean class="domain.Conference" id="conference4">
+		<property name="title" value="Conference 4 title" />
+		<property name="acronym" value="GBK" />
+		<property name="venue" value="Calle Cancion, 2, Huelva" />
+		<property name="submissionDeadline" value="30/07/2019 12:00" />
+		<property name="notificationDeadline" value="14/08/2019 12:00" />
+		<property name="cameraReadyDeadline" value="30/08/2019 12:00" />
+		<property name="startDate" value="14/09/2019 12:00" />
+		<property name="endDate" value="30/09/2019 12:00" />
+		<property name="summary" value="Conference 4 summary" />
+		<property name="fee" value="60.0" />
+		<property name="isFinal" value="true" />
+
+		<property name="administrator" ref="administrator2" />
+	</bean>
+
+	<!-- Registrations -->
+
+	<bean class="domain.Registration" id="registration1">
+		<property name="author" ref="author1" />
+		<property name="conference" ref="conference1" />
+		<property name="creditCard" ref="creditCard1" />
+	</bean>
+
+	<bean class="domain.Registration" id="registration2">
+		<property name="author" ref="author2" />
+		<property name="conference" ref="conference2" />
+		<property name="creditCard" ref="creditCard2" />
+	</bean>
+
+	<bean class="domain.Registration" id="registration3">
+		<property name="author" ref="author3" />
+		<property name="conference" ref="conference3" />
+		<property name="creditCard" ref="creditCard3" />
+	</bean>
+
+	<!-- Submissions -->
+
+	<bean class="domain.Submission" id="submission1">
+		<property name="ticker" value="FFV-B4H8" />
+		<property name="moment" value="2018/03/02 14:00" />
+		<property name="status" value="UNDER-REVIEW" />
+		<property name="author" ref="author1" />
+		<property name="conference" ref="conference1" />
+		<property name="paper" ref="paper1" />
+	</bean>
+
+	<bean class="domain.Submission" id="submission2">
+		<property name="ticker" value="ALT-75MV" />
+		<property name="moment" value="2018/06/16 12:02" />
+		<property name="status" value="REJECTED" />
+		<property name="author" ref="author2" />
+		<property name="conference" ref="conference2" />
+		<property name="paper" ref="paper2" />
+	</bean>
+
+	<bean class="domain.Submission" id="submission3">
+		<property name="ticker" value="MMG-990K" />
+		<property name="moment" value="2018/08/13 09:31" />
+		<property name="status" value="ACCEPTED" />
+		<property name="author" ref="author3" />
+		<property name="conference" ref="conference3" />
+		<property name="paper" ref="paper3" />
+	</bean>
+
+	<!-- Paper -->
+
+	<bean class="domain.Paper" id="paper1">
+		<property name="title" value="Title paper 1" />
+		<property name="author" value="Antonio" />
+		<property name="summary" value="Summary paper 1" />
+		<property name="document" value="Document paper 1" />
+	</bean>
+
+	<bean class="domain.Paper" id="paper2">
+		<property name="title" value="Title paper 2" />
+		<property name="author" value="Lidia" />
+		<property name="summary" value="Summary paper 2" />
+		<property name="document" value="Document paper 2" />
+	</bean>
+
+	<bean class="domain.Paper" id="paper3">
+		<property name="title" value="Title paper 3" />
+		<property name="author" value="Mario" />
+		<property name="summary" value="Summary paper 3" />
+		<property name="document" value="Document paper 3" />
+	</bean>
+
+	<!-- CameraReadyPaper -->
+
+	<bean class="domain.CameraReadyPaper" id="cameraReadyPaper1">
+		<property name="title" value="Title cameraReadyPaper 1" />
+		<property name="author" value="Isabel" />
+		<property name="summary" value="Summary cameraReadyPaper 1" />
+		<property name="document" value="Document cameraReadyPaper 1" />
+		<property name="submission" ref="submission1" />
+	</bean>
+
+	<bean class="domain.CameraReadyPaper" id="cameraReadyPaper2">
+		<property name="title" value="Title cameraReadyPaper 2" />
+		<property name="author" value="Marta" />
+		<property name="summary" value="Summary cameraReadyPaper 2" />
+		<property name="document" value="Document cameraReadyPaper 2" />
+		<property name="submission" ref="submission2" />
+	</bean>
+
+	<!-- Credit Card -->
+
+	<bean class="domain.CreditCard" id="creditCard1">
+		<property name="holderName" value="Lorenzo Domínguez" />
+		<property name="brandName" value="MasterCard" />
+		<property name="number" value="5220 2777 7103 1876" />
+		<property name="expirationMonth" value="7" />
+		<property name="expirationYear" value="20" />
+		<property name="CVV" value="701" />
+	</bean>
+
+	<bean class="domain.CreditCard" id="creditCard2">
+		<property name="holderName" value="Sergio Amorebieta" />
+		<property name="brandName" value="Visa" />
+		<property name="number" value="5632 1524 7854 5969" />
+		<property name="expirationMonth" value="11" />
+		<property name="expirationYear" value="21" />
+		<property name="CVV" value="541" />
+	</bean>
+
+	<bean class="domain.CreditCard" id="creditCard3">
+		<property name="holderName" value="Francisco Elena" />
+		<property name="brandName" value="American Express" />
+		<property name="number" value="5210854698741472" />
+		<property name="expirationMonth" value="2" />
+		<property name="expirationYear" value="22" />
+		<property name="CVV" value="943" />
+	</bean>
+
+
 	<!-- Customisation -->
-	
+
 	<bean id="customisation" class="domain.Customisation">
 		<property name="systemName" value="Acme Conference" />
 		<property name="welcomeBanner" value="https://i.imgur.com/5EfQQQX.png" />
@@ -304,7 +434,7 @@
 		<property name="countryCode" value="+34" />
 		<property name="creditCardsMakes">
 			<list>
-				
+
 			</list>
 		</property>
 		<property name="topics">
@@ -318,9 +448,9 @@
 		</property>
 
 	</bean>
-	
+
 	<!-- Messages -->
-	
+
 	<bean class="domain.Message" id="message1">
 		<property name="moment" value="14/07/2018 12:00" />
 		<property name="subject" value="Seguridad" />
@@ -337,7 +467,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean class="domain.Message" id="message2">
 		<property name="moment" value="15/07/2018 12:00" />
 		<property name="subject" value="Seguridad" />
@@ -355,7 +485,7 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean class="domain.Message" id="message3">
 		<property name="moment" value="18/07/2018 12:00" />
 		<property name="subject" value="Seguridad" />
@@ -372,5 +502,5 @@
 			</list>
 		</property>
 	</bean>
-	
+
 </beans>

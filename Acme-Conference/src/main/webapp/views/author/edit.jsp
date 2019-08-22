@@ -25,78 +25,65 @@
 
 	<form:form action="${actionURI}" modelAttribute="author" id="form">
 
-		<form:hidden path="id"/>
+	<form:hidden path="id"/>
 	<form:hidden path="version" />
 	
-	<acme:textbox code="author.name" path="name"/>
-	
-	<acme:textbox code="author.middleName" path="middleName"/>
-	
-	<acme:textbox code="author.surname" path="surname"/>
-	
-	<acme:textbox code="author.email" path="email"/>
-	
-	<acme:textbox code="author.phone" path="phone"/>
-	
-	<acme:textbox code="author.address" path="address"/>
-	
-	<acme:textbox code="author.photo" path="photo"/>
-	<br />
-	<br />
-
-		<jstl:choose>
-			<jstl:when test="${author.id == 0}">
-
-				<form:hidden path="userAccount.authorities[0].authority"
-					value="author" />
-
-
-				<form:label path="userAccount.username">
-					<spring:message code="author.username" />:
+	<form:label path="name">
+			<spring:message code="author.name" />:
 	</form:label>
-				<spring:message code="author.username.placeholder"
-					var="usernamePlaceholder" />
-				<form:input path="userAccount.username"
-					placeholder="${usernamePlaceholder}" size="25" />
-				<form:errors cssClass="error" path="userAccount.username" />
-				<br />
-				<br />
-
-
-
-				<form:label path="userAccount.password">
-					<spring:message code="author.password" />:
+		<form:input path="name" />
+		<form:errors cssClass="error" path="name" />
+		<br />
+	
+	<form:label path="middleName">
+			<spring:message code="author.middleName" />:
 	</form:label>
-				<spring:message code="author.password.placeholder"
-					var="passwordPlaceholder" />
-				<form:password path="userAccount.password"
-					placeholder="${passwordPlaceholder}" size="25" />
-				<form:errors cssClass="error" path="userAccount.password" />
-				<br />
-				<br />
+		<form:input path="middleName" />
+		<form:errors cssClass="error" path="middleName" />
+		<br />
+	
+	<form:label path="surname">
+			<spring:message code="author.surname" />:
+	</form:label>
+		<form:input path="surname" />
+		<form:errors cssClass="error" path="surname" />
+		<br />
+	
+	<form:label path="email">
+			<spring:message code="author.email" />:
+	</form:label>
+		<form:input path="email" />
+		<form:errors cssClass="error" path="email" />
+		<br />
+	
+	<form:label path="phone">
+			<spring:message code="author.phone" />:
+	</form:label>
+		<form:input path="phone" />
+		<form:errors cssClass="error" path="phone" />
+		<br />
+	
+	<form:label path="address">
+			<spring:message code="author.address" />:
+	</form:label>
+		<form:input path="address" />
+		<form:errors cssClass="error" path="address" />
+		<br />
+	
+	<form:label path="photo">
+			<spring:message code="author.photo" />:
+	</form:label>
+		<form:input path="photo" />
+		<form:errors cssClass="error" path="photo" />
+		<br />
+		<br />
 
-				<input type="submit" name="register" id="register"
-				value="<spring:message code="author.save" />" >&nbsp; 
+	<form:hidden path="userAccount" />
+
+	<input type="submit" name="save" id="save"
+	value="<spring:message code="author.save" />" >&nbsp; 
 		
-				<acme:cancel url="welcome/index.do" code="author.cancel"/>
-				<br />
-				<br />
-
-
-			</jstl:when>
-			<jstl:otherwise>
-
-
-				<form:hidden path="userAccount" />
-
-				<input type="submit" name="save" id="save"
-				value="<spring:message code="author.save" />" >&nbsp; 
-		
-				<acme:cancel url="welcome/index.do" code="author.cancel"/>
-				<br />
-				<br />
-
-			</jstl:otherwise>
-		</jstl:choose>
+	<acme:cancel url="welcome/index.do" code="author.cancel"/>
+	<br />
 
 	</form:form>
