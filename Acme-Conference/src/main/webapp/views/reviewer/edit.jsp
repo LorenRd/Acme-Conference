@@ -26,67 +26,60 @@
 		<form:hidden path="id"/>
 	<form:hidden path="version" />
 	
-	<acme:textbox code="reviewer.name" path="name"/>
+	<form:label path="name">
+			<spring:message code="reviewer.name" />:
+	</form:label>
+		<form:input path="name" />
+		<form:errors cssClass="error" path="name" />
+		<br />
 	
-	<acme:textbox code="reviewer.middleName" path="middleName"/>
+	<form:label path="middleName">
+			<spring:message code="reviewer.middleName" />:
+	</form:label>
+		<form:input path="middleName" />
+		<form:errors cssClass="error" path="middleName" />
+		<br />
 	
-	<acme:textbox code="reviewer.surname" path="surname"/>
+	<form:label path="surname">
+			<spring:message code="reviewer.surname" />:
+	</form:label>
+		<form:input path="surname" />
+		<form:errors cssClass="error" path="surname" />
+		<br />
 	
-	<acme:textbox code="reviewer.email" path="email"/>
+	<form:label path="email">
+			<spring:message code="reviewer.email" />:
+	</form:label>
+		<form:input path="email" />
+		<form:errors cssClass="error" path="email" />
+		<br />
 	
-	<acme:textbox code="reviewer.phone" path="phone"/>
+	<form:label path="phone">
+			<spring:message code="reviewer.phone" />:
+	</form:label>
+		<form:input path="phone" />
+		<form:errors cssClass="error" path="phone" />
+		<br />
 	
-	<acme:textbox code="reviewer.address" path="address"/>
+	<form:label path="address">
+			<spring:message code="reviewer.address" />:
+	</form:label>
+		<form:input path="address" />
+		<form:errors cssClass="error" path="address" />
+		<br />
 	
-	<acme:textbox code="reviewer.photo" path="photo"/>
+	<form:label path="photo">
+			<spring:message code="reviewer.photo" />:
+	</form:label>
+		<form:input path="photo" />
+		<form:errors cssClass="error" path="photo" />
+		<br />
 	
 	<acme:textarea code="reviewer.expertises" path="expertises"/>
 	
 	<br />
-	<br />
-
-		<jstl:choose>
-			<jstl:when test="${reviewer.id == 0}">
-
-				<form:hidden path="userAccount.authorities[0].authority"
-					value="reviewer" />
-
-
-				<form:label path="userAccount.username">
-					<spring:message code="reviewer.username" />:
-	</form:label>
-				<spring:message code="reviewer.username.placeholder"
-					var="usernamePlaceholder" />
-				<form:input path="userAccount.username"
-					placeholder="${usernamePlaceholder}" size="25" />
-				<form:errors cssClass="error" path="userAccount.username" />
-				<br />
-				<br />
-
-
-
-				<form:label path="userAccount.password">
-					<spring:message code="reviewer.password" />:
-	</form:label>
-				<spring:message code="reviewer.password.placeholder"
-					var="passwordPlaceholder" />
-				<form:password path="userAccount.password"
-					placeholder="${passwordPlaceholder}" size="25" />
-				<form:errors cssClass="error" path="userAccount.password" />
-				<br />
-				<br />
-
-
-			</jstl:when>
-			<jstl:otherwise>
-
-
-				<form:hidden path="userAccount" />
-
-
-			</jstl:otherwise>
-		</jstl:choose>
-
+	
+	<form:hidden path="userAccount" />
 
 		<input type="submit" name="save" id="save"
 		value="<spring:message code="reviewer.save" />" />

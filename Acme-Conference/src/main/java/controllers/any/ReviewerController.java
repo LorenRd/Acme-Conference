@@ -101,22 +101,20 @@ public class ReviewerController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("reviewer") Reviewer reviewer, final BindingResult binding) {
+	public ModelAndView save(@Valid final Reviewer reviewer, final BindingResult binding) {
 		ModelAndView result;
 
-		try {
-			if (binding.hasErrors()) {
-				result = this.editModelAndView(reviewer);
-				for (final ObjectError e : binding.getAllErrors())
-					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
-			} else
-				reviewer = this.reviewerService.save(reviewer);
-			result = new ModelAndView("welcome/index");
-		} catch (final Throwable oops) {
-			result = this.editModelAndView(reviewer, "reviewer.commit.error");
-
-		}
-
+		if (binding.hasErrors()) {
+			result = this.editModelAndView(reviewer);
+			for (final ObjectError e : binding.getAllErrors())
+				System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+		} else
+			try {
+				this.reviewerService.save(reviewer);
+				result = new ModelAndView("redirect:/reviewer/display.do");
+			} catch (final Throwable oops) {
+				result = this.editModelAndView(reviewer, "reviewer.commit.error");
+			}
 		return result;
 	}
 

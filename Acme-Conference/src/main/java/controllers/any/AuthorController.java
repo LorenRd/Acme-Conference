@@ -101,22 +101,20 @@ public class AuthorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("author") Author author, final BindingResult binding) {
+	public ModelAndView save(@Valid final Author author, final BindingResult binding) {
 		ModelAndView result;
 
-		try {
-			if (binding.hasErrors()) {
-				result = this.editModelAndView(author);
-				for (final ObjectError e : binding.getAllErrors())
-					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
-			} else
-				author = this.authorService.save(author);
-			result = new ModelAndView("welcome/index");
-		} catch (final Throwable oops) {
-			result = this.editModelAndView(author, "author.commit.error");
-
-		}
-
+		if (binding.hasErrors()) {
+			result = this.editModelAndView(author);
+			for (final ObjectError e : binding.getAllErrors())
+				System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+		} else
+			try {
+				this.authorService.save(author);
+				result = new ModelAndView("redirect:/author/display.do");
+			} catch (final Throwable oops) {
+				result = this.editModelAndView(author, "author.commit.error");
+			}
 		return result;
 	}
 
@@ -153,13 +151,10 @@ public class AuthorController extends AbstractController {
 		String countryCode;
 
 		countryCode = this.customisationService.find().getCountryCode();
-		if (author.getId() != 0)
-			result = new ModelAndView("author/edit");
-		else
-			result = new ModelAndView("author/register");
+		result = new ModelAndView("author/register");
 
 		result.addObject("author", author);
-		result.addObject("actionURI", "rookie/edit.do");
+		result.addObject("actionURI", "author/edit.do");
 		result.addObject("redirectURI", "welcome/index.do");
 		result.addObject("countryCode", countryCode);
 
