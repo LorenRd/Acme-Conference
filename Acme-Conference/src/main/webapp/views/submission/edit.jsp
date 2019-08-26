@@ -20,6 +20,7 @@
 
 <form:form action="submission/author/edit.do" modelAttribute="submissionForm">
 		<form:hidden path="id"/>
+		<form:hidden path="conference"/>
 		
 		<h3><spring:message code="submission.paper" /></h3>
 		
