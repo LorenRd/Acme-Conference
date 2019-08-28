@@ -1,6 +1,8 @@
+
 package services;
 
 import java.util.Collection;
+
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.CreditCardRepository;
+import repositories.RegistrationRepository;
 import domain.Author;
 import domain.CreditCard;
 import domain.Registration;
 import forms.RegistrationForm;
-import repositories.CreditCardRepository;
-import repositories.RegistrationRepository;
 
 @Service
 @Transactional
@@ -23,21 +25,22 @@ public class RegistrationService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private RegistrationRepository registrationRepository;
+	private RegistrationRepository	registrationRepository;
 
 	@Autowired
-	private CreditCardRepository creditCardRepository;
+	private CreditCardRepository	creditCardRepository;
 
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	private AuthorService authorService;
+	private AuthorService			authorService;
 
 	@Autowired
-	private CreditCardService creditCardService;
+	private CreditCardService		creditCardService;
 
 	@Autowired
-	private Validator validator;
+	private Validator				validator;
+
 
 	// Simple CRUD Methods
 
@@ -56,10 +59,11 @@ public class RegistrationService {
 		principal = this.authorService.findByPrincipal();
 		Assert.notNull(principal);
 
-		CreditCard creditCard = new CreditCard();
+		final CreditCard creditCard = new CreditCard();
 
 		result = new Registration();
 		result.setCreditCard(creditCard);
+		result.setAuthor(principal);
 
 		return result;
 	}
@@ -73,10 +77,9 @@ public class RegistrationService {
 		Assert.notNull(principal);
 
 		Assert.notNull(registration);
-		Assert.isTrue(registration.getAuthor() == principal);
+		Assert.isTrue(registration.getAuthor().getId() == principal.getId());
 
-		creditCard = this.creditCardRepository.save(registration
-				.getCreditCard());
+		creditCard = this.creditCardRepository.save(registration.getCreditCard());
 
 		registration.setCreditCard(creditCard);
 
@@ -94,9 +97,8 @@ public class RegistrationService {
 
 		creditCard = registration.getCreditCard();
 
-		if (creditCard != null) {
+		if (creditCard != null)
 			this.creditCardService.delete(creditCard);
-		}
 
 		this.registrationRepository.delete(registration);
 	}
@@ -110,30 +112,24 @@ public class RegistrationService {
 		return result;
 	}
 
-	public Registration reconstruct(final RegistrationForm registrationForm,
-			final BindingResult binding) {
+	public Registration reconstruct(final RegistrationForm registrationForm, final BindingResult binding) {
 		Registration result;
-		if (registrationForm.getId() == 0) {
+		if (registrationForm.getId() == 0)
 			result = this.create();
-
-		} else {
-			result = this.registrationRepository.findOne(registrationForm
-					.getId());
-		}
+		else
+			result = this.registrationRepository.findOne(registrationForm.getId());
 
 		result.getCreditCard().setHolderName(registrationForm.getHolderName());
 		result.getCreditCard().setBrandName(registrationForm.getBrandName());
 		result.getCreditCard().setNumber(registrationForm.getNumber());
-		result.getCreditCard().setExpirationMonth(
-				registrationForm.getExpirationMonth());
-		result.getCreditCard().setExpirationYear(
-				registrationForm.getExpirationYear());
+		result.getCreditCard().setExpirationMonth(registrationForm.getExpirationMonth());
+		result.getCreditCard().setExpirationYear(registrationForm.getExpirationYear());
 		result.getCreditCard().setCVV(registrationForm.getCVV());
+		result.setConference(registrationForm.getConference());
 
 		this.validator.validate(result, binding);
-		if (binding.hasErrors()) {
+		if (binding.hasErrors())
 			throw new ValidationException();
-		}
 
 		return result;
 	}
@@ -142,15 +138,11 @@ public class RegistrationService {
 		final RegistrationForm registrationForm = new RegistrationForm();
 		registrationForm.setId(registration.getId());
 		registrationForm.setConference(registration.getConference());
-		registrationForm.setHolderName(registration.getCreditCard()
-				.getHolderName());
-		registrationForm.setBrandName(registration.getCreditCard()
-				.getBrandName());
+		registrationForm.setHolderName(registration.getCreditCard().getHolderName());
+		registrationForm.setBrandName(registration.getCreditCard().getBrandName());
 		registrationForm.setNumber(registration.getCreditCard().getNumber());
-		registrationForm.setExpirationMonth(registration.getCreditCard()
-				.getExpirationMonth());
-		registrationForm.setExpirationYear(registration.getCreditCard()
-				.getExpirationYear());
+		registrationForm.setExpirationMonth(registration.getCreditCard().getExpirationMonth());
+		registrationForm.setExpirationYear(registration.getCreditCard().getExpirationYear());
 		registrationForm.setCVV(registration.getCreditCard().getCVV());
 		return registrationForm;
 	}

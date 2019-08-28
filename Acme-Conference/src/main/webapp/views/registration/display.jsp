@@ -35,6 +35,5 @@
 <jstl:if test="${registration.author.userAccount.username == pageContext.request.userPrincipal.name}">
 <br/>
 	<a href="registration/author/edit.do?registrationId=${registration.id}"><spring:message code="registration.edit"/></a><br/>
-	<a href="registration/author/delete.do?registrationId=${registration.id}"><spring:message code="registration.delete"/></a><br/>
 </jstl:if>
 </security:authorize>

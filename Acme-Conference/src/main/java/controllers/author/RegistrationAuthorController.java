@@ -1,13 +1,17 @@
+
 package controllers.author;
 
+import java.util.Arrays;
 import java.util.Collection;
 
+import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +22,6 @@ import services.AuthorService;
 import services.ConferenceService;
 import services.CustomisationService;
 import services.RegistrationService;
-
 import controllers.AbstractController;
 import domain.Author;
 import domain.Registration;
@@ -29,16 +32,17 @@ import forms.RegistrationForm;
 public class RegistrationAuthorController extends AbstractController {
 
 	@Autowired
-	private RegistrationService registrationService;
+	private RegistrationService		registrationService;
 
 	@Autowired
-	private AuthorService authorService;
+	private AuthorService			authorService;
 
 	@Autowired
-	private ConferenceService conferenceService;
+	private ConferenceService		conferenceService;
 
 	@Autowired
-	private CustomisationService customisationService;
+	private CustomisationService	customisationService;
+
 
 	// Listing
 
@@ -50,8 +54,7 @@ public class RegistrationAuthorController extends AbstractController {
 
 		principal = this.authorService.findByPrincipal();
 
-		registrations = this.registrationService.findAllByAuthor(principal
-				.getId());
+		registrations = this.registrationService.findAllByAuthor(principal.getId());
 
 		result = new ModelAndView("registration/list");
 		result.addObject("registrations", registrations);
@@ -92,27 +95,28 @@ public class RegistrationAuthorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView create(
-			@ModelAttribute("registrationForm") RegistrationForm registrationForm,
-			final BindingResult binding) {
+	public ModelAndView create(@Valid @ModelAttribute("registrationForm") final RegistrationForm registrationForm, final BindingResult binding) {
 		ModelAndView result;
 		Registration registration = null;
 
-		try {
-			registration = this.registrationService.reconstruct(
-					registrationForm, binding);
-			this.registrationService.save(registration);
-			result = new ModelAndView("redirect:/welcome/index.do");
-		} catch (ValidationException oops) {
-			registrationForm = this.registrationService.construct(registration);
+		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(registrationForm);
-			oops.printStackTrace();
-		} catch (final Throwable oops) {
-			registrationForm = this.registrationService.construct(registration);
-			result = this.createEditModelAndView(registrationForm,
-					"registration.commit.error");
-			oops.printStackTrace();
-		}
+			for (final ObjectError e : binding.getAllErrors())
+				System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+		} else
+			try {
+				registration = this.registrationService.reconstruct(registrationForm, binding);
+				this.registrationService.save(registration);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final ValidationException oops) {
+				//				registrationForm = this.registrationService.construct(registration);
+				result = this.createEditModelAndView(registrationForm);
+				oops.printStackTrace();
+			} catch (final Throwable oops) {
+				//				registrationForm = this.registrationService.construct(registration);
+				result = this.createEditModelAndView(registrationForm, "registration.commit.error");
+				oops.printStackTrace();
+			}
 		return result;
 	}
 
@@ -133,25 +137,26 @@ public class RegistrationAuthorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView edit(
-			@ModelAttribute("registrationForm") RegistrationForm registrationForm,
-			final BindingResult binding) {
+	public ModelAndView edit(@Valid @ModelAttribute("registrationForm") final RegistrationForm registrationForm, final BindingResult binding) {
 		ModelAndView result;
 		Registration registration;
 
-		try {
-			registration = this.registrationService.reconstruct(
-					registrationForm, binding);
-			this.registrationService.save(registration);
-			result = new ModelAndView("redirect:/welcome/index.do");
-		} catch (ValidationException oops) {
+		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(registrationForm);
-			oops.printStackTrace();
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(registrationForm,
-					"registration.commit.error");
-			oops.printStackTrace();
-		}
+			for (final ObjectError e : binding.getAllErrors())
+				System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+		} else
+			try {
+				registration = this.registrationService.reconstruct(registrationForm, binding);
+				this.registrationService.save(registration);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final ValidationException oops) {
+				result = this.createEditModelAndView(registrationForm);
+				oops.printStackTrace();
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(registrationForm, "registration.commit.error");
+				oops.printStackTrace();
+			}
 		return result;
 	}
 
@@ -168,23 +173,20 @@ public class RegistrationAuthorController extends AbstractController {
 			this.registrationService.delete(registration);
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
-			result = this.deleteModelAndView(registration,
-					"registration.commit.error");
+			result = this.deleteModelAndView(registration, "registration.commit.error");
 		}
 		return result;
 	}
 
 	// -------------------
 
-	protected ModelAndView createEditModelAndView(
-			final RegistrationForm registrationForm) {
+	protected ModelAndView createEditModelAndView(final RegistrationForm registrationForm) {
 		ModelAndView result;
 		result = this.createEditModelAndView(registrationForm, null);
 		return result;
 	}
 
-	private ModelAndView createEditModelAndView(
-			final RegistrationForm registrationForm, final String messageCode) {
+	private ModelAndView createEditModelAndView(final RegistrationForm registrationForm, final String messageCode) {
 		ModelAndView result;
 
 		if (registrationForm.getId() != 0)
@@ -193,10 +195,8 @@ public class RegistrationAuthorController extends AbstractController {
 			result = new ModelAndView("registration/create");
 
 		result.addObject("registrationForm", registrationForm);
-		result.addObject("conferences", this.conferenceService
-				.findAvailableConferencesForRegistration());
-		result.addObject("creditCardMakes",
-				this.customisationService.getCreditCardMakes());
+		result.addObject("conferences", this.conferenceService.findAvailableConferencesForRegistration());
+		result.addObject("creditCardMakes", this.customisationService.getCreditCardMakes());
 		result.addObject("message", messageCode);
 		return result;
 	}
@@ -209,8 +209,7 @@ public class RegistrationAuthorController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView deleteModelAndView(final Registration registration,
-			final String messageCode) {
+	protected ModelAndView deleteModelAndView(final Registration registration, final String messageCode) {
 		ModelAndView result;
 
 		result = new ModelAndView("registration/edit");

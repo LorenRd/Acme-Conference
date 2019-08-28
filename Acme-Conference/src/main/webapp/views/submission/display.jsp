@@ -38,6 +38,5 @@
 <jstl:if test="${submission.author.userAccount.username == pageContext.request.userPrincipal.name}">
 <br/>
 	<a href="submission/author/edit.do?submissionId=${submission.id}"><spring:message code="submission.edit"/></a><br/>
-	<a href="submission/author/delete.do?submissionId=${submission.id}"><spring:message code="submission.delete"/></a><br/>
 </jstl:if>
 </security:authorize>

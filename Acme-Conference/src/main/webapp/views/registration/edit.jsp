@@ -20,6 +20,7 @@
 
 <form:form action="registration/author/edit.do" modelAttribute="registrationForm">
 		<form:hidden path="id"/>
+		<form:hidden path="conference"/>
 		
 		<h3><spring:message code="registration.creditCard" /></h3>
 		
