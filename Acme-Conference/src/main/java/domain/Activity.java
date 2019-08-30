@@ -25,6 +25,7 @@ public class Activity extends DomainEntity implements Cloneable {
 
 	private String title;
 	private Collection<String> speakers;
+	@SuppressWarnings("unused")
 	private Date schedule;
 	private Date startMoment;
 	private int duration;
@@ -51,13 +52,13 @@ public class Activity extends DomainEntity implements Cloneable {
 		this.speakers = speakers;
 	}
 
-	//TODO: Poner bien el schedule
-	
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	public Date getSchedule() {
-		return this.schedule;
+		final long scheduleDuration = (long) (this.getStartMoment().getTime() + (this
+				.getDuration() * 360000));
+		return new Date(scheduleDuration);
 	}
 
 	public void setSchedule(final Date schedule) {
