@@ -29,6 +29,7 @@
 		<value>/views/submission/messages</value>
 		<value>/views/cameraReadyPaper/messages</value>
 		<value>/views/message/messages</value>
+		<value>/views/category/messages</value>
 	</util:list>
 
 </beans>

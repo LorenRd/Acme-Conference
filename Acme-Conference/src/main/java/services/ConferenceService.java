@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Calendar;
@@ -24,18 +25,20 @@ public class ConferenceService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ConferenceRepository conferenceRepository;
+	private ConferenceRepository	conferenceRepository;
 
 	@Autowired
-	private SubmissionRepository submissionRepository;
+	private SubmissionRepository	submissionRepository;
 
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	private AdministratorService administratorService;
-	
+	private AdministratorService	administratorService;
+
 	@Autowired
-	private Validator			validator;
+	private Validator				validator;
+
+
 	// Simple CRUD Methods
 
 	public Conference findOne(final int conferenceid) {
@@ -63,10 +66,10 @@ public class ConferenceService {
 
 		result = new Conference();
 		result.setIsFinal(false);
-	
+
 		return result;
 	}
-	
+
 	public Conference reconstruct(final Conference conference, final BindingResult binding) {
 		Conference original;
 		if (conference.getId() == 0) {
@@ -83,7 +86,7 @@ public class ConferenceService {
 
 		return conference;
 	}
-	
+
 	public Conference save(final Conference conference, final boolean isFinal) {
 		Administrator principal;
 		Conference result;
@@ -104,7 +107,7 @@ public class ConferenceService {
 
 	public void delete(final Conference conference) {
 		Administrator principal;
-		
+
 		principal = this.administratorService.findByPrincipal();
 		Assert.notNull(principal);
 
@@ -113,8 +116,6 @@ public class ConferenceService {
 		this.conferenceRepository.delete(conference);
 	}
 
-	
-	
 	// Business Methods
 
 	public Collection<Conference> findFinalForthcoming() {
@@ -145,12 +146,10 @@ public class ConferenceService {
 		return result;
 	}
 
-	public Collection<Conference> findFinalForthcomingByKeyword(
-			final String keyword) {
+	public Collection<Conference> findFinalForthcomingByKeyword(final String keyword) {
 		Collection<Conference> result;
 
-		result = this.conferenceRepository
-				.findFinalForthcomingByKeyword(keyword);
+		result = this.conferenceRepository.findFinalForthcomingByKeyword(keyword);
 		return result;
 	}
 
@@ -177,80 +176,79 @@ public class ConferenceService {
 	}
 
 	public Collection<Conference> findAvailableConferences() {
-		Collection<Conference> result = this.findFinals();
-		Collection<Conference> finals = this.findFinals();
-		Collection<Submission> allSubmissions = this.submissionRepository
-				.findAll();
+		final Collection<Conference> result = this.findFinals();
+		final Collection<Conference> finals = this.findFinals();
+		final Collection<Submission> allSubmissions = this.submissionRepository.findAll();
 
-		for (Submission s : allSubmissions) {
-			for (Conference c : finals) {
-				if (s.getConference().equals(c)) {
+		for (final Submission s : allSubmissions)
+			for (final Conference c : finals)
+				if (s.getConference().equals(c))
 					result.remove(c);
-				}
-			}
-		}
 
 		return result;
 	}
 
-	public Collection<Conference> findByAdministratorId(int administratorId) {
+	public Collection<Conference> findByAdministratorId(final int administratorId) {
 
 		Collection<Conference> result;
 
 		result = this.conferenceRepository.findByAdministratorId(administratorId);
 		return result;
 	}
-	
 
-	public Collection<Conference> submissionDeadline5daysOverByAdministratorId(int administratorId) {
+	public Collection<Conference> submissionDeadline5daysOverByAdministratorId(final int administratorId) {
 
 		Collection<Conference> result;
-		
-		Calendar cal = new GregorianCalendar();
+
+		final Calendar cal = new GregorianCalendar();
 		cal.add(Calendar.DAY_OF_MONTH, -5);
-		Date fiveDaysAgo = cal.getTime();
-		
-		
+		final Date fiveDaysAgo = cal.getTime();
+
 		result = this.conferenceRepository.submissionDeadline5daysOverByAdministratorId(administratorId, fiveDaysAgo.toString());
 		return result;
 	}
 
-	public Collection<Conference> notificationDeadline5daysOrLessByAdministratorId(int administratorId) {
+	public Collection<Conference> notificationDeadline5daysOrLessByAdministratorId(final int administratorId) {
 
 		Collection<Conference> result;
-		
-		Calendar cal = new GregorianCalendar();
+
+		final Calendar cal = new GregorianCalendar();
 		cal.add(Calendar.DAY_OF_MONTH, -5);
-		Date fiveDaysAgo = cal.getTime();
-		
-		
+		final Date fiveDaysAgo = cal.getTime();
+
 		result = this.conferenceRepository.notificationDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
 		return result;
 	}
-	
-	public Collection<Conference> cameraReadyDeadline5daysOrLessByAdministratorId(int administratorId) {
+
+	public Collection<Conference> cameraReadyDeadline5daysOrLessByAdministratorId(final int administratorId) {
 
 		Collection<Conference> result;
-		
-		Calendar cal = new GregorianCalendar();
+
+		final Calendar cal = new GregorianCalendar();
 		cal.add(Calendar.DAY_OF_MONTH, -5);
-		Date fiveDaysAgo = cal.getTime();
-		
-		
+		final Date fiveDaysAgo = cal.getTime();
+
 		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
 		return result;
 	}
-	
-	public Collection<Conference> conferences5daysOrLessByAdministratorId(int administratorId) {
+
+	public Collection<Conference> conferences5daysOrLessByAdministratorId(final int administratorId) {
 
 		Collection<Conference> result;
-		
-		Calendar cal = new GregorianCalendar();
+
+		final Calendar cal = new GregorianCalendar();
 		cal.add(Calendar.DAY_OF_MONTH, -5);
-		Date fiveDaysAgo = cal.getTime();
-		
-		
+		final Date fiveDaysAgo = cal.getTime();
+
 		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
 		return result;
 	}
+
+	//	public Collection<Conference> searchConference(final Date dateMin, final Date dateMax, final Double maxFee, final String keyword, final int categoryId) {
+	//
+	//		Collection<Conference> result;
+	//
+	//		result = this.conferenceRepository.searchConference(dateMin, dateMax, maxFee, keyword, categoryId);
+	//		return result;
+	//	}
 }
