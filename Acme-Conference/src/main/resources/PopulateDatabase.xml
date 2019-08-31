@@ -334,6 +334,7 @@
 		<property name="conference" ref="conference1" />
 		<property name="paper" ref="paper1" />
 		<property name="cameraReadyPaper" ref="cameraReadyPaper1" />
+		<property name="decisionNotification" value="false" />
 		<property name="reviewers">
 			<list>
 				<ref bean="reviewer1" />
@@ -351,6 +352,7 @@
 		<property name="conference" ref="conference2" />
 		<property name="paper" ref="paper2" />
 		<property name="cameraReadyPaper" ref="cameraReadyPaper2" />
+		<property name="decisionNotification" value="false" />
 	</bean>
 
 	<bean class="domain.Submission" id="submission3">
@@ -360,7 +362,7 @@
 		<property name="author" ref="author3" />
 		<property name="conference" ref="conference3" />
 		<property name="paper" ref="paper3" />
-
+		<property name="decisionNotification" value="false" />
 	</bean>
 
 	<!-- Paper -->

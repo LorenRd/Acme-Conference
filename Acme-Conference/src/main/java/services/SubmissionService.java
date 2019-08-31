@@ -21,7 +21,10 @@ import org.springframework.validation.Validator;
 import repositories.PaperRepository;
 import repositories.SubmissionRepository;
 
+import domain.Actor;
+import domain.Administrator;
 import domain.Author;
+import domain.Message;
 import domain.Paper;
 import domain.Reviewer;
 import domain.Submission;
@@ -44,11 +47,20 @@ public class SubmissionService {
 	private AuthorService authorService;
 	
 	@Autowired
+	private ActorService actorService;
+	
+	@Autowired
+	private AdministratorService administratorService;
+	
+	@Autowired
 	private ReviewerService reviewerService;
 
 	@Autowired
-	private PaperService paperService;
+	private MessageService messageService;
 
+	@Autowired
+	private PaperService paperService;
+	
 	@Autowired
 	private Validator validator;
 
@@ -96,6 +108,7 @@ public class SubmissionService {
 		result.setAuthor(principal);
 		result.setTicker(this.generateTicker(principal));
 		result.setStatus("UNDER-REVIEW");
+		result.setDecisionNotification(false);
 		result.setMoment(new Date(System.currentTimeMillis() - 1));
 		result.setPaper(paper);
 
@@ -311,6 +324,33 @@ public class SubmissionService {
 			this.save(s);
 		}
 						
+	}
+	@SuppressWarnings("null")
+	public void decisionNotificationProcedure (final int submissionId){
+		Submission submission;
+		Administrator principal;
+		Collection<Author> authors;
+		Collection<Actor> recipients = null;
+		
+		principal = this.administratorService.findByPrincipal();
+
+		submission = this.findOne(submissionId);
+		submission.setDecisionNotification(true);
+		this.save(submission);
+		
+		authors = this.authorService.findAllBySubmission(submissionId);
+		for (Author a : authors) {
+			Actor actor = this.actorService.findOne(a.getId());
+			recipients.add(actor);
+		}
+		Message message;
+		message = this.messageService.create();
+		message.setSender(principal);
+		message.setRecipients(recipients);
+		message.setTopic("Submission notification");
+		message.setBody("One of your submission has any update.");
+		this.messageService.save(message);
+		
 	}
 
 }

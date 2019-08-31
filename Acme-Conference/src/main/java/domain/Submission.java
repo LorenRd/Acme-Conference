@@ -27,7 +27,8 @@ public class Submission extends DomainEntity {
 	private String ticker;
 	private Date moment;
 	private String status;
-
+	private Boolean	decisionNotification;
+	
 	@Column(unique = true)
 	@Pattern(regexp = "^([A-Z]{3})-([A-Z, 0-9]{4})$")
 	public String getTicker() {
@@ -58,6 +59,15 @@ public class Submission extends DomainEntity {
 	public void setStatus(final String status) {
 		this.status = status;
 	}
+	
+	public boolean getDecisionNotification() {
+		return this.decisionNotification;
+	}
+
+	public void setDecisionNotification(final boolean decisionNotification) {
+		this.decisionNotification = decisionNotification;
+	}
+
 
 	// Relationships----------------------------------------------
 
