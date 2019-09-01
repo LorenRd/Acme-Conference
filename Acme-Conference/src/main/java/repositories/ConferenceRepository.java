@@ -2,6 +2,7 @@
 package repositories;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -54,10 +55,16 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	//	@Query("select f from Conference f where (f.startDate BETWEEN ?1 AND ?2) AND (f.fee <= ?3) AND (f.title LIKE %:keyword% OR f.acronym LIKE %:keyword% OR f.venue LIKE %:keyword% OR f.summary LIKE %:keyword% OR f.category.id LIKE ?4) and f.isFinal = true")
 	//	Collection<Conference> searchConference(Date dateMin, Date dateMax, Double maxFee, @Param("keyword") String keyword, int categoryId);
-	//
-	//	@Query("select f from Conference f where (f.startDate BETWEEN ?1 AND ?2) and f.isFinal = true")
-	//	Collection<Conference> searchByDates(Date dateMin, Date dateMax);
-	//
-	//	@Query("select f from Conference f where (f.fee <= ?1) and f.isFinal = true")
-	//	Collection<Conference> searchByMaxFee(Double maxFee);
+
+	@Query("select f from Conference f where (f.fee <= ?1) and f.isFinal = true")
+	Collection<Conference> searchByMaxFee(Double maxFee);
+
+	@Query("select distinct c from Conference c where (c.title like %:keyword% or c.acronym like %:keyword% or c.summary like %:keyword% or c.venue like %:keyword%) and c.isFinal = true")
+	Collection<Conference> findByKeyword(@Param("keyword") String keyword);
+
+	@Query("select f from Conference f where (f.category.englishName like %:keyword% or f.category.spanishName like %:keyword%) and f.isFinal = true")
+	Collection<Conference> searchByCategory(@Param("keyword") String category);
+
+	@Query("select f from Conference f where (f.startDate BETWEEN ?1 AND ?2) and f.isFinal = true")
+	Collection<Conference> searchByDateRange(Date dateMin, Date dateMax);
 }

@@ -12,7 +12,21 @@
 <!-- Buscar rutas por palabra clave -->
 <form action="${requestURI }" method="get">
 	<spring:message code="conference.keyword" var="searchHeader"/>
+	<spring:message code="conference.keywordSearch"/>
 	<input type="text" name="keyword">
+	<br>
+	<spring:message code="conference.feeSearch"/>
+	<input type="text" name="fee">
+	<br>
+	<spring:message code="conference.categorySearch"/>
+	<input type="text" name="category">
+	<br>
+	<spring:message code="conference.dateMinSearch"/>
+	<input type="text" name="minDate">
+	<br>
+	<spring:message code="conference.dateMaxSearch"/>
+	<input type="text" name="maxDate">
+	<br>
 	<input type="submit" value="${searchHeader}">
 	<input type="hidden" name="keywordBool" value="true">
 </form>

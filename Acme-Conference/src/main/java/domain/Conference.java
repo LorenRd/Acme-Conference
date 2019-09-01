@@ -19,18 +19,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Conference extends DomainEntity {
 
-	private String		title;
-	private String		acronym;
-	private String		venue;
-	private Date		submissionDeadline;
-	private Date		notificationDeadline;
-	private Date		cameraReadyDeadline;
-	private Date		startDate;
-	private Date		endDate;
-	private String		summary;
-	private double		fee;
-	private Boolean		isFinal;
-	private Category	category;
+	private String	title;
+	private String	acronym;
+	private String	venue;
+	private Date	submissionDeadline;
+	private Date	notificationDeadline;
+	private Date	cameraReadyDeadline;
+	private Date	startDate;
+	private Date	endDate;
+	private String	summary;
+	private double	fee;
+	private Boolean	isFinal;
 
 
 	@NotBlank
@@ -144,6 +143,7 @@ public class Conference extends DomainEntity {
 	// Relationships----------------------------------------------
 
 	private Administrator	administrator;
+	private Category		category;
 
 
 	@NotNull

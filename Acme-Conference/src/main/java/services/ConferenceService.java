@@ -244,6 +244,30 @@ public class ConferenceService {
 		return result;
 	}
 
+	public Collection<Conference> searchByMaxFee(final Double fee) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByMaxFee(fee);
+		return result;
+	}
+
+	public Collection<Conference> findByKeyword(final String keyword) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.findByKeyword(keyword);
+		return result;
+	}
+
+	public Collection<Conference> searchByCategory(final String categoryId) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByCategory(categoryId);
+		return result;
+	}
+
+	public Collection<Conference> searchByDates(final Date minDate, final Date maxDate) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByDateRange(minDate, maxDate);
+		return result;
+	}
+
 	//	public Collection<Conference> searchConference(final Date dateMin, final Date dateMax, final Double maxFee, final String keyword, final int categoryId) {
 	//
 	//		Collection<Conference> result;
