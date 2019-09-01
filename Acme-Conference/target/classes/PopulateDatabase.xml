@@ -513,4 +513,98 @@
 		</property>
 	</bean>
 	
+	<!-- Tutorial -->
+
+	<bean class="domain.Tutorial" id="tutorial1">
+		<property name="activityTitle" value="Tutorial 1" />
+		<property name="speakers">
+			<list>
+				<value>speaker1</value>
+				<value>speaker2</value>
+				<value>speaker3</value>
+			</list>
+		</property>
+		<property name="schedule" value="18/07/2018 15:00" />
+		<property name="startMoment" value="18/07/2018 12:00" />
+		<property name="duration" value="3" />
+		<property name="room" value="Esto es una room" />
+		<property name="activitySummary" value="Esto es un resumen" />
+		<property name="attachments">
+			<list>
+				<value>attachment1</value>
+				<value>attachment2</value>
+			</list>
+		</property>
+		<property name="conference" ref="conference2" />
+		<property name="sections">
+			<list>
+				<ref bean="section1" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Panel -->
+
+	<bean class="domain.Panel" id="panel1">
+		<property name="activityTitle" value="Panel 1" />
+		<property name="speakers">
+			<list>
+				<value>speaker1</value>
+				<value>speaker2</value>
+				<value>speaker3</value>
+			</list>
+		</property>
+		<property name="schedule" value="18/07/2018 15:00" />
+		<property name="startMoment" value="18/07/2018 12:00" />
+		<property name="duration" value="3" />
+		<property name="room" value="Esto es una room" />
+		<property name="activitySummary" value="Esto es un resumen" />
+		<property name="attachments">
+			<list>
+				<value>attachment1</value>
+				<value>attachment2</value>
+			</list>
+		</property>
+		<property name="conference" ref="conference2" />
+	</bean>
+	
+	<!-- Presentation -->
+
+	<bean class="domain.Presentation" id="presentation1">
+		<property name="activityTitle" value="Presentation 1" />
+		<property name="speakers">
+			<list>
+				<value>speaker1</value>
+				<value>speaker2</value>
+				<value>speaker3</value>
+			</list>
+		</property>
+		<property name="schedule" value="18/07/2018 15:00" />
+		<property name="startMoment" value="18/07/2018 12:00" />
+		<property name="duration" value="3" />
+		<property name="room" value="Esto es una room" />
+		<property name="activitySummary" value="Esto es un resumen" />
+		<property name="attachments">
+			<list>
+				<value>attachment1</value>
+				<value>attachment2</value>
+			</list>
+		</property>
+		<property name="cameraReadyVersion" value="La camara esta ready" />
+		<property name="conference" ref="conference2" />
+	</bean>
+	
+	<!-- Section -->
+
+	<bean class="domain.Section" id="section1">
+		<property name="sectionTitle" value="Section 1" />
+		<property name="sectionSummary" value="Esto es un resumen" />
+		<property name="pictures">
+			<list>
+				<value>http://www.foto1.com</value>
+				<value>http://www.foto2.com</value>
+			</list>
+		</property>
+	</bean>	
+	
 </beans>

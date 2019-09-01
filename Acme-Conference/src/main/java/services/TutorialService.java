@@ -1,14 +1,15 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
 import repositories.TutorialRepository;
+import domain.Section;
 import domain.Tutorial;
 
 @Service
@@ -20,7 +21,10 @@ public class TutorialService {
 	private TutorialRepository	tutorialRepository;
 
 	// Supporting services ----------------------------------------------------
-
+	
+	@Autowired
+	private SectionService		sectionService;
+	
 	// Additional functions
 
 	// Simple CRUD Methods
@@ -29,6 +33,11 @@ public class TutorialService {
 		Tutorial result;
 
 		result = new Tutorial();
+		final Section initialSection = this.sectionService.create();
+		Collection<Section> sections = new ArrayList<Section>();
+		sections.add(initialSection);
+		
+		result.setSections(sections);
 
 		return result;
 	}
@@ -56,11 +65,21 @@ public class TutorialService {
 		return result;
 	}
 
-	public Collection<Tutorial> findAllByConferenceId() {
+	public Collection<Tutorial> findAllByConferenceId(final int conferenceId) {
 		Collection<Tutorial> result;
 
-		result = this.tutorialRepository.findAll();
+		result = this.tutorialRepository.findAllByConferenceId(conferenceId);
 		Assert.notNull(result);
 		return result;
 	}
+	
+	public void delete(Tutorial tutorial) {
+		Collection<Section> sections = tutorial.getSections();
+		for (Section section : sections) {
+			this.sectionService.delete(section);
+		}
+		
+		this.tutorialRepository.delete(tutorial);
+	}
+
 }

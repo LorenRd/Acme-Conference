@@ -536,6 +536,11 @@
 			</list>
 		</property>
 		<property name="conference" ref="conference2" />
+		<property name="sections">
+			<list>
+				<ref bean="section1" />
+			</list>
+		</property>
 	</bean>
 	
 	<!-- Panel -->
@@ -600,7 +605,6 @@
 				<value>http://www.foto2.com</value>
 			</list>
 		</property>
-		<property name="tutorial" ref="tutorial1" />
 	</bean>	
 	
 </beans>

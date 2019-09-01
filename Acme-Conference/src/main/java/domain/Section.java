@@ -7,10 +7,6 @@ import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotBlank;
 
 import cz.jirutka.validator.collection.constraints.EachURL;
@@ -51,21 +47,6 @@ public class Section extends DomainEntity {
 
 	public void setPictures(final Collection<String> pictures) {
 		this.pictures = pictures;
-	}
-	
-	// Relationships----------------------------------------------
-
-	private Tutorial tutorial;
-	
-	@NotNull
-	@Valid
-	@ManyToOne(optional=false)
-	public Tutorial getTutorial() {
-		return this.tutorial;
-	}
-
-	public void setTutorial(final Tutorial tutorial) {
-		this.tutorial = tutorial;
 	}
 	
 }
