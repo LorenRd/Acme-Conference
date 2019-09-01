@@ -15,7 +15,7 @@
 <%@taglib prefix="jstl"  uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div>
-	<a href="#"><img src="images/logo.png" alt="Acme-Conference Co., Inc." /></a>
+	<a href="#"><img width="300px" src="${bannerWelcome }" alt="Acme Conference Co., Inc." /></a>
 </div>
 
 <div>
@@ -25,7 +25,8 @@
 			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="administrator/register.do"><spring:message code="master.page.administrator.register"/></a></li>				
+					<li><a href="administrator/register.do"><spring:message code="master.page.administrator.register"/></a></li>
+					<li><a href="dashboard/administrator/display.do"><spring:message code="master.page.administrator.dashboard"/></a></li>				
 				</ul>
 			</li>
 		</security:authorize>

@@ -438,7 +438,7 @@
 	
 	<bean id="customisation" class="domain.Customisation">
 		<property name="systemName" value="Acme Conference" />
-		<property name="welcomeBanner" value="https://i.imgur.com/5EfQQQX.png" />
+		<property name="welcomeBanner" value="https://i.ibb.co/GVpZCtM/acme-conference.png" />
 		<property name="welcomeMessageEn" value="Welcome to Acme Conferences!" />
 		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Conferences!" />
 		<property name="countryCode" value="+34" />

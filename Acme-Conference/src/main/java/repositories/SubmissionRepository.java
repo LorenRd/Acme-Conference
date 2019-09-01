@@ -36,7 +36,7 @@ public interface SubmissionRepository extends
 	@Query("select max(1.0*(select count(s) from Submission s where s.conference.id = c.id)) from Conference c")
 	Double maxSubmissionPerConference();
 
-	@Query("select sttdev(1.0*(select count(s) from Submission s where s.conference.id = c.id)) from Conference c")
+	@Query("select stddev(1.0*(select count(s) from Submission s where s.conference.id = c.id)) from Conference c")
 	Double stddevSubmissionPerConference();
 	
 	

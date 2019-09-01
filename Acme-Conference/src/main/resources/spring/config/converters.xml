@@ -52,7 +52,7 @@
 		<bean class="converters.StringToSubmissionConverter" />
 
 		<bean class="converters.ActivityToStringConverter" />
-		<bean class="converters.StringToActiviyConverter" />
+		<bean class="converters.StringToActivityConverter" />
 
 		<bean class="converters.TutorialToStringConverter" />
 		<bean class="converters.StringToTutorialConverter" />		
@@ -61,7 +61,7 @@
 		<bean class="converters.StringToPanelConverter" />		
 
 		<bean class="converters.PresentationToStringConverter" />
-		<bean class="converters.StringToPresentatioConverter" />
+		<bean class="converters.StringToPresentationConverter" />
 		
 		<bean class="converters.SectionToStringConverter" />
 		<bean class="converters.StringToSectionConverter" />

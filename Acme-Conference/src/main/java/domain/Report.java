@@ -72,6 +72,7 @@ public class Report extends DomainEntity {
 	// Relationships----------------------------------------------
 
 	private Reviewer	reviewer;
+	private Submission	submission;
 
 
 	@NotNull
@@ -83,6 +84,17 @@ public class Report extends DomainEntity {
 
 	public void setReviewer(final Reviewer reviewer) {
 		this.reviewer = reviewer;
+	}
+	
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Submission getSubmission() {
+		return this.submission;
+	}
+
+	public void setSubmission(final Submission submission) {
+		this.submission = submission;
 	}
 
 }

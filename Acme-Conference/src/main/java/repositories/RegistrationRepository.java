@@ -18,7 +18,7 @@ public interface RegistrationRepository extends	JpaRepository<Registration, Inte
 	@Query("select max(1.0*(select count(r) from Registration r where r.conference.id = c.id)) from Conference c")
 	Double maxRegistrationPerConference();
 
-	@Query("select sttdev(1.0*(select count(r) from Registration r where r.conference.id = c.id)) from Conference c")
+	@Query("select stddev(1.0*(select count(r) from Registration r where r.conference.id = c.id)) from Conference c")
 	Double stddevRegistrationPerConference();
 	
 	
