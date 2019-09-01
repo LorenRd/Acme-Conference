@@ -17,30 +17,30 @@ import cz.jirutka.validator.collection.constraints.EachURL;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Section extends Activity {
-	private String	title;
-	private String	summary;
+public class Section extends DomainEntity {
+	private String	sectionTitle;
+	private String	sectionSummary;
 	private Collection<String>	pictures;
 
 	
 	
 	
 	@NotBlank
-	public String getTitle() {
-		return this.title;
+	public String getSectionTitle() {
+		return this.sectionTitle;
 	}
 
-	public void setTitle(final String title) {
-		this.title = title;
+	public void setSectionTitle(final String sectionTitle) {
+		this.sectionTitle = sectionTitle;
 	}
 
 	@NotBlank
-	public String getSummary() {
-		return this.summary;
+	public String getSectionSummary() {
+		return this.sectionSummary;
 	}
 
-	public void setSummary(final String summary) {
-		this.summary = summary;
+	public void setSectionSummary(final String sectionSummary) {
+		this.sectionSummary = sectionSummary;
 	}
 	
 	@ElementCollection(fetch = FetchType.EAGER)

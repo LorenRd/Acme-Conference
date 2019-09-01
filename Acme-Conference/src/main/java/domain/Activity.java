@@ -24,23 +24,23 @@ import cz.jirutka.validator.collection.constraints.EachNotBlank;
 @Access(AccessType.PROPERTY)
 public class Activity extends DomainEntity implements Cloneable {
 
-	private String	title;
+	private String	activityTitle;
 	private Collection<String>	speakers;
 	private Date	schedule;
 	private Date	startMoment;
 	private int		duration;
 	private String	room;
-	private String	summary;
+	private String	activitySummary;
 	private Collection<String>	attachments;
 
 
 	@NotBlank
-	public String getTitle() {
-		return this.title;
+	public String getActivityTitle() {
+		return this.activityTitle;
 	}
 
-	public void setTitle(final String title) {
-		this.title = title;
+	public void setActivityTitle(final String activityTitle) {
+		this.activityTitle = activityTitle;
 	}
 
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -95,12 +95,12 @@ public class Activity extends DomainEntity implements Cloneable {
 	}
 
 	@NotBlank
-	public String getSummary() {
-		return this.summary;
+	public String getActivitySummary() {
+		return this.activitySummary;
 	}
 
-	public void setSummary(final String summary) {
-		this.summary = summary;
+	public void setActivitySummary(final String activitySummary) {
+		this.activitySummary = activitySummary;
 	}
 
 	@ElementCollection(fetch = FetchType.EAGER)

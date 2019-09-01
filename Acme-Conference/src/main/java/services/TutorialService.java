@@ -1,0 +1,66 @@
+
+package services;
+
+import java.util.Collection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import repositories.TutorialRepository;
+import domain.Tutorial;
+
+@Service
+@Transactional
+public class TutorialService {
+
+	// Managed repository -----------------------------------------------------
+	@Autowired
+	private TutorialRepository	tutorialRepository;
+
+	// Supporting services ----------------------------------------------------
+
+	// Additional functions
+
+	// Simple CRUD Methods
+
+	public Tutorial create() {
+		Tutorial result;
+
+		result = new Tutorial();
+
+		return result;
+	}
+
+	public Tutorial save(final Tutorial tutorial) {
+		Tutorial saved;
+		saved = this.tutorialRepository.save(tutorial);
+		return saved;
+	}
+
+	public Tutorial findOne(final int tutorialId) {
+		Tutorial result;
+
+		result = this.tutorialRepository.findOne(tutorialId);
+		Assert.notNull(result);
+		return result;
+
+	}
+
+	public Collection<Tutorial> findAll() {
+		Collection<Tutorial> result;
+
+		result = this.tutorialRepository.findAll();
+		Assert.notNull(result);
+		return result;
+	}
+
+	public Collection<Tutorial> findAllByConferenceId() {
+		Collection<Tutorial> result;
+
+		result = this.tutorialRepository.findAll();
+		Assert.notNull(result);
+		return result;
+	}
+}
