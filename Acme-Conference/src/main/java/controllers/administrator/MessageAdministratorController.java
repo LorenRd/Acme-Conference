@@ -42,19 +42,7 @@ public class MessageAdministratorController extends AbstractController {
 
 
 	
-	//Message to: the authors who have made a submission to a conference
-	@RequestMapping(value = "/list", method = RequestMethod.GET, params ="assignReviewers")
-	public ModelAndView assignReviewers(){
-		final ModelAndView result;
-		
-		this.submissionService.reviewerAssignation();
-		
-		result = new ModelAndView("redirect:list.do");
-		
-		return result;
-	}
-	
-	
+	//Message to: the authors who have made a submission to a conference	
 	//Message to:  the authors who have registered to a conference
 	//Message to: all of the authors in the system
 	//Message to: all of the actors in the system (including administrators)
