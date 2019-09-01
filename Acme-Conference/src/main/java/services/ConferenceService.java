@@ -1,10 +1,10 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +14,8 @@ import org.springframework.validation.Validator;
 
 import repositories.ConferenceRepository;
 import repositories.ReportRepository;
+import security.Authority;
+import domain.Actor;
 import domain.Administrator;
 import domain.Conference;
 import domain.Report;
@@ -32,6 +34,9 @@ public class ConferenceService {
 
 	// Supporting services ----------------------------------------------------
 
+	@Autowired
+	private ActorService actorService;
+	
 	@Autowired
 	private SubmissionService submissionService;
 	
@@ -283,9 +288,156 @@ public class ConferenceService {
 			}
 			this.submissionService.save(s);
 		}
-		
-		
 	}
 	
+	//----------------------------------------
 	
+	public Double avgConferenceFees() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.conferenceRepository.avgConferenceFees();
+
+		return result;
+	}
+
+	public Double minConferenceFees() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.conferenceRepository.minConferenceFees();
+		return result;
+	}
+
+	public Double maxConferenceFees() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.conferenceRepository.maxConferenceFees();
+
+		return result;
+	}
+
+	public Double stddevConferenceFees() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.conferenceRepository.stddevConferenceFees();
+		
+		return result;
+	}
+	
+	public Double avgDaysPerConference(){
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result = 0.0;
+		Collection<Conference> conferences;
+		conferences = this.conferenceRepository.findAll();
+		Collection<Long> conferenceDuration = new ArrayList<Long>();
+		for (Conference c : conferences) {
+			long duration = (c.getEndDate().getTime()-c.getStartDate().getTime())/86400000;
+			conferenceDuration.add(duration);
+		}
+		
+		for (Long d : conferenceDuration) {
+			result += d;
+		}
+		result = result/conferenceDuration.size();
+		
+		return result;
+	}
+	
+	public Long minDaysPerConference(){
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Long result = (long) 0;
+		Collection<Conference> conferences;
+		conferences = this.conferenceRepository.findAll();
+		Collection<Long> conferenceDuration = new ArrayList<Long>();
+		for (Conference c : conferences) {
+			long duration = (c.getEndDate().getTime()-c.getStartDate().getTime())/86400000;
+			conferenceDuration.add(duration);
+		}
+		
+		result = conferenceDuration.iterator().next();
+		for (Long d : conferenceDuration) {
+			if(d < result)
+				result = d;
+		}
+		
+		return result;
+	}
+	public Long maxDaysPerConference(){
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Long result = (long) 0;
+		Collection<Conference> conferences;
+		conferences = this.conferenceRepository.findAll();
+		Collection<Long> conferenceDuration = new ArrayList<Long>();
+		for (Conference c : conferences) {
+			long duration = (c.getEndDate().getTime()-c.getStartDate().getTime())/86400000;
+			conferenceDuration.add(duration);
+		}
+		
+		result = conferenceDuration.iterator().next();
+		for (Long d : conferenceDuration) {
+			if(d > result)
+				result = d;
+		}
+		
+		return result;
+	}
+	
+	public Double stddevDaysPerConference(){
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result = 0.0;
+		Collection<Conference> conferences;
+		conferences = this.conferenceRepository.findAll();
+		Collection<Long> conferenceDuration = new ArrayList<Long>();
+		for (Conference c : conferences) {
+			long duration = (c.getEndDate().getTime()-c.getStartDate().getTime())/86400000;
+			conferenceDuration.add(duration);
+		}
+		
+		for (Long d : conferenceDuration) {
+			result += d;
+		}
+		double mean = result/conferenceDuration.size();
+		
+		for (Long d1 : conferenceDuration) {
+			result += Math.pow(d1 - mean, 2);
+			
+		}
+				
+		return Math.sqrt(result/conferenceDuration.size());
+	}
 }

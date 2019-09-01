@@ -55,4 +55,16 @@ public interface ConferenceRepository extends
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.startDate > ?2")
 	Collection<Conference> conferences5daysOrLessByAdministratorId(int administratorId, String dateMax);
 		
+	@Query("select avg(c.fee) from Conference c")
+	Double avgConferenceFees();
+
+	@Query("select min(c.fee) from Conference c")
+	Double minConferenceFees();
+
+	@Query("select max(c.fee) from Conference c")
+	Double maxConferenceFees();
+
+	@Query("select stddev(c.fee) from Conference c")
+	Double stddevConferenceFees();
+	
 }

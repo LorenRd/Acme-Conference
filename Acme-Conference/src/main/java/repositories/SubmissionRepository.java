@@ -26,4 +26,18 @@ public interface SubmissionRepository extends
 	
 	@Query("select s from Submission s where s.conference.id = ?1")
 	Collection<Submission> findAllByConferenceId(int conferenceId);
+	
+	@Query("select avg(1.0*(select count(s) from Submission s where s.conference.id = c.id)) from Conference c")
+	Double avgSubmissionPerConference();
+
+	@Query("select min(1.0*(select count(s) from Submission s where s.conference.id = c.id)) from Conference c")
+	Double minSubmissionPerConference();
+
+	@Query("select max(1.0*(select count(s) from Submission s where s.conference.id = c.id)) from Conference c")
+	Double maxSubmissionPerConference();
+
+	@Query("select sttdev(1.0*(select count(s) from Submission s where s.conference.id = c.id)) from Conference c")
+	Double stddevSubmissionPerConference();
+	
+	
 }

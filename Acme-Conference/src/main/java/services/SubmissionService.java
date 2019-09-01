@@ -20,6 +20,7 @@ import org.springframework.validation.Validator;
 
 import repositories.PaperRepository;
 import repositories.SubmissionRepository;
+import security.Authority;
 
 import domain.Actor;
 import domain.Administrator;
@@ -352,5 +353,57 @@ public class SubmissionService {
 		this.messageService.save(message);
 		
 	}
+	
+	//-------------------------------------
+	
+	public Double avgSubmissionPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
 
+		result = this.submissionRepository.avgSubmissionPerConference();
+
+		return result;
+	}
+
+	public Double minSubmissionPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.submissionRepository.minSubmissionPerConference();
+		return result;
+	}
+
+	public Double maxSubmissionPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.submissionRepository.maxSubmissionPerConference();
+
+		return result;
+	}
+
+	public Double stddevSubmissionPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.submissionRepository.stddevSubmissionPerConference();
+
+		return result;
+	}
 }
