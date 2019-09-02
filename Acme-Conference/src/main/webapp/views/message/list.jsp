@@ -9,6 +9,18 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<security:authorize access="hasRole('ADMIN')">
+<a href="message/administrator/createBySubmission.do"><spring:message code="message.bySubmission" /></a>
+<br/>
+<a href="message/administrator/createByRegistered.do"><spring:message code="message.byRegistered" /></a>
+<br/>
+<a href="message/administrator/createBySystem.do"><spring:message code="message.bySystem" /></a>
+<br/>
+<a href="message/administrator/createByAll.do"><spring:message code="message.byAll" /></a>
+<br/>
+<br/>
+</security:authorize>
+
 <spring:message code="message.groupByTopics" />
 <br/>
 

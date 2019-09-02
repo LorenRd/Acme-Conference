@@ -1,13 +1,17 @@
+
 package services;
+
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
 import repositories.RegistrationRepository;
 import security.Authority;
-
 import domain.Actor;
+import domain.Registration;
 
 @Service
 @Transactional
@@ -15,15 +19,15 @@ public class RegistrationService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private RegistrationRepository registrationRepository;
+	private RegistrationRepository	registrationRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private ActorService actorService;
-	
+	private ActorService			actorService;
+
 
 	//-------------------------------------
-	
+
 	public Double avgRegistrationPerConference() {
 		final Authority authority = new Authority();
 		authority.setAuthority(Authority.ADMIN);
@@ -72,6 +76,13 @@ public class RegistrationService {
 
 		result = this.registrationRepository.stddevRegistrationPerConference();
 
+		return result;
+	}
+
+	public Collection<Registration> findAllByConferenceId(final int id) {
+		Collection<Registration> result;
+
+		result = this.registrationRepository.findAllByConferenceId(id);
 		return result;
 	}
 }
