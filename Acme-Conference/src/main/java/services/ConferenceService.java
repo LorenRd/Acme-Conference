@@ -219,9 +219,9 @@ public class ConferenceService {
 		Calendar cal = new GregorianCalendar();
 		cal.add(Calendar.DAY_OF_MONTH, -5);
 		Date fiveDaysAgo = cal.getTime();
+
 		
-		
-		result = this.conferenceRepository.submissionDeadline5daysOverByAdministratorId(administratorId, fiveDaysAgo.toString());
+		result = this.conferenceRepository.submissionDeadline5daysOverByAdministratorId(administratorId, fiveDaysAgo);
 		return result;
 	}
 
@@ -234,7 +234,7 @@ public class ConferenceService {
 		Date fiveDaysAgo = cal.getTime();
 		
 		
-		result = this.conferenceRepository.notificationDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
+		result = this.conferenceRepository.notificationDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo);
 		return result;
 	}
 	
@@ -247,7 +247,7 @@ public class ConferenceService {
 		Date fiveDaysAgo = cal.getTime();
 		
 		
-		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
+		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo);
 		return result;
 	}
 	
@@ -260,7 +260,7 @@ public class ConferenceService {
 		Date fiveDaysAgo = cal.getTime();
 		
 		
-		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
+		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo);
 		return result;
 	}
 	

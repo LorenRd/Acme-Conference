@@ -42,7 +42,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		
 		conferences = this.conferenceService.findByAdministratorId(administratorId);
 				
-		result = new ModelAndView("application/list");
+		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
 		result.addObject("requestURI", "conference/administrator/list.do");
 
@@ -59,16 +59,16 @@ public class ConferenceAdministratorController extends AbstractController {
 		principal = this.administratorService.findByPrincipal();
 
 		//Submission deadline pasó hace 5 dias
-		if (conferenceStatus == 0)
+		if (conferenceStatus == 1)
 			conferences = this.conferenceService.submissionDeadline5daysOverByAdministratorId(principal.getId());
 		//Notification deadline va a pasar en 5 dias o menos
-		else if (conferenceStatus == 1)
+		else if (conferenceStatus == 2)
 			conferences = this.conferenceService.notificationDeadline5daysOrLessByAdministratorId(principal.getId());
 		//Camera deadline va a pasar en 5 dias o menos
-		else if (conferenceStatus == 2)
+		else if (conferenceStatus == 3)
 			conferences = this.conferenceService.cameraReadyDeadline5daysOrLessByAdministratorId(principal.getId());
 		//Conferencias que van a ser organizadas en menos de 5 dias
-		else if (conferenceStatus == 3)
+		else if (conferenceStatus == 4)
 			conferences = this.conferenceService.conferences5daysOrLessByAdministratorId(principal.getId());
 		else //En cualquier otro caso devolvemos todas
 			conferences = this.conferenceService.findByAdministratorId(principal.getId());

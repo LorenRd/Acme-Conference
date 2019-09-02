@@ -1,6 +1,7 @@
 package repositories;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -44,16 +45,16 @@ public interface ConferenceRepository extends
 	Collection<Conference> findByAdministratorId(int administratorId);
 	
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.submissionDeadline < NOW() AND c.submissionDeadline > ?2")
-	Collection<Conference> submissionDeadline5daysOverByAdministratorId(int administratorId, String dateMax);
+	Collection<Conference> submissionDeadline5daysOverByAdministratorId(int administratorId, Date dateMax);
 	
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.notificationDeadline > ?2")
-	Collection<Conference> notificationDeadline5daysOrLessByAdministratorId(int administratorId, String dateMax);
+	Collection<Conference> notificationDeadline5daysOrLessByAdministratorId(int administratorId, Date dateMax);
 	
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.cameraReadyDeadline > ?2")
-	Collection<Conference> cameraReadyDeadline5daysOrLessByAdministratorId(int administratorId, String dateMax);
+	Collection<Conference> cameraReadyDeadline5daysOrLessByAdministratorId(int administratorId, Date dateMax);
 		
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.startDate > ?2")
-	Collection<Conference> conferences5daysOrLessByAdministratorId(int administratorId, String dateMax);
+	Collection<Conference> conferences5daysOrLessByAdministratorId(int administratorId, Date dateMax);
 		
 	@Query("select avg(c.fee) from Conference c")
 	Double avgConferenceFees();
