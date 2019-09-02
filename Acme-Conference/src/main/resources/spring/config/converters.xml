@@ -45,6 +45,9 @@
 		<bean class="converters.PaperToStringConverter" />
 		<bean class="converters.StringToPaperConverter" />
 
+		<bean class="converters.ConferenceCommentToStringConverter" />
+		<bean class="converters.StringToConferenceCommentConverter" />
+
 		<bean class="converters.RegistrationToStringConverter" />
 		<bean class="converters.StringToRegistrationConverter" />
 

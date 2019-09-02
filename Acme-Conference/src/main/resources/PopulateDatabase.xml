@@ -446,7 +446,7 @@
 		<property name="moment" value="2018/10/10 10:10" />
 		<property name="author" value="Author 3" />
 		<property name="text" value="Text 3" />
-		<property name="conference" ref="conference3" />
+		<property name="conference" ref="conference2" />
 	</bean>
 
 	<!-- Activity comments -->

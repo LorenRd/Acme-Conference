@@ -50,3 +50,32 @@
 		<a href="administrator/display.do?administratorId=${conference.administrator.id}">
 			<jstl:out value="${conference.administrator.userAccount.username}"/>
 		</a><br/>
+		
+		<!-- Comments -->
+		
+		<h3><spring:message code="conference.comments" /></h3>
+		
+<display:table name="conferenceComments" id="row"
+	requestURI="${requestURI }" pagesize="5" class="displaytag">
+
+	<!-- Attributes -->
+
+	<spring:message code="conferenceComment.title" var="titleHeader" />
+	<display:column property="title" title="${titleHeader}" sortable="true" />
+
+	<spring:message code="conferenceComment.moment" var="momentHeader" />
+	<display:column property="moment" title="${momentHeader}"
+		sortable="true" />
+
+	<spring:message code="conferenceComment.author" var="authorHeader" />
+	<display:column property="author" title="${authorHeader}"
+		sortable="true" />
+
+	<spring:message code="conferenceComment.text" var="textHeader" />
+	<display:column property="text" title="${textHeader}" sortable="true" />
+
+</display:table>
+
+<!-- Create comment -->
+<acme:button url="conferenceComment/create.do"
+	code="conferenceComment.create" />

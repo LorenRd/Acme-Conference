@@ -1,4 +1,3 @@
-
 package controllers.any;
 
 import java.util.Collection;
@@ -11,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ConferenceCommentService;
 import services.ConferenceService;
 import controllers.AbstractController;
 import domain.Conference;
+import domain.ConferenceComment;
 
 @Controller
 @RequestMapping("/conference")
@@ -22,13 +23,17 @@ public class ConferenceController extends AbstractController {
 	// Services
 
 	@Autowired
-	private ConferenceService	conferenceService;
+	private ConferenceService conferenceService;
 
+	@Autowired
+	private ConferenceCommentService conferenceCommentService;
 
 	// List
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+	public ModelAndView list(
+			@RequestParam(required = false) final String keyword,
+			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
 
@@ -47,12 +52,15 @@ public class ConferenceController extends AbstractController {
 	// List of forthcoming conferences
 
 	@RequestMapping(value = "/listForthcoming", method = RequestMethod.GET)
-	public ModelAndView listForthcoming(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+	public ModelAndView listForthcoming(
+			@RequestParam(required = false) final String keyword,
+			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
 
 		if (keywordBool && keyword != null)
-			conferences = this.conferenceService.findFinalForthcomingByKeyword(keyword);
+			conferences = this.conferenceService
+					.findFinalForthcomingByKeyword(keyword);
 		else
 			conferences = this.conferenceService.findFinalForthcoming();
 
@@ -66,12 +74,15 @@ public class ConferenceController extends AbstractController {
 	// List of past conferences
 
 	@RequestMapping(value = "/listPast", method = RequestMethod.GET)
-	public ModelAndView listPast(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+	public ModelAndView listPast(
+			@RequestParam(required = false) final String keyword,
+			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
 
 		if (keywordBool && keyword != null)
-			conferences = this.conferenceService.findFinalPastByKeyword(keyword);
+			conferences = this.conferenceService
+					.findFinalPastByKeyword(keyword);
 		else
 			conferences = this.conferenceService.findFinalPast();
 
@@ -85,12 +96,15 @@ public class ConferenceController extends AbstractController {
 	// List of running conferences
 
 	@RequestMapping(value = "/listRunning", method = RequestMethod.GET)
-	public ModelAndView listRunning(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+	public ModelAndView listRunning(
+			@RequestParam(required = false) final String keyword,
+			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
 
 		if (keywordBool && keyword != null)
-			conferences = this.conferenceService.findFinalRunningByKeyword(keyword);
+			conferences = this.conferenceService
+					.findFinalRunningByKeyword(keyword);
 		else
 			conferences = this.conferenceService.findFinalRunning();
 
@@ -108,14 +122,19 @@ public class ConferenceController extends AbstractController {
 		// Inicializa resultado
 		ModelAndView result;
 		Conference conference;
+		final Collection<ConferenceComment> conferenceComments;
 
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
 		Assert.notNull(conference);
 
+		conferenceComments = this.conferenceCommentService
+				.findAllByConference(conferenceId);
+
 		// Crea y añade objetos a la vista
 		result = new ModelAndView("conference/display");
 		result.addObject("requestURI", "conference/display.do");
+		result.addObject("conferenceComments", conferenceComments);
 		result.addObject("conference", conference);
 
 		// Envía la vista
