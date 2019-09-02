@@ -5,14 +5,14 @@ import java.util.Date;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,26 +23,27 @@ import cz.jirutka.validator.collection.constraints.EachNotBlank;
 @Access(AccessType.PROPERTY)
 public class Activity extends DomainEntity implements Cloneable {
 
-	private String title;
+	private String activityTitle;
 	private Collection<String> speakers;
 	@SuppressWarnings("unused")
 	private Date schedule;
 	private Date startMoment;
 	private int duration;
 	private String room;
-	private String summary;
+	private String activitySummary;
 	private Collection<String> attachments;
 
 	@NotBlank
-	public String getTitle() {
-		return this.title;
+	public String getActivityTitle() {
+		return this.activityTitle;
 	}
 
-	public void setTitle(final String title) {
-		this.title = title;
+	public void setActivityTitle(final String activityTitle) {
+		this.activityTitle = activityTitle;
 	}
 
 	@NotNull
+	@ElementCollection(fetch = FetchType.EAGER)
 	@EachNotBlank
 	public Collection<String> getSpeakers() {
 		return this.speakers;
@@ -65,7 +66,6 @@ public class Activity extends DomainEntity implements Cloneable {
 		this.schedule = schedule;
 	}
 
-	@Past
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getStartMoment() {
@@ -95,21 +95,22 @@ public class Activity extends DomainEntity implements Cloneable {
 	}
 
 	@NotBlank
-	public String getSummary() {
-		return this.summary;
+	public String getActivitySummary() {
+		return this.activitySummary;
 	}
 
-	public void setSummary(final String summary) {
-		this.summary = summary;
+	public void setActivitySummary(final String activitySummary) {
+		this.activitySummary = activitySummary;
 	}
 
 	@NotNull
+	@ElementCollection(fetch = FetchType.EAGER)
 	@EachNotBlank
 	public Collection<String> getAttachments() {
-		return attachments;
+		return this.attachments;
 	}
 
-	public void setAttachments(Collection<String> attachments) {
+	public void setAttachments(final Collection<String> attachments) {
 		this.attachments = attachments;
 	}
 

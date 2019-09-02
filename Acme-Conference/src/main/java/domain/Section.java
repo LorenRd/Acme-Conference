@@ -4,43 +4,46 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import cz.jirutka.validator.collection.constraints.EachNotBlank;
+import cz.jirutka.validator.collection.constraints.EachURL;
 
 @Entity
 @Access(AccessType.PROPERTY)
 public class Section extends DomainEntity {
 
-	private String title;
-	private String summary;
+	private String sectionTitle;
+	private String sectionSummary;
 	private Collection<String> pictures;
 
 	@NotBlank
-	public String getTitle() {
-		return this.title;
+	public String getSectionTitle() {
+		return this.sectionTitle;
 	}
 
-	public void setTitle(final String title) {
-		this.title = title;
+	public void setSectionTitle(final String sectionTitle) {
+		this.sectionTitle = sectionTitle;
 	}
 
 	@NotBlank
-	public String getSummary() {
-		return this.summary;
+	public String getSectionSummary() {
+		return this.sectionSummary;
 	}
 
-	public void setSummary(final String summary) {
-		this.summary = summary;
+	public void setSectionSummary(final String sectionSummary) {
+		this.sectionSummary = sectionSummary;
 	}
 
 	@NotNull
-	@EachNotBlank
+	@ElementCollection(fetch = FetchType.EAGER)
+	@EachURL
 	public Collection<String> getPictures() {
 		return this.pictures;
 	}

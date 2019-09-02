@@ -478,8 +478,8 @@
 	<!-- Sections -->
 
 	<bean class="domain.Section" id="section1">
-		<property name="title" value="Title 1" />
-		<property name="summary" value="Summary 1" />
+		<property name="sectionTitle" value="Title 1" />
+		<property name="sectionSummary" value="Summary 1" />
 		<property name="pictures">
 			<list>
 				<value>http://www.foto1.com</value>
@@ -490,8 +490,8 @@
 	</bean>
 
 	<bean class="domain.Section" id="section2">
-		<property name="title" value="Title 2" />
-		<property name="summary" value="Summary 2" />
+		<property name="sectionTitle" value="Title 2" />
+		<property name="sectionSummary" value="Summary 2" />
 		<property name="pictures">
 			<list>
 				<value>http://www.foto3.com</value>
@@ -501,8 +501,8 @@
 	</bean>
 
 	<bean class="domain.Section" id="section3">
-		<property name="title" value="Title 3" />
-		<property name="summary" value="Summary 3" />
+		<property name="sectionTitle" value="Title 3" />
+		<property name="sectionSummary" value="Summary 3" />
 		<property name="pictures">
 			<list>
 			</list>
@@ -513,7 +513,7 @@
 	<!-- Tutorials -->
 
 	<bean class="domain.Tutorial" id="tutorial1">
-		<property name="title" value="Title 1" />
+		<property name="activityTitle" value="Title 1" />
 		<property name="speakers">
 			<list>
 				<value>Speaker 1</value>
@@ -524,7 +524,7 @@
 		<property name="startMoment" value="2019/12/18 09:00" />
 		<property name="duration" value="30" />
 		<property name="room" value="Room 1" />
-		<property name="summary" value="Summary 1" />
+		<property name="activitySummary" value="Summary 1" />
 		<property name="attachments">
 			<list>
 				<value>Attachment 1</value>
@@ -535,7 +535,7 @@
 	</bean>
 
 	<bean class="domain.Tutorial" id="tutorial2">
-		<property name="title" value="Title 2" />
+		<property name="activityTitle" value="Title 2" />
 		<property name="speakers">
 			<list>
 				<value>Speaker 3</value>
@@ -545,7 +545,7 @@
 		<property name="startMoment" value="2020/01/10 13:00" />
 		<property name="duration" value="60" />
 		<property name="room" value="Room 2" />
-		<property name="summary" value="Summary 2" />
+		<property name="activitySummary" value="Summary 2" />
 		<property name="attachments">
 			<list>
 				<value>Attachment 3</value>
@@ -555,7 +555,7 @@
 	</bean>
 
 	<bean class="domain.Tutorial" id="tutorial3">
-		<property name="title" value="Title 3" />
+		<property name="activityTitle" value="Title 3" />
 		<property name="speakers">
 			<list>
 			</list>
@@ -564,7 +564,7 @@
 		<property name="startMoment" value="2020/02/11 17:30" />
 		<property name="duration" value="120" />
 		<property name="room" value="Room 3" />
-		<property name="summary" value="Summary 3" />
+		<property name="activitySummary" value="Summary 3" />
 		<property name="attachments">
 			<list>
 			</list>
@@ -575,7 +575,7 @@
 	<!-- Panels -->
 
 	<bean class="domain.Panel" id="panel1">
-		<property name="title" value="Title 4" />
+		<property name="activityTitle" value="Title 4" />
 		<property name="speakers">
 			<list>
 				<value>Speaker 4</value>
@@ -586,7 +586,7 @@
 		<property name="startMoment" value="2019/12/16 09:00" />
 		<property name="duration" value="30" />
 		<property name="room" value="Room 4" />
-		<property name="summary" value="Summary 4" />
+		<property name="activitySummary" value="Summary 4" />
 		<property name="attachments">
 			<list>
 				<value>Attachment 4</value>
@@ -597,7 +597,7 @@
 	</bean>
 
 	<bean class="domain.Panel" id="panel2">
-		<property name="title" value="Title 5" />
+		<property name="activityTitle" value="Title 5" />
 		<property name="speakers">
 			<list>
 				<value>Speaker 6</value>
@@ -607,7 +607,7 @@
 		<property name="startMoment" value="2020/05/16 08:00" />
 		<property name="duration" value="60" />
 		<property name="room" value="Room 5" />
-		<property name="summary" value="Summary 5" />
+		<property name="activitySummary" value="Summary 5" />
 		<property name="attachments">
 			<list>
 				<value>Attachment 6</value>
@@ -617,7 +617,7 @@
 	</bean>
 
 	<bean class="domain.Panel" id="panel3">
-		<property name="title" value="Title 6" />
+		<property name="activityTitle" value="Title 6" />
 		<property name="speakers">
 			<list>
 			</list>
@@ -626,7 +626,7 @@
 		<property name="startMoment" value="2020/06/16 12:00" />
 		<property name="duration" value="120" />
 		<property name="room" value="Room 6" />
-		<property name="summary" value="Summary 6" />
+		<property name="activitySummary" value="Summary 6" />
 		<property name="attachments">
 			<list>
 			</list>
@@ -637,7 +637,7 @@
 	<!-- Presentation -->
 
 	<bean class="domain.Presentation" id="presentation1">
-		<property name="title" value="Title 7" />
+		<property name="activityTitle" value="Title 7" />
 		<property name="speakers">
 			<list>
 				<value>Speaker 7</value>
@@ -648,30 +648,7 @@
 		<property name="startMoment" value="2019/11/21 21:00" />
 		<property name="duration" value="30" />
 		<property name="room" value="Room 7" />
-		<property name="summary" value="Summary 7" />
-		<property name="attachments">
-			<list>
-				<value>Attachment 7</value>
-				<value>Attachment 8</value>
-			</list>
-		</property>
-		<property name="cameraReadyVersion" value="Version 1" />
-		<property name="conference" ref="conference1" />
-	</bean>
-
-	<bean class="domain.Presentation" id="presentation1">
-		<property name="title" value="Title 7" />
-		<property name="speakers">
-			<list>
-				<value>Speaker 7</value>
-				<value>Speaker 8</value>
-			</list>
-		</property>
-		<property name="schedule" value="2019/11/21 20:30" />
-		<property name="startMoment" value="2019/11/21 21:00" />
-		<property name="duration" value="30" />
-		<property name="room" value="Room 7" />
-		<property name="summary" value="Summary 7" />
+		<property name="activitySummary" value="Summary 7" />
 		<property name="attachments">
 			<list>
 				<value>Attachment 7</value>
@@ -683,7 +660,7 @@
 	</bean>
 
 	<bean class="domain.Presentation" id="presentation2">
-		<property name="title" value="Title 8" />
+		<property name="activityTitle" value="Title 8" />
 		<property name="speakers">
 			<list>
 				<value>Speaker 9</value>
@@ -693,7 +670,7 @@
 		<property name="startMoment" value="2020/03/21 21:00" />
 		<property name="duration" value="60" />
 		<property name="room" value="Room 8" />
-		<property name="summary" value="Summary 8" />
+		<property name="activitySummary" value="Summary 8" />
 		<property name="attachments">
 			<list>
 				<value>Attachment 9</value>
@@ -704,7 +681,7 @@
 	</bean>
 
 	<bean class="domain.Presentation" id="presentation3">
-		<property name="title" value="Title 9" />
+		<property name="activityTitle" value="Title 9" />
 		<property name="speakers">
 			<list>
 			</list>
@@ -713,7 +690,7 @@
 		<property name="startMoment" value="2020/05/21 22:00" />
 		<property name="duration" value="120" />
 		<property name="room" value="Room 9" />
-		<property name="summary" value="Summary 9" />
+		<property name="activitySummary" value="Summary 9" />
 		<property name="attachments">
 			<list>
 			</list>
