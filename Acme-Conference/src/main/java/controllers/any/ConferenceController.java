@@ -12,9 +12,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ConferenceCommentService;
 import services.ConferenceService;
+import services.PanelService;
+import services.PresentationService;
+import services.TutorialService;
 import controllers.AbstractController;
 import domain.Conference;
 import domain.ConferenceComment;
+import domain.Panel;
+import domain.Presentation;
+import domain.Tutorial;
 
 @Controller
 @RequestMapping("/conference")
@@ -27,6 +33,15 @@ public class ConferenceController extends AbstractController {
 
 	@Autowired
 	private ConferenceCommentService conferenceCommentService;
+
+	@Autowired
+	private TutorialService tutorialService;
+
+	@Autowired
+	private PanelService panelService;
+
+	@Autowired
+	private PresentationService presentationService;
 
 	// List
 
@@ -123,6 +138,9 @@ public class ConferenceController extends AbstractController {
 		ModelAndView result;
 		Conference conference;
 		final Collection<ConferenceComment> conferenceComments;
+		final Collection<Tutorial> tutorials;
+		final Collection<Panel> panels;
+		final Collection<Presentation> presentations;
 
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
@@ -131,10 +149,18 @@ public class ConferenceController extends AbstractController {
 		conferenceComments = this.conferenceCommentService
 				.findAllByConference(conferenceId);
 
+		tutorials = this.tutorialService.findByConferenceId(conferenceId);
+		panels = this.panelService.findByConferenceId(conferenceId);
+		presentations = this.presentationService
+				.findByConferenceId(conferenceId);
+
 		// Crea y añade objetos a la vista
 		result = new ModelAndView("conference/display");
 		result.addObject("requestURI", "conference/display.do");
 		result.addObject("conferenceComments", conferenceComments);
+		result.addObject("tutorials", tutorials);
+		result.addObject("panels", panels);
+		result.addObject("presentations", presentations);
 		result.addObject("conference", conference);
 
 		// Envía la vista

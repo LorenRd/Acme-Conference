@@ -8,53 +8,162 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-		<b><spring:message code="conference.title" /></b>:
-		<jstl:out value="${conference.title}"/><br/>
-	
-		<b><spring:message code="conference.acronym" /></b>:
-		<jstl:out value="${conference.acronym }"/><br/>	
-	
-		<b><spring:message code="conference.venue" /></b>:
-		<jstl:out value="${conference.venue }"/><br/>
-	
-		<b><spring:message code="conference.submissionDeadline" /></b>:
-		<jstl:out value="${conference.submissionDeadline }"/><br/>
+<b><spring:message code="conference.title" /></b>
+:
+<jstl:out value="${conference.title}" />
+<br />
+
+<b><spring:message code="conference.acronym" /></b>
+:
+<jstl:out value="${conference.acronym }" />
+<br />
+
+<b><spring:message code="conference.venue" /></b>
+:
+<jstl:out value="${conference.venue }" />
+<br />
+
+<b><spring:message code="conference.submissionDeadline" /></b>
+:
+<jstl:out value="${conference.submissionDeadline }" />
+<br />
+
+<b><spring:message code="conference.notificationDeadline" /></b>
+:
+<jstl:out value="${conference.notificationDeadline }" />
+<br />
+
+<b><spring:message code="conference.cameraReadyDeadline" /></b>
+:
+<jstl:out value="${conference.cameraReadyDeadline }" />
+<br />
+
+<b><spring:message code="conference.startDate" /></b>
+:
+<jstl:out value="${conference.startDate }" />
+<br />
+
+<b><spring:message code="conference.endDate" /></b>
+:
+<jstl:out value="${conference.endDate }" />
+<br />
+
+<b><spring:message code="conference.summary" /></b>
+:
+<jstl:out value="${conference.summary }" />
+<br />
+
+<b><spring:message code="conference.fee" /></b>
+:
+<jstl:out value="${conference.fee }" />
+<br />
+
+<jstl:if
+	test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
+	<b><spring:message code="conference.isFinal" /></b>:
+		<jstl:out value="${conference.isFinal }" />
+	<br />
+</jstl:if>
+
+<!-- Administrator -->
+<b><spring:message code="conference.administrator" /></b>
+:
+<a
+	href="administrator/display.do?administratorId=${conference.administrator.id}">
+	<jstl:out value="${conference.administrator.userAccount.username}" />
+</a>
+<br />
+
+<h3>
+	<spring:message code="conference.activities" />
+</h3>
+
+<h3>
+	<spring:message code="conference.tutorials" />
+</h3>
+
+<!-- Tutorials -->
+
+<display:table name="tutorials" id="row" requestURI="${requestURI }"
+	pagesize="5" class="displaytag">
+
+	<!-- Display -->
+	<display:column>
+		<a href="tutorial/display.do?tutorialId=${row.id}"><spring:message
+				code="tutorial.display" /></a>
+	</display:column>
+
+	<!-- Attributes -->
+
+	<spring:message code="tutorial.startMoment" var="startMomentHeader" />
+	<display:column property="startMoment" title="${startMomentHeader}"
+		sortable="true" />
 		
-		<b><spring:message code="conference.notificationDeadline" /></b>:
-		<jstl:out value="${conference.notificationDeadline }"/><br/>
+	<spring:message code="tutorial.room" var="roomHeader" />
+	<display:column property="room" title="${roomHeader}" sortable="true" />
+
+</display:table>
+
+<h3>
+	<spring:message code="conference.panels" />
+</h3>
+
+<!-- Panels -->
+
+<display:table name="panels" id="row" requestURI="${requestURI }"
+	pagesize="5" class="displaytag">
+
+	<!-- Display -->
+	<display:column>
+		<a href="panel/display.do?panelId=${row.id}"><spring:message
+				code="panel.display" /></a>
+	</display:column>
+
+	<!-- Attributes -->
+
+	<spring:message code="panel.startMoment" var="startMomentHeader" />
+	<display:column property="startMoment" title="${startMomentHeader}"
+		sortable="true" />
 		
-		<b><spring:message code="conference.cameraReadyDeadline" /></b>:
-		<jstl:out value="${conference.cameraReadyDeadline }"/><br/>
-		
-		<b><spring:message code="conference.startDate" /></b>:
-		<jstl:out value="${conference.startDate }"/><br/>
-		
-		<b><spring:message code="conference.endDate" /></b>:
-		<jstl:out value="${conference.endDate }"/><br/>
-		
-		<b><spring:message code="conference.summary" /></b>:
-		<jstl:out value="${conference.summary }"/><br/>
-		
-		<b><spring:message code="conference.fee" /></b>:
-		<jstl:out value="${conference.fee }"/><br/>
-		
-		<jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
-		<b><spring:message code="conference.isFinal" /></b>:
-		<jstl:out value="${conference.isFinal }"/><br/>
-		</jstl:if>
-		
-		<!-- Administrator -->
-		<b><spring:message code="conference.administrator" /></b>:
-		<a href="administrator/display.do?administratorId=${conference.administrator.id}">
-			<jstl:out value="${conference.administrator.userAccount.username}"/>
-		</a><br/>
-		
-		<!-- Comments -->
-		
-		<h3><spring:message code="conference.comments" /></h3>
-		
+	<spring:message code="panel.room" var="roomHeader" />
+	<display:column property="room" title="${roomHeader}" sortable="true" />	
+
+</display:table>
+
+<h3>
+	<spring:message code="conference.presentations" />
+</h3>
+
+<!-- Presentations -->
+
+<display:table name="presentations" id="row" requestURI="${requestURI }"
+	pagesize="5" class="displaytag">
+
+	<!-- Display -->
+	<display:column>
+		<a href="presentation/display.do?presentationId=${row.id}"><spring:message
+				code="presentation.display" /></a>
+	</display:column>
+
+	<!-- Attributes -->
+
+	<spring:message code="presentation.startMoment" var="startMomentHeader" />
+	<display:column property="startMoment" title="${startMomentHeader}"
+		sortable="true" />
+
+	<spring:message code="presentation.room" var="roomHeader" />
+	<display:column property="room" title="${roomHeader}" sortable="true" />
+
+</display:table>
+
+<!-- Comments -->
+
+<h3>
+	<spring:message code="conference.comments" />
+</h3>
+
 <display:table name="conferenceComments" id="row"
 	requestURI="${requestURI }" pagesize="5" class="displaytag">
 

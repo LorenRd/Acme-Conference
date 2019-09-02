@@ -59,6 +59,15 @@
 		
 		<security:intercept-url pattern="/conferenceComment/list.do" access="permitAll" />
 		
+		<security:intercept-url pattern="/tutorial/list.do" access="permitAll" />
+		<security:intercept-url pattern="/tutorial/display.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/panel/list.do" access="permitAll" />
+		<security:intercept-url pattern="/panel/display.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/presentation/list.do" access="permitAll" />
+		<security:intercept-url pattern="/presentation/display.do" access="permitAll" />
+		
 		<security:intercept-url pattern="/author/register.do" access="permitAll" /> 
 		<security:intercept-url pattern="/author/edit.do" access="hasRole('AUTHOR')" />
 		<security:intercept-url pattern="/author/display.do" access="hasRole('AUTHOR')" /> 
