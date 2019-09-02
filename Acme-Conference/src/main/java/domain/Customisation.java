@@ -23,7 +23,7 @@ public class Customisation extends DomainEntity {
 	private String				welcomeMessageEn;
 	private String				welcomeMessageEs;
 	private String				countryCode;
-	private Collection<String>	creditCardsMakes;
+	private Collection<String>	creditCardMakes;
 	private Collection<String>	topics;
 
 
@@ -75,12 +75,12 @@ public class Customisation extends DomainEntity {
 
 	@ElementCollection
 	@EachNotBlank
-	public Collection<String> getCreditCardsMakes() {
-		return this.creditCardsMakes;
+	public Collection<String> getCreditCardMakes() {
+		return this.creditCardMakes;
 	}
 
-	public void setCreditCardsMakes(final Collection<String> creditCardsMakes) {
-		this.creditCardsMakes = creditCardsMakes;
+	public void setCreditCardMakes(final Collection<String> creditCardMakes) {
+		this.creditCardMakes = creditCardMakes;
 	}
 
 	@ElementCollection

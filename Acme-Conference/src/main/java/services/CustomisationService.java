@@ -1,5 +1,6 @@
-
 package services;
+
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,11 @@ public class CustomisationService {
 
 	// Managed Repository
 	@Autowired
-	private CustomisationRepository	customisationRepository;
+	private CustomisationRepository customisationRepository;
 
 	// Supporting services
 	@Autowired
-	private AdministratorService	administratorService;
-
+	private AdministratorService administratorService;
 
 	public Customisation find() {
 		Customisation result;
@@ -46,4 +46,9 @@ public class CustomisationService {
 		return result;
 
 	}
+
+	public Collection<String> getCreditCardMakes() {
+		return this.find().getCreditCardMakes();
+	}
+
 }

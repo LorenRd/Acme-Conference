@@ -55,4 +55,7 @@ public interface ConferenceRepository extends
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.startDate > ?2")
 	Collection<Conference> conferences5daysOrLessByAdministratorId(int administratorId, String dateMax);
 		
+	@Query("select c from Conference c where c.startDate > NOW()")
+	Collection<Conference> findAvailableConferencesForRegistration();
+	
 }

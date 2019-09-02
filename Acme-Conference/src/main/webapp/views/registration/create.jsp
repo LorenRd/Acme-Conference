@@ -18,28 +18,36 @@
 
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="submission/author/create.do" modelAttribute="submissionForm">
+<form:form action="registration/author/create.do" modelAttribute="registrationForm">
 		<form:hidden path="id"/>
 		
-		<spring:message code="submission.conference" />
+		<spring:message code="registration.conference" />
 		
 		<form:select id="conference" path="conference">
 		<form:options items="${conferences}" itemLabel="title" />
 		</form:select>
 		<br />
 		
-		<h3><spring:message code="submission.paper" /></h3>
+		<h3><spring:message code="registration.creditCard" /></h3>
 		
-		<acme:textbox code="submission.paper.title" path="title"/>
+		<acme:textbox code="registration.creditCard.holderName" path="holderName"/>
 		
-		<acme:textbox code="submission.paper.author" path="author"/>
+		<spring:message code="registration.creditCard.brandName" />
 		
-		<acme:textbox code="submission.paper.summary" path="summary"/>
+		<form:select id="brandName" path="brandName">
+		<form:options items="${creditCardMakes}"/>
+		</form:select>
 		
-		<acme:textbox code="submission.paper.document" path="document"/>
+		<acme:textbox code="registration.creditCard.number" path="number"/>
 		
-		<acme:submit name="save" code="submission.save"/>
+		<acme:textbox code="registration.creditCard.expirationMonth" path="expirationMonth"/>
+		
+		<acme:textbox code="registration.creditCard.expirationYear" path="expirationYear"/>
+		
+		<acme:textbox code="registration.creditCard.CVV" path="CVV"/>
+		
+		<acme:submit name="save" code="registration.save"/>
 
-		<acme:cancel url="welcome/index.do" code="submission.cancel"/>
+		<acme:cancel url="welcome/index.do" code="registration.cancel"/>
 		
 </form:form>

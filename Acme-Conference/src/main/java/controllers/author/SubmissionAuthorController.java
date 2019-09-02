@@ -1,13 +1,17 @@
+
 package controllers.author;
 
+import java.util.Arrays;
 import java.util.Collection;
 
+import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AuthorService;
 import services.ConferenceService;
 import services.SubmissionService;
-
 import controllers.AbstractController;
 import domain.Author;
 import domain.Submission;
@@ -28,13 +31,14 @@ import forms.SubmissionForm;
 public class SubmissionAuthorController extends AbstractController {
 
 	@Autowired
-	private SubmissionService submissionService;
+	private SubmissionService	submissionService;
 
 	@Autowired
-	private AuthorService authorService;
+	private AuthorService		authorService;
 
 	@Autowired
-	private ConferenceService conferenceService;
+	private ConferenceService	conferenceService;
+
 
 	// Listing
 
@@ -87,25 +91,21 @@ public class SubmissionAuthorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView create(
-			@ModelAttribute("submissionForm") SubmissionForm submissionForm,
-			final BindingResult binding) {
+	public ModelAndView create(@Valid final SubmissionForm submissionForm, final BindingResult binding) {
 		ModelAndView result;
 		Submission submission = null;
 
 		try {
-			submission = this.submissionService.reconstruct(submissionForm,
-					binding);
+			submission = this.submissionService.reconstruct(submissionForm, binding);
 			this.submissionService.save(submission);
 			result = new ModelAndView("redirect:/welcome/index.do");
-		} catch (ValidationException oops) {
-			submissionForm = this.submissionService.construct(submission);
+		} catch (final ValidationException oops) {
+			// submissionForm = this.submissionService.construct(submission);
 			result = this.createEditModelAndView(submissionForm);
 			oops.printStackTrace();
 		} catch (final Throwable oops) {
-			submissionForm = this.submissionService.construct(submission);
-			result = this.createEditModelAndView(submissionForm,
-					"submission.commit.error");
+			// submissionForm = this.submissionService.construct(submission);
+			result = this.createEditModelAndView(submissionForm, "submission.commit.error");
 			oops.printStackTrace();
 		}
 		return result;
@@ -128,25 +128,26 @@ public class SubmissionAuthorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView edit(
-			@ModelAttribute("submissionForm") SubmissionForm submissionForm,
-			final BindingResult binding) {
+	public ModelAndView edit(@Valid @ModelAttribute("submissionForm") final SubmissionForm submissionForm, final BindingResult binding) {
 		ModelAndView result;
 		Submission submission;
 
-		try {
-			submission = this.submissionService.reconstruct(submissionForm,
-					binding);
-			this.submissionService.save(submission);
-			result = new ModelAndView("redirect:/welcome/index.do");
-		} catch (ValidationException oops) {
+		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(submissionForm);
-			oops.printStackTrace();
-		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(submissionForm,
-					"submission.commit.error");
-			oops.printStackTrace();
-		}
+			for (final ObjectError e : binding.getAllErrors())
+				System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+		} else
+			try {
+				submission = this.submissionService.reconstruct(submissionForm, binding);
+				this.submissionService.save(submission);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final ValidationException oops) {
+				result = this.createEditModelAndView(submissionForm);
+				oops.printStackTrace();
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(submissionForm, "submission.commit.error");
+				oops.printStackTrace();
+			}
 		return result;
 	}
 
@@ -163,23 +164,20 @@ public class SubmissionAuthorController extends AbstractController {
 			this.submissionService.delete(submission);
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
-			result = this.deleteModelAndView(submission,
-					"submission.commit.error");
+			result = this.deleteModelAndView(submission, "submission.commit.error");
 		}
 		return result;
 	}
 
 	// -------------------
 
-	protected ModelAndView createEditModelAndView(
-			final SubmissionForm submissionForm) {
+	protected ModelAndView createEditModelAndView(final SubmissionForm submissionForm) {
 		ModelAndView result;
 		result = this.createEditModelAndView(submissionForm, null);
 		return result;
 	}
 
-	private ModelAndView createEditModelAndView(
-			final SubmissionForm submissionForm, final String messageCode) {
+	private ModelAndView createEditModelAndView(final SubmissionForm submissionForm, final String messageCode) {
 		ModelAndView result;
 
 		if (submissionForm.getId() != 0)
@@ -188,8 +186,7 @@ public class SubmissionAuthorController extends AbstractController {
 			result = new ModelAndView("submission/create");
 
 		result.addObject("submissionForm", submissionForm);
-		result.addObject("conferences",
-				this.conferenceService.findAvailableConferences());
+		result.addObject("conferences", this.conferenceService.findAvailableConferences());
 		result.addObject("message", messageCode);
 		return result;
 	}
@@ -202,8 +199,7 @@ public class SubmissionAuthorController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView deleteModelAndView(final Submission submission,
-			final String messageCode) {
+	protected ModelAndView deleteModelAndView(final Submission submission, final String messageCode) {
 		ModelAndView result;
 
 		result = new ModelAndView("submission/edit");

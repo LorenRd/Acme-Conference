@@ -428,13 +428,18 @@
 
 	<bean id="customisation" class="domain.Customisation">
 		<property name="systemName" value="Acme Conference" />
-		<property name="welcomeBanner" value="https://i.imgur.com/5EfQQQX.png" />
-		<property name="welcomeMessageEn" value="Welcome to Acme Conferences!" />
-		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Conferences!" />
+		<property name="welcomeBanner" value="https://i.ibb.co/GVpZCtM/acme-conference.png" />
+		<property name="welcomeMessageEn"
+			value="Welcome to Acme Conference! Your scientific event manager" />
+		<property name="welcomeMessageEs"
+			value="“¡Bienvenidos a Acme Conference! Su gestor de eventos científicos" />
 		<property name="countryCode" value="+34" />
-		<property name="creditCardsMakes">
+		<property name="creditCardMakes">
 			<list>
-
+				<value>VISA</value>
+				<value>MASTER</value>
+				<value>DINNERS</value>
+				<value>AMEX</value>
 			</list>
 		</property>
 		<property name="topics">
@@ -444,6 +449,11 @@
 				<value>REGISTRATION</value>
 				<value>TOPICS</value>
 				<value>OTHER</value>
+				<value>CONSULTA</value>
+				<value>REFUTACIÓN</value>
+				<value>INSCRIPCIÓN</value>
+				<value>TEMAS</value>
+				<value>OTRO</value>
 			</list>
 		</property>
 

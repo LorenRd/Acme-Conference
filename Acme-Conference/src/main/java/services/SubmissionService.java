@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import org.springframework.validation.Validator;
 
 import repositories.PaperRepository;
 import repositories.SubmissionRepository;
-
 import domain.Author;
 import domain.Paper;
 import domain.Submission;
@@ -28,21 +28,22 @@ public class SubmissionService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private SubmissionRepository submissionRepository;
+	private SubmissionRepository	submissionRepository;
 
 	@Autowired
-	private PaperRepository paperRepository;
+	private PaperRepository			paperRepository;
 
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	private AuthorService authorService;
+	private AuthorService			authorService;
 
 	@Autowired
-	private PaperService paperService;
+	private PaperService			paperService;
 
 	@Autowired
-	private Validator validator;
+	private Validator				validator;
+
 
 	// Simple CRUD Methods
 
@@ -55,13 +56,20 @@ public class SubmissionService {
 	}
 
 	public Submission create() {
+		//		Submission result;
+		//
+		//		result = new Submission();
+		//		result.setPaper(null);
+		//
+		//		return result;
+
 		Submission result;
 		final Author principal;
 
 		principal = this.authorService.findByPrincipal();
 		Assert.notNull(principal);
 
-		Paper paper = new Paper();
+		final Paper paper = new Paper();
 		paper.setTitle("");
 		paper.setAuthor("");
 		paper.setDocument("");
@@ -75,6 +83,7 @@ public class SubmissionService {
 		result.setPaper(paper);
 
 		return result;
+
 	}
 
 	public Submission save(final Submission submission) {
@@ -106,9 +115,8 @@ public class SubmissionService {
 
 		paper = submission.getPaper();
 
-		if (paper != null) {
+		if (paper != null)
 			this.paperService.delete(paper);
-		}
 
 		this.submissionRepository.delete(submission);
 	}
@@ -133,10 +141,9 @@ public class SubmissionService {
 		name = author.getName().toUpperCase();
 		name = Character.toString(name.charAt(0));
 
-		if (author.getMiddleName().equals(null)
-				|| author.getMiddleName().equals("")) {
+		if (author.getMiddleName().equals(null) || author.getMiddleName().equals(""))
 			middleName = "X";
-		} else {
+		else {
 			middleName = author.getMiddleName().toUpperCase();
 			middleName = Character.toString(middleName.charAt(0));
 		}
@@ -156,15 +163,14 @@ public class SubmissionService {
 	}
 
 	public String getAlphaNumeric() {
-		char[] ch = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
-				'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-				'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+		final char[] ch = {
+			'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+		};
 
-		char[] c = new char[4];
-		Random random = new Random();
-		for (int i = 0; i < 4; i++) {
+		final char[] c = new char[4];
+		final Random random = new Random();
+		for (int i = 0; i < 4; i++)
 			c[i] = ch[random.nextInt(ch.length)];
-		}
 
 		return new String(c);
 	}
@@ -173,8 +179,7 @@ public class SubmissionService {
 		Boolean isRepeated = false;
 		int repeats;
 
-		repeats = this.submissionRepository.findRepeatedTickers(author.getId(),
-				ticker);
+		repeats = this.submissionRepository.findRepeatedTickers(author.getId(), ticker);
 
 		if (repeats > 0)
 			isRepeated = true;
@@ -182,34 +187,34 @@ public class SubmissionService {
 		return isRepeated;
 	}
 
-	public Submission reconstruct(final SubmissionForm submissionForm,
-			final BindingResult binding) {
+	public Submission reconstruct(final SubmissionForm submissionForm, final BindingResult binding) {
 		Submission result;
 		if (submissionForm.getId() == 0) {
 			result = this.create();
-			result.setTicker(this.generateTicker(this.authorService
-					.findByPrincipal()));
+			final Paper paper = new Paper();
+			result.setTicker(this.generateTicker(this.authorService.findByPrincipal()));
 			result.setMoment(new Date(System.currentTimeMillis() - 1));
 			result.setStatus("UNDER-REVIEW");
 			result.setAuthor(this.authorService.findByPrincipal());
 			result.setConference(submissionForm.getConference());
-			result.getPaper().setTitle(submissionForm.getTitle());
-			result.getPaper().setAuthor(submissionForm.getAuthorPaper());
-			result.getPaper().setSummary(submissionForm.getSummary());
-			result.getPaper().setDocument(submissionForm.getDocument());
+			paper.setTitle(submissionForm.getTitle());
+			paper.setAuthor(submissionForm.getAuthor());
+			paper.setSummary(submissionForm.getSummary());
+			paper.setDocument(submissionForm.getDocument());
+			this.paperService.save(paper);
+			result.setPaper(paper);
 
 		} else {
 			result = this.submissionRepository.findOne(submissionForm.getId());
 			result.getPaper().setTitle(submissionForm.getTitle());
-			result.getPaper().setAuthor(submissionForm.getAuthorPaper());
+			result.getPaper().setAuthor(submissionForm.getAuthor());
 			result.getPaper().setSummary(submissionForm.getSummary());
 			result.getPaper().setDocument(submissionForm.getDocument());
 		}
 
 		this.validator.validate(result, binding);
-		if (binding.hasErrors()) {
+		if (binding.hasErrors())
 			throw new ValidationException();
-		}
 
 		return result;
 	}
@@ -219,25 +224,21 @@ public class SubmissionService {
 		submissionForm.setId(submission.getId());
 		submissionForm.setConference(submission.getConference());
 		submissionForm.setTitle(submission.getPaper().getTitle());
-		submissionForm.setAuthorPaper(submission.getPaper().getAuthor());
+		submissionForm.setAuthor(submission.getPaper().getAuthor());
 		submissionForm.setSummary(submission.getPaper().getSummary());
 		submissionForm.setDocument(submission.getPaper().getDocument());
 		return submissionForm;
 	}
 
 	public Collection<Submission> findAvailableSubmissions(final int authorId) {
-		Collection<Submission> result = new ArrayList<Submission>();
-		Collection<Submission> accepted = this.submissionRepository
-				.findAcceptedSubmissions();
+		final Collection<Submission> result = new ArrayList<Submission>();
+		final Collection<Submission> accepted = this.submissionRepository.findAcceptedSubmissions();
 
-		Date date = new Date();
+		final Date date = new Date();
 
-		for (Submission s : accepted) {
-			if (s.getConference().getCameraReadyDeadline().after(date)
-					&& s.getAuthor().getId() == authorId) {
+		for (final Submission s : accepted)
+			if (s.getConference().getCameraReadyDeadline().after(date) && s.getAuthor().getId() == authorId)
 				result.add(s);
-			}
-		}
 
 		return result;
 	}

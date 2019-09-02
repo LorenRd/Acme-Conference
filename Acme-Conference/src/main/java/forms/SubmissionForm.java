@@ -23,7 +23,7 @@ public class SubmissionForm {
 	}
 
 	private String title;
-	private String authorPaper;
+	private String author;
 	private String summary;
 	private String document;
 	private int id;
@@ -46,12 +46,12 @@ public class SubmissionForm {
 	}
 
 	@NotBlank
-	public String getAuthorPaper() {
-		return this.authorPaper;
+	public String getAuthor() {
+		return this.author;
 	}
 
-	public void setAuthorPaper(final String authorPaper) {
-		this.authorPaper = authorPaper;
+	public void setAuthor(final String author) {
+		this.author = author;
 	}
 
 	@NotBlank
