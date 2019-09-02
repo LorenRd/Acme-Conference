@@ -97,12 +97,12 @@
 
 	<!-- Attributes -->
 
+	<spring:message code="tutorial.activityTitle" var="activityTitleHeader" />
+	<display:column property="activityTitle" title="${activityTitleHeader}" sortable="true" />
+
 	<spring:message code="tutorial.startMoment" var="startMomentHeader" />
 	<display:column property="startMoment" title="${startMomentHeader}"
 		sortable="true" />
-		
-	<spring:message code="tutorial.room" var="roomHeader" />
-	<display:column property="room" title="${roomHeader}" sortable="true" />
 
 </display:table>
 
@@ -123,12 +123,12 @@
 
 	<!-- Attributes -->
 
+	<spring:message code="panel.activityTitle" var="activityTitleHeader" />
+	<display:column property="activityTitle" title="${activityTitleHeader}" sortable="true" />
+
 	<spring:message code="panel.startMoment" var="startMomentHeader" />
 	<display:column property="startMoment" title="${startMomentHeader}"
-		sortable="true" />
-		
-	<spring:message code="panel.room" var="roomHeader" />
-	<display:column property="room" title="${roomHeader}" sortable="true" />	
+		sortable="true" />	
 
 </display:table>
 
@@ -149,12 +149,12 @@
 
 	<!-- Attributes -->
 
+	<spring:message code="presentation.activityTitle" var="activityTitleHeader" />
+	<display:column property="activityTitle" title="${activityTitleHeader}" sortable="true" />
+
 	<spring:message code="presentation.startMoment" var="startMomentHeader" />
 	<display:column property="startMoment" title="${startMomentHeader}"
 		sortable="true" />
-
-	<spring:message code="presentation.room" var="roomHeader" />
-	<display:column property="room" title="${roomHeader}" sortable="true" />
 
 </display:table>
 

@@ -10,8 +10,8 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-		<b><spring:message code="tutorial.title" /></b>:
-		<jstl:out value="${tutorial.title}"/><br/>
+		<b><spring:message code="tutorial.activityTitle" /></b>:
+		<jstl:out value="${tutorial.activityTitle}"/><br/>
 	
 		<b><spring:message code="tutorial.speakers" /></b>:
 		<br/>
@@ -36,8 +36,8 @@
 		<b><spring:message code="tutorial.room" /></b>:
 		<jstl:out value="${tutorial.room }"/><br/>
 		
-		<b><spring:message code="tutorial.summary" /></b>:
-		<jstl:out value="${tutorial.summary }"/><br/>
+		<b><spring:message code="tutorial.activitySummary" /></b>:
+		<jstl:out value="${tutorial.activitySummary }"/><br/>
 		
 		<b><spring:message code="tutorial.attachments" /></b>:
 		<br/>
@@ -59,11 +59,11 @@
 
 	<!-- Attributes -->
 
-	<spring:message code="section.title" var="titleHeader" />
-	<display:column property="title" title="${titleHeader}" sortable="true" />
+	<spring:message code="section.sectionTitle" var="sectionTitleHeader" />
+	<display:column property="sectionTitle" title="${sectionTitleHeader}" sortable="true" />
 
-	<spring:message code="section.summary" var="summaryHeader" />
-	<display:column property="summary" title="${summaryHeader}"
+	<spring:message code="section.sectionSummary" var="sectionSummaryHeader" />
+	<display:column property="sectionSummary" title="${sectionSummaryHeader}"
 		sortable="true" />
 
 	<spring:message code="section.pictures" var="picturesHeader" />
