@@ -5,19 +5,26 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AdministratorService;
+import services.ReviewerService;
 import services.SubmissionService;
 
 import controllers.AbstractController;
 import domain.Administrator;
 import domain.Submission;
+import forms.SubmissionForm;
 
 
 @Controller
@@ -31,6 +38,9 @@ public class SubmissionAdministratorController extends AbstractController {
 
 	@Autowired
 	private AdministratorService	administratorService;
+	
+	@Autowired
+	private ReviewerService reviewerService;
 
 	// Listing
 
@@ -98,6 +108,48 @@ public class SubmissionAdministratorController extends AbstractController {
 
 		return result;
 	}
+	// Edit
+
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(@RequestParam final int submissionId) {
+		ModelAndView result;
+		Submission submission;
+		SubmissionForm submissionForm;
+
+		submission = this.submissionService.findOne(submissionId);
+		submissionForm = this.submissionService.construct(submission);
+		Assert.notNull(submission);
+		result = this.createEditModelAndView(submissionForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView edit(
+			@ModelAttribute("submissionForm") SubmissionForm submissionForm,
+			final BindingResult binding) {
+		ModelAndView result;
+		Submission submission;
+
+		try {
+			submission = this.submissionService.reconstruct(submissionForm,binding);
+			this.submissionService.saveSubmissionAdmin(submission);
+			result = new ModelAndView("redirect:/welcome/index.do");
+		} catch (ValidationException oops) {
+			result = this.createEditModelAndView(submissionForm);
+			oops.printStackTrace();
+		} catch (final Throwable oops) {
+			result = this.createEditModelAndView(submissionForm,
+					"submission.commit.error");
+			oops.printStackTrace();
+		}
+		return result;
+	}
+
+	
+	
+	
+	
 	
 	//Assing reviewers procedure
 	@RequestMapping(value = "/list", method = RequestMethod.GET, params ="assignReviewers")
@@ -123,5 +175,22 @@ public class SubmissionAdministratorController extends AbstractController {
 		return result;
 	}
 	
-	
+	//--------------------
+	protected ModelAndView createEditModelAndView(final SubmissionForm submissionForm) {
+		ModelAndView result;
+		result = this.createEditModelAndView(submissionForm, null);
+		return result;
+	}
+
+	private ModelAndView createEditModelAndView(final SubmissionForm submissionForm, final String messageCode) {
+		ModelAndView result;
+
+		result = new ModelAndView("submission/edit");
+
+
+		result.addObject("submissionForm", submissionForm);
+		result.addObject("reviewers", this.reviewerService.findAll());
+		result.addObject("message", messageCode);
+		return result;
+	}
 }

@@ -77,7 +77,7 @@
 		
 		<security:intercept-url pattern="/submission/administrator/list.do" access="hasRole('ADMIN')"/>
 		<security:intercept-url pattern="/submission/administrator/display.do" access="hasRole('ADMIN')"/>
-		
+		<security:intercept-url pattern="/submission/administrator/edit.do" access="hasRole('ADMIN')"/>
 		
 		<security:intercept-url pattern="/message/administrator/createBySubmission.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/message/administrator/createbyRegistered.do" access="hasRole('ADMIN')" />

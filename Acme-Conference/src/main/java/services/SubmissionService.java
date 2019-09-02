@@ -243,10 +243,14 @@ public class SubmissionService {
 
 		} else {
 			result = this.submissionRepository.findOne(submissionForm.getId());
-			result.getPaper().setTitle(submissionForm.getTitle());
-			result.getPaper().setAuthor(submissionForm.getAuthorPaper());
-			result.getPaper().setSummary(submissionForm.getSummary());
-			result.getPaper().setDocument(submissionForm.getDocument());
+			if(submissionForm.getReviewers()!=null){
+				result.setReviewers(submissionForm.getReviewers());
+			}else{
+				result.getPaper().setTitle(submissionForm.getTitle());
+				result.getPaper().setAuthor(submissionForm.getAuthorPaper());
+				result.getPaper().setSummary(submissionForm.getSummary());
+				result.getPaper().setDocument(submissionForm.getDocument());
+			}
 		}
 
 		this.validator.validate(result, binding);

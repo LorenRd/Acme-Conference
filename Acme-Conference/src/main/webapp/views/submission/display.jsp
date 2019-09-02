@@ -53,6 +53,6 @@
 </security:authorize>
 <security:authorize access="hasRole('ADMIN')">
 <jstl:if test="${submission.status == 'UNDER-REVIEW'}">
-		<a href="submission/author/edit.do?submissionId=${submission.id}"><spring:message code="administrator.assignReviewers"/></a><br/>
+		<a href="submission/administrator/edit.do?submissionId=${submission.id}"><spring:message code="administrator.assignReviewers"/></a><br/>
 </jstl:if>
 </security:authorize>
