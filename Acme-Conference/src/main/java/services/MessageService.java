@@ -12,7 +12,10 @@ import org.springframework.util.Assert;
 
 import repositories.MessageRepository;
 import domain.Actor;
+import domain.Conference;
 import domain.Message;
+import domain.Registration;
+import domain.Submission;
 
 @Service
 @Transactional
@@ -27,6 +30,15 @@ public class MessageService {
 
 	@Autowired
 	private ActorService		actorService;
+
+	@Autowired
+	private SubmissionService	submissionService;
+
+	@Autowired
+	private RegistrationService	registrationService;
+
+	@Autowired
+	private AuthorService		authorService;
 
 
 	// Simple CRUD methods
@@ -138,4 +150,88 @@ public class MessageService {
 		this.messageRepository.delete(message);
 	}
 
+	public Message broadcastSubmission(final Message message, final Conference conference) {
+		Message result;
+		Message saved;
+		Actor principal;
+		final Collection<Actor> recipients = new ArrayList<Actor>();
+		final Collection<Submission> submissions;
+
+		Assert.notNull(message);
+
+		principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
+		message.setSender(principal);
+
+		submissions = this.submissionService.findAllByConferenceId(conference.getId());
+		for (final Submission s : submissions)
+			recipients.add(s.getAuthor());
+
+		Assert.notNull(recipients);
+		message.setRecipients(recipients);
+
+		saved = this.messageRepository.save(message);
+		Assert.notNull(saved);
+
+		result = this.messageRepository.save(saved);
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Message broadcastRegistered(final Message message, final Conference conference) {
+		Message result;
+		Message saved;
+		Actor principal;
+		final Collection<Actor> recipients = new ArrayList<Actor>();
+		final Collection<Registration> registrations;
+
+		Assert.notNull(message);
+
+		principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
+		message.setSender(principal);
+
+		registrations = this.registrationService.findAllByConferenceId(conference.getId());
+		for (final Registration r : registrations)
+			recipients.add(r.getAuthor());
+
+		Assert.notNull(recipients);
+		message.setRecipients(recipients);
+
+		saved = this.messageRepository.save(message);
+		Assert.notNull(saved);
+
+		result = this.messageRepository.save(saved);
+		Assert.notNull(result);
+
+		return result;
+	}
+
+	public Message broadcastAuthors(final Message message) {
+		Message result;
+		Message saved;
+		Actor principal;
+		Collection<Actor> recipients;
+
+		Assert.notNull(message);
+
+		principal = this.actorService.findByPrincipal();
+		Assert.notNull(principal);
+		message.setSender(principal);
+
+		recipients = this.actorService.findAll();
+		recipients.retainAll(this.authorService.findAll());
+
+		Assert.notNull(recipients);
+		message.setRecipients(recipients);
+
+		saved = this.messageRepository.save(message);
+		Assert.notNull(saved);
+
+		result = this.messageRepository.save(saved);
+		Assert.notNull(result);
+
+		return result;
+	}
 }

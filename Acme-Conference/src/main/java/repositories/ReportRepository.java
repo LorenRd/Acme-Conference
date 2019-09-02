@@ -1,3 +1,4 @@
+
 package repositories;
 
 import java.util.Collection;
@@ -9,8 +10,7 @@ import org.springframework.stereotype.Repository;
 import domain.Report;
 
 @Repository
-public interface ReportRepository extends
-		JpaRepository<Report, Integer> {
+public interface ReportRepository extends JpaRepository<Report, Integer> {
 
 	@Query("select r from Report r where r.submission.id = ?1")
 	Collection<Report> findReportsBySubmissionId(int submissionId);
