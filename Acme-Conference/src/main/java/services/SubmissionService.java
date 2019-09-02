@@ -136,7 +136,12 @@ public class SubmissionService {
 
 		return result;
 	}
-
+	public void saveSubmissionAdmin(final Submission submission){
+		Submission result;
+		result = this.submissionRepository.save(submission);
+		Assert.notNull(result);
+	}
+	
 	public void delete(final Submission submission) {
 		final Paper paper;
 
@@ -295,7 +300,6 @@ public class SubmissionService {
 		return result;
 	}
 
-	@SuppressWarnings("null")
 	public void reviewerAssignation (){
 		Collection <Submission> submissions;
 		Collection <Reviewer> reviewers;
@@ -306,9 +310,9 @@ public class SubmissionService {
 		Iterator<Reviewer> revIterator = reviewers.iterator();
 		
 		for (Submission s: submissions) {
-			Collection <Reviewer> submissionReviewers = null;
+			Collection <Reviewer> submissionReviewers = new ArrayList<Reviewer>();
 
-			if(s.getReviewers().isEmpty()){
+			if(s.getReviewers().size()<3){
 				for (Reviewer r : reviewers) {
 					revIterator.next();
 					for (String e: r.getExpertises()) {
@@ -319,10 +323,10 @@ public class SubmissionService {
 				if(!revIterator.hasNext() && submissionReviewers.isEmpty()){
 					submissionReviewers.add(r);
 				}
-				}
+				s.setReviewers(submissionReviewers);
 			}
-			s.setReviewers(submissionReviewers);
-			this.save(s);
+			}
+			this.saveSubmissionAdmin(s);
 		}
 						
 	}

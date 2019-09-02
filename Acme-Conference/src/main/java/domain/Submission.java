@@ -74,7 +74,6 @@ public class Submission extends DomainEntity {
 	private Conference conference;
 	private Author author;
 	public Paper paper;
-	public CameraReadyPaper cameraReadypaper;
 	private Collection<Reviewer> reviewers;
 
 	@NotNull
@@ -108,16 +107,6 @@ public class Submission extends DomainEntity {
 
 	public void setPaper(final Paper paper) {
 		this.paper = paper;
-	}
-
-	@Valid
-	@OneToOne(optional = true)
-	public CameraReadyPaper getCameraReadyPaper() {
-		return this.cameraReadypaper;
-	}
-
-	public void setCameraReadyPaper(final CameraReadyPaper cameraReadypaper) {
-		this.cameraReadypaper = cameraReadypaper;
 	}
 
 	@Valid

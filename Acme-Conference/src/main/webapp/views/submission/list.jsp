@@ -8,6 +8,26 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<!-- Grouped list -->
+<security:authorize access="hasRole('ADMIN')">
+
+	<form action="submission/administrator/list.do" method="get">
+
+		<input type="radio" name="submissionStatus" value="0" checked>
+		<spring:message code="submission.status.all" />
+		<input type="radio" name="submissionStatus" value="1">
+		<spring:message code="submission.status.accepted" />
+		<input type="radio" name="submissionStatus" value="2">
+		<spring:message code="submission.status.review" />
+		<input type="radio" name="submissionStatus" value="3">
+		<spring:message code="submission.status.rejected" />
+		<br />
+		<spring:message code="submission.status.choose" var="choose" />
+		<input type="submit" value="${choose}">
+	</form>
+
+</security:authorize>
+<br/><br/>
 
 <!-- Listing grid -->
 
@@ -16,7 +36,12 @@
 	
 	<!-- Display -->
 	<display:column>
-		<a href="submission/author/display.do?submissionId=${row.id}"><spring:message code="submission.display"/></a>
+		<security:authorize access="hasRole('AUTHOR')">
+			<a href="submission/author/display.do?submissionId=${row.id}"><spring:message code="submission.display"/></a>
+		</security:authorize>
+		<security:authorize access="hasRole('ADMIN')">
+			<a href="submission/administrator/display.do?submissionId=${row.id}"><spring:message code="submission.display"/></a>
+		</security:authorize>
 	</display:column>
 
 	<!-- Attributes -->
@@ -32,6 +57,16 @@
 	<display:column property="moment" title="${momentHeader}"
 		sortable="true" />
 		
+	<spring:message code="submission.status" var="statusHeader" />
+	<display:column property="status" title="${statusHeader}"
+		sortable="true" />
+		
 </display:table>
 
-<acme:button url="submission/author/create.do" code="submission.create"/>
+
+<security:authorize access="hasRole('AUTHOR')">
+	<acme:button url="submission/author/create.do" code="submission.create"/>
+</security:authorize> 
+<security:authorize access="hasRole('ADMIN')">
+	<input type="button" name="assignReviewers" value="<spring:message code="administrator.assignReviewers" />" onclick="redirect: location.href = 'submission/administrator/list.do?assignReviewers';" />	
+</security:authorize> 
