@@ -50,3 +50,12 @@
 		<a href="administrator/display.do?administratorId=${conference.administrator.id}">
 			<jstl:out value="${conference.administrator.userAccount.username}"/>
 		</a><br/>
+		<security:authorize access="hasRole('ADMIN')">
+		<jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
+		<br/>
+			<jstl:if test="${!conference.isFinal}">			
+				<a href="conference/administrator/edit.do?conferenceId=${conference.id}"><spring:message code="conference.edit"/></a><br/>
+			</jstl:if>
+		</jstl:if>
+		</security:authorize>
+		

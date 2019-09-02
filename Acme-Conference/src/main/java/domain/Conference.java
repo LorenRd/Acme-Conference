@@ -29,7 +29,7 @@ public class Conference extends DomainEntity {
 	private Date	endDate;
 	private String	summary;
 	private double	fee;
-	private Boolean	isFinal;
+	private boolean	isFinal;
 
 
 	@NotBlank

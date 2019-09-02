@@ -86,9 +86,19 @@ public class ConferenceService {
 			original.setIsFinal(false);
 		} else {
 			original = this.conferenceRepository.findOne(conference.getId());
-			original.setAdministrator(this.administratorService.findByPrincipal());
-			original.setIsFinal(false);
+			conference.setAdministrator(this.administratorService.findByPrincipal());
+			conference.setIsFinal(false);
 		}
+		if (conference.getSubmissionDeadline().after(conference.getNotificationDeadline()))
+			binding.rejectValue("submissionDeadline", "conference.validation.submissionDeadline", "Submission deadline date must be before than Notification deadline");
+		if (conference.getNotificationDeadline().after(conference.getCameraReadyDeadline()))
+			binding.rejectValue("notificationDeadline", "conference.validation.notificationDeadline", "Notification deadline date must be before than Camera Ready deadline");
+		if (conference.getCameraReadyDeadline().after(conference.getStartDate()))
+			binding.rejectValue("cameraReadyDeadline", "conference.validation.cameraReadyDeadline", "Camera Ready deadline date must be before than Start Date");
+		if (conference.getStartDate().after(conference.getEndDate()))
+			binding.rejectValue("startDate", "conference.validation.startDate", "Start date deadline date must be before than End Date");
+		if (conference.getEndDate().before(Calendar.getInstance().getTime()))
+			binding.rejectValue("endDate", "conference.validation.endDate", "End date must be future");
 
 		this.validator.validate(conference, binding);
 

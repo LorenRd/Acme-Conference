@@ -62,7 +62,7 @@
 </display:table>
 
 <!-- Create conference -->
-<security:authorize access="hasRole('ADMINISTRATOR')">
+<security:authorize access="hasRole('ADMIN')">
 		<acme:button url="conference/administrator/create.do" code="conference.create"/>
 	
 </security:authorize> 
