@@ -25,6 +25,7 @@ public class Customisation extends DomainEntity {
 	private String				countryCode;
 	private Collection<String>	creditCardMakes;
 	private Collection<String>	topics;
+	private Collection<String>	voidWords;
 
 
 	@NotBlank
@@ -91,5 +92,14 @@ public class Customisation extends DomainEntity {
 
 	public void setTopics(final Collection<String> topics) {
 		this.topics = topics;
+	}
+
+	@ElementCollection
+	public Collection<String> getVoidWords() {
+		return this.voidWords;
+	}
+
+	public void setVoidWords(final Collection<String> voidWords) {
+		this.voidWords = voidWords;
 	}
 }

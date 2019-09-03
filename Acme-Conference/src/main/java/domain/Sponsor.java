@@ -8,10 +8,9 @@ import javax.validation.constraints.Pattern;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Author extends Actor {
+public class Sponsor extends Actor {
 
 	private String	email;
-	private Double	score;
 
 
 	@Pattern(regexp = "^[a-zA-Z0-9 ]*[<]?\\w+[@][a-zA-Z0-9.]+[>]?$")
@@ -21,13 +20,5 @@ public class Author extends Actor {
 
 	public void setEmail(final String email) {
 		this.email = email;
-	}
-
-	public Double getScore() {
-		return this.score;
-	}
-
-	public void setScore(final Double score) {
-		this.score = score;
 	}
 }

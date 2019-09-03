@@ -2,6 +2,7 @@
 package controllers.any;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 import javax.validation.Valid;
 
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AdministratorService;
+import services.AuthorService;
 import services.CustomisationService;
 import controllers.AbstractController;
 import domain.Administrator;
+import domain.Author;
 
 @Controller
 @RequestMapping("/administrator")
@@ -32,6 +35,9 @@ public class AdministratorController extends AbstractController {
 
 	@Autowired
 	private CustomisationService	customisationService;
+
+	@Autowired
+	private AuthorService			authorService;
 
 
 	// Display ---------------------------------------------------------------
@@ -118,6 +124,18 @@ public class AdministratorController extends AbstractController {
 		}
 
 		return result;
+	}
+
+	// Score ---------------------------------------------------------------
+
+	@RequestMapping(value = "/score", method = RequestMethod.GET)
+	public ModelAndView score() {
+		final ModelAndView res = new ModelAndView("author/list");
+		this.administratorService.score();
+		final Collection<Author> authors = this.authorService.findAll();
+		res.addObject("authors", authors);
+		res.addObject("requestURI", "administrator/author/list.do");
+		return res;
 	}
 
 	// Ancillary methods ------------------------------------------------------

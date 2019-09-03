@@ -60,6 +60,8 @@
 		<security:intercept-url pattern="/author/register.do" access="permitAll" /> 
 		<security:intercept-url pattern="/author/edit.do" access="hasRole('AUTHOR')" />
 		<security:intercept-url pattern="/author/display.do" access="hasRole('AUTHOR')" /> 
+		<security:intercept-url pattern="/author/display.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/author/list.do" access="hasRole('ADMIN')" /> 
 		
 		<security:intercept-url pattern="/reviewer/register.do" access="permitAll" /> 
 		<security:intercept-url pattern="/reviewer/edit.do" access="hasRole('REVIEWER')" />
@@ -67,7 +69,8 @@
 		
 		<security:intercept-url pattern="/administrator/register.do" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/administrator/edit.do" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/administrator/display.do" access="hasRole('ADMIN')" />  
+		<security:intercept-url pattern="/administrator/display.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/administrator/score.do" access="hasRole('ADMIN')" />  
 		
 		<security:intercept-url pattern="/message/actor/list.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/message/actor/create.do" access="isAuthenticated()" />
@@ -93,6 +96,14 @@
 		<security:intercept-url pattern="/registration/author/delete.do" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/registration/author/display.do" access="hasRole('AUTHOR')"/>		
 		<security:intercept-url pattern="/registration/author/cancel.do" access="hasRole('AUTHOR')"/>	
+		
+		<security:intercept-url pattern="/sponsor/register.do" access="permitAll" /> 
+		<security:intercept-url pattern="/sponsor/edit.do" access="hasRole('SPONSOR')" />
+		<security:intercept-url pattern="/sponsor/display.do" access="hasRole('SPONSOR')" />
+		
+		<security:intercept-url pattern="/sponsorship/sponsor/list.do" access="hasRole('SPONSOR')" />
+		<security:intercept-url pattern="/sponsorship/sponsor/edit.do" access="hasRole('SPONSOR')" />
+		<security:intercept-url pattern="/sponsorship/sponsor/create.do" access="hasRole('SPONSOR')" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

@@ -29,6 +29,8 @@
 		<value>/views/submission/messages</value>
 		<value>/views/cameraReadyPaper/messages</value>
 		<value>/views/message/messages</value>
+		<value>/views/sponsor/messages</value>
+		<value>/views/sponsorship/messages</value>
 	</util:list>
 
 </beans>

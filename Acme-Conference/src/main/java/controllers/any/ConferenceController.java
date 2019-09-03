@@ -1,7 +1,10 @@
 
 package controllers.any;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ConferenceService;
+import services.SponsorshipService;
 import controllers.AbstractController;
 import domain.Conference;
+import domain.Sponsorship;
 
 @Controller
 @RequestMapping("/conference")
@@ -23,6 +28,9 @@ public class ConferenceController extends AbstractController {
 
 	@Autowired
 	private ConferenceService	conferenceService;
+
+	@Autowired
+	private SponsorshipService	sponsorshipService;
 
 
 	// List
@@ -108,15 +116,23 @@ public class ConferenceController extends AbstractController {
 		// Inicializa resultado
 		ModelAndView result;
 		Conference conference;
+		List<Sponsorship> sponsorships;
+		Random r;
+		Sponsorship sponsorship;
 
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
 		Assert.notNull(conference);
 
+		sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
+		r = new Random();
+		sponsorship = sponsorships.get(r.nextInt(sponsorships.size()));
+
 		// Crea y añade objetos a la vista
 		result = new ModelAndView("conference/display");
 		result.addObject("requestURI", "conference/display.do");
 		result.addObject("conference", conference);
+		result.addObject("banner", sponsorship.getBanner());
 
 		// Envía la vista
 		return result;
