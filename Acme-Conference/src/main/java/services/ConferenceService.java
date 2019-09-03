@@ -280,23 +280,26 @@ public class ConferenceService {
 		submissions = this.submissionService.findAllByConferenceId(conference.getId());
 		
 		for (Submission s : submissions) {
-			Collection<Report> reports;
-			int possitive = 0;
-			int negative = 0;
-			reports = this.reportRepository.findReportsBySubmissionId(s.getId());
-			for (Report r : reports) {
-				if(r.getDecision().equals("ACCEPT") || r.getDecision().equals("BORDER-LINE")){
-					possitive++;
-				}else {
-					negative++;
+			if(s.getStatus().equals("UNDER-REVIEW"))
+			{
+				Collection<Report> reports;
+				int possitive = 0;
+				int negative = 0;
+				reports = this.reportRepository.findReportsBySubmissionId(s.getId());
+				for (Report r : reports) {
+					if(r.getDecision().equals("ACCEPT") || r.getDecision().equals("BORDER-LINE")){
+						possitive++;
+					}else {
+						negative++;
+					}
 				}
+				if(possitive>=negative){
+					s.setStatus("ACCEPTED");
+				}else {
+					s.setStatus("REJECTED");
+				}
+				this.submissionService.saveSubmissionAdmin(s);
 			}
-			if(possitive>=negative){
-				s.setStatus("ACCEPTED");
-			}else {
-				s.setStatus("REJECTED");
-			}
-			this.submissionService.save(s);
 		}
 	}
 	

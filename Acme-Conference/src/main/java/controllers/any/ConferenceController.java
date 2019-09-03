@@ -2,6 +2,7 @@
 package controllers.any;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -108,15 +109,23 @@ public class ConferenceController extends AbstractController {
 		// Inicializa resultado
 		ModelAndView result;
 		Conference conference;
+		boolean submissionDeadlineOver = false;
+		Date date = new Date(System.currentTimeMillis());
 
+		
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
 		Assert.notNull(conference);
-
+		
+		if(conference.getSubmissionDeadline().before(date)){
+			submissionDeadlineOver = true;
+		}
+	
 		// Crea y añade objetos a la vista
 		result = new ModelAndView("conference/display");
 		result.addObject("requestURI", "conference/display.do");
 		result.addObject("conference", conference);
+		result.addObject("submissionDeadlineOver", submissionDeadlineOver);
 
 		// Envía la vista
 		return result;

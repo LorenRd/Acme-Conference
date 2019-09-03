@@ -401,6 +401,38 @@
 		<property name="summary" value="Summary cameraReadyPaper 2" />
 		<property name="document" value="Document cameraReadyPaper 2" />
 	</bean>
+	<!-- Report -->
+	<bean class="domain.Report" id="report1">
+		<property name="originalityScore" value="5.5" />
+		<property name="qualityScore" value="7.5" />
+		<property name="readabilityScore" value="8.2" />
+		<property name="decision" value="ACCEPT" />
+		<property name="comments">
+			<list>
+				<value>Comentario 1</value>
+				<value>Comentario 2</value>
+				<value>Comentario 3</value>
+				<value>Comentario 4</value>
+			</list>
+		</property>
+		<property name="reviewer" ref="reviewer1" />
+		<property name="submission" ref="submission1" />
+	</bean>
+	<bean class="domain.Report" id="report2">
+		<property name="originalityScore" value="3.5" />
+		<property name="qualityScore" value="8.5" />
+		<property name="readabilityScore" value="4.2" />
+		<property name="decision" value="ACCEPT" />
+		<property name="comments">
+			<list>
+				<value>Comentario 1</value>
+				<value>Comentario 2</value>
+				<value>Comentario 3</value>
+			</list>
+		</property>
+		<property name="reviewer" ref="reviewer2" />
+		<property name="submission" ref="submission1" />
+	</bean>
 
 	<!-- Credit Card -->
 

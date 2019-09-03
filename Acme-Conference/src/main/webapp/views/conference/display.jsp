@@ -57,5 +57,10 @@
 				<a href="conference/administrator/edit.do?conferenceId=${conference.id}"><spring:message code="conference.edit"/></a><br/>
 			</jstl:if>
 		</jstl:if>
+		<jstl:if test="${conference.isFinal}">			
+			<jstl:if test="${submissionDeadlineOver}">
+					<input type="button" name="analyseSubmissions" value="<spring:message code="conference.analyseSubmissions" />" onclick="redirect: location.href = 'conference/administrator/analyseSubmissions.do?conferenceId=${conference.id}';" />	
+			</jstl:if>
+		</jstl:if>
 		</security:authorize>
 		

@@ -2,6 +2,8 @@ package controllers.administrator;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -89,15 +91,22 @@ public class ConferenceAdministratorController extends AbstractController {
 			// Inicializa resultado
 			ModelAndView result;
 			Conference conference;
+			boolean submissionDeadlineOver = false;
+			Date date = new Date(System.currentTimeMillis());
 
 			// Busca en el repositorio
 			conference = this.conferenceService.findOne(conferenceId);
 			Assert.notNull(conference);
 
+			if(conference.getSubmissionDeadline().before(date)){
+				submissionDeadlineOver = true;
+			}
+		
 			// Crea y añade objetos a la vista
 			result = new ModelAndView("conference/display");
 			result.addObject("requestURI", "conference/display.do");
 			result.addObject("conference", conference);
+			result.addObject("submissionDeadlineOver", submissionDeadlineOver);
 
 			// Envía la vista
 			return result;
@@ -246,8 +255,8 @@ public class ConferenceAdministratorController extends AbstractController {
 
 		//Analiza todas las submissions de una conference y les cambia el estado a Accepted o Rejected
 		
-		@RequestMapping(value = "/display", method = RequestMethod.GET, params ="analyseSubmissions")
-		public ModelAndView computeScore(final int conferenceId){
+		@RequestMapping(value = "/analyseSubmissions", method = RequestMethod.GET)
+		public ModelAndView computeScore(@RequestParam final int conferenceId){
 			final ModelAndView result;
 			Conference conference;
 			
@@ -255,7 +264,7 @@ public class ConferenceAdministratorController extends AbstractController {
 			 
 			this.conferenceService.analyseSubmissions(conference);
 			
-			result = new ModelAndView("redirect:display.do");
+			result = new ModelAndView("redirect:/conference/administrator/list.do");
 			
 			return result;
 		}
