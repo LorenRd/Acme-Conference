@@ -29,6 +29,11 @@
 		<value>/views/submission/messages</value>
 		<value>/views/cameraReadyPaper/messages</value>
 		<value>/views/message/messages</value>
+		<value>/views/conferenceComment/messages</value>
+		<value>/views/activityComment/messages</value>
+		<value>/views/tutorial/messages</value>
+		<value>/views/panel/messages</value>
+		<value>/views/presentation/messages</value>
 	</util:list>
 
 </beans>

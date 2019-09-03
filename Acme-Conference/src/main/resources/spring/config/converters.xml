@@ -45,11 +45,26 @@
 		<bean class="converters.PaperToStringConverter" />
 		<bean class="converters.StringToPaperConverter" />
 
+		<bean class="converters.ConferenceCommentToStringConverter" />
+		<bean class="converters.StringToConferenceCommentConverter" />
+
 		<bean class="converters.RegistrationToStringConverter" />
 		<bean class="converters.StringToRegistrationConverter" />
 
 		<bean class="converters.SubmissionToStringConverter" />
 		<bean class="converters.StringToSubmissionConverter" />
+
+		<bean class="converters.ActivityCommentToStringConverter" />
+		<bean class="converters.StringToActivityCommentConverter" />
+
+		<bean class="converters.TutorialToStringConverter" />
+		<bean class="converters.StringToTutorialConverter" />
+
+		<bean class="converters.PanelToStringConverter" />
+		<bean class="converters.StringToPanelConverter" />
+
+		<bean class="converters.PresentationToStringConverter" />
+		<bean class="converters.StringToPresentationConverter" />
 
 	</util:list>
 
