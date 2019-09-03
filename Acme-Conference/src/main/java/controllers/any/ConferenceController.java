@@ -1,9 +1,12 @@
 package controllers.any;
 
+import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ConferenceCommentService;
 import services.ConferenceService;
+import services.SponsorshipService;
 import services.PanelService;
 import services.PresentationService;
 import services.TutorialService;
 import controllers.AbstractController;
 import domain.Conference;
+import domain.Sponsorship;
 import domain.ConferenceComment;
 import domain.Panel;
 import domain.Presentation;
@@ -36,7 +41,10 @@ public class ConferenceController extends AbstractController {
 	private ConferenceService conferenceService;
 
 	@Autowired
+	private SponsorshipService	sponsorshipService;
+	@Autowired
 	private ConferenceCommentService conferenceCommentService;
+
 
 	@Autowired
 	private TutorialService tutorialService;
@@ -268,6 +276,9 @@ public class ConferenceController extends AbstractController {
 		// Inicializa resultado
 		ModelAndView result;
 		Conference conference;
+		List<Sponsorship> sponsorships;
+		Random r;
+		Sponsorship sponsorship;
 		final Collection<ConferenceComment> conferenceComments;
 		final Collection<Tutorial> tutorials;
 		final Collection<Panel> panels;
@@ -276,6 +287,10 @@ public class ConferenceController extends AbstractController {
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
 		Assert.notNull(conference);
+
+		sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
+		r = new Random();
+		sponsorship = sponsorships.get(r.nextInt(sponsorships.size()));
 
 		conferenceComments = this.conferenceCommentService
 				.findAllByConference(conferenceId);
@@ -293,6 +308,7 @@ public class ConferenceController extends AbstractController {
 		result.addObject("panels", panels);
 		result.addObject("presentations", presentations);
 		result.addObject("conference", conference);
+		result.addObject("banner", sponsorship.getBanner());
 
 		// Env�a la vista
 		return result;

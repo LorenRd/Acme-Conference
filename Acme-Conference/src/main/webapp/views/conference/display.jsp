@@ -10,6 +10,8 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<img src="${banner}" width="500px" height="200px">
+<p>
 <b><spring:message code="conference.title" /></b>
 :
 <jstl:out value="${conference.title}" />

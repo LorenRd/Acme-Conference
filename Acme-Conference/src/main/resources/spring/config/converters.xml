@@ -54,6 +54,9 @@
 		<bean class="converters.SubmissionToStringConverter" />
 		<bean class="converters.StringToSubmissionConverter" />
 		
+		<bean class="converters.SponsorToStringConverter" />
+		<bean class="converters.StringToSponsorConverter" />
+		
 		<bean class="converters.CategoryToStringConverter" />
 		<bean class="converters.StringToCategoryConverter" />
 

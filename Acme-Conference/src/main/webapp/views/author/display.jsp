@@ -41,6 +41,13 @@
 			<td data-label="address"><jstl:out value="${author.address}" /></td>
 		</tr>
 		
+		<jstl:if test="${author.score != null }">
+		<tr>
+			<td><spring:message code="author.score" />
+			<td data-label="score"><jstl:out value="${author.score}" /></td>
+		</tr>
+		</jstl:if>	
+		
 	</tbody>
 </table>
 

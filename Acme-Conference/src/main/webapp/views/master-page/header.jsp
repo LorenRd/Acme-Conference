@@ -29,6 +29,15 @@
 					<li><a href="category/administrator/list.do"><spring:message code="master.page.administrator.category" /></a></li>				
 				</ul>
 			</li>
+			<li>
+				<a class="fNiv"> 
+					<spring:message code="master.page.authors" /> 
+				</a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="author/list.do"><spring:message code="master.page.authorList" /></a></li>
+				</ul>
+			</li>
 		</security:authorize>
 		
 		<security:authorize access="hasRole('CUSTOMER')">
@@ -50,6 +59,9 @@
 					<li class="arrow"></li>
 					<li><a href="reviewer/register.do"><spring:message
 								code="master.page.register.reviewer" /></a></li>
+								<li class="arrow"></li>
+					<li><a href="sponsor/register.do"><spring:message
+								code="master.page.register.sponsor" /></a></li>
 								
 				</ul></li>
 			<li>
@@ -76,6 +88,15 @@
 			</li>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('SPONSOR')">
+			<li><a class="fNiv"><spring:message	code="master.page.sponsor" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="sponsorship/sponsor/list.do"><spring:message code="master.page.sponsor.sponsorships" /></a></li>
+				</ul>
+			</li>
+		</security:authorize>
+		
 		<security:authorize access="isAuthenticated()">
 			<li>
 				<a class="fNiv"> 
@@ -89,6 +110,9 @@
 					</security:authorize>
 					<security:authorize access="hasRole('REVIEWER')">
 					<li><a href="reviewer/display.do"><spring:message code="master.page.profile" /></a></li>
+					</security:authorize>
+					<security:authorize access="hasRole('SPONSOR')">
+					<li><a href="sponsor/display.do"><spring:message code="master.page.profile" /></a></li>
 					</security:authorize>
 					<security:authorize access="hasRole('ADMIN')">
 					<li><a href="administrator/display.do"><spring:message code="master.page.profile" /></a></li>

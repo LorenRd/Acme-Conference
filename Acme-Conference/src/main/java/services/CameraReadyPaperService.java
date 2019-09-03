@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.ArrayList;
@@ -12,10 +13,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import domain.CameraReadyPaper;
-import domain.Submission;
 import repositories.CameraReadyPaperRepository;
 import repositories.SubmissionRepository;
+import domain.CameraReadyPaper;
+import domain.Submission;
 
 @Service
 @Transactional
@@ -24,15 +25,16 @@ public class CameraReadyPaperService {
 	// Managed repository -----------------------------------------------------
 
 	@Autowired
-	private CameraReadyPaperRepository cameraReadyPaperRepository;
+	private CameraReadyPaperRepository	cameraReadyPaperRepository;
 
 	@Autowired
-	private SubmissionRepository submissionRepository;
+	private SubmissionRepository		submissionRepository;
 
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	private Validator validator;
+	private Validator					validator;
+
 
 	// Simple CRUD Methods
 
@@ -45,9 +47,9 @@ public class CameraReadyPaperService {
 	}
 
 	public CameraReadyPaper create() {
-		CameraReadyPaper result = new CameraReadyPaper();
+		final CameraReadyPaper result = new CameraReadyPaper();
 
-		CameraReadyPaper cameraReadyPaper = new CameraReadyPaper();
+		final CameraReadyPaper cameraReadyPaper = new CameraReadyPaper();
 		cameraReadyPaper.setTitle("");
 		cameraReadyPaper.setAuthor("");
 		cameraReadyPaper.setDocument("");
@@ -67,22 +69,19 @@ public class CameraReadyPaperService {
 		return result;
 	}
 
-	public void delete(CameraReadyPaper cameraReadyPaper) {
+	public void delete(final CameraReadyPaper cameraReadyPaper) {
 		this.cameraReadyPaperRepository.delete(cameraReadyPaper);
 	}
 
-	public CameraReadyPaper reconstruct(
-			final CameraReadyPaper cameraReadyPaper, final BindingResult binding) {
+	public CameraReadyPaper reconstruct(final CameraReadyPaper cameraReadyPaper, final BindingResult binding) {
 		CameraReadyPaper result;
 
 		if (cameraReadyPaper.getId() == 0) {
 			result = cameraReadyPaper;
 			result.setSubmission(cameraReadyPaper.getSubmission());
 
-		} else {
-			result = this.cameraReadyPaperRepository.findOne(cameraReadyPaper
-					.getId());
-		}
+		} else
+			result = this.cameraReadyPaperRepository.findOne(cameraReadyPaper.getId());
 
 		result.setTitle(cameraReadyPaper.getTitle());
 		result.setAuthor(cameraReadyPaper.getAuthor());
@@ -90,27 +89,31 @@ public class CameraReadyPaperService {
 		result.setDocument(cameraReadyPaper.getDocument());
 
 		this.validator.validate(result, binding);
-		if (binding.hasErrors()) {
+		if (binding.hasErrors())
 			throw new ValidationException();
-		}
 
 		return result;
 	}
 
 	public Collection<CameraReadyPaper> findAllByAuthor(final int authorId) {
-		Collection<CameraReadyPaper> result = new ArrayList<CameraReadyPaper>();
+		final Collection<CameraReadyPaper> result = new ArrayList<CameraReadyPaper>();
 		Collection<Submission> submissions;
 		Collection<CameraReadyPaper> cameraReadyPapers = new ArrayList<CameraReadyPaper>();
 
 		submissions = this.submissionRepository.findAllByAuthorId(authorId);
 
-		for (Submission s : submissions) {
-			cameraReadyPapers = this.cameraReadyPaperRepository
-					.findBySubmissionId(s.getId());
-			if (!cameraReadyPapers.isEmpty()) {
+		for (final Submission s : submissions) {
+			cameraReadyPapers = this.cameraReadyPaperRepository.findBySubmissionId(s.getId());
+			if (!cameraReadyPapers.isEmpty())
 				result.addAll(cameraReadyPapers);
-			}
 		}
+		return result;
+	}
+
+	public Collection<CameraReadyPaper> findBySubmissionId(final int id) {
+
+		Collection<CameraReadyPaper> result;
+		result = this.cameraReadyPaperRepository.findBySubmissionId(id);
 		return result;
 	}
 }
