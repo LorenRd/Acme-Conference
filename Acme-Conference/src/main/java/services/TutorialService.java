@@ -32,14 +32,6 @@ public class TutorialService {
 		return result;
 	}
 
-	public Collection<Tutorial> findAll() {
-		Collection<Tutorial> result;
-
-		result = this.tutorialRepository.findAll();
-		Assert.notNull(result);
-		return result;
-	}
-
 	public Collection<Section> findSections(final int tutorialId) {
 		return this.sectionRepository.findSections(tutorialId);
 	}

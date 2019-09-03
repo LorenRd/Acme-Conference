@@ -10,69 +10,47 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-		<b><spring:message code="tutorial.activityTitle" /></b>:
-		<jstl:out value="${tutorial.activityTitle}"/><br/>
+		<b><spring:message code="panel.activityTitle" /></b>:
+		<jstl:out value="${panel.activityTitle}"/><br/>
 	
-		<b><spring:message code="tutorial.speakers" /></b>:
+		<b><spring:message code="panel.speakers" /></b>:
 		<br/>
 		<ul>
-		<jstl:forEach items="${tutorial.speakers}" var="speaker" >
+		<jstl:forEach items="${panel.speakers}" var="speaker" >
 			<jstl:if test="${speaker != null}">
 	        	<li><jstl:out value="${speaker}"/></li>
 	        </jstl:if>
 		</jstl:forEach>
 		</ul>
 	
-		<b><spring:message code="tutorial.schedule" /></b>:
-		<jstl:out value="${tutorial.schedule }"/><br/>
+		<b><spring:message code="panel.schedule" /></b>:
+		<jstl:out value="${panel.schedule }"/><br/>
 	
-		<b><spring:message code="tutorial.startMoment" /></b>:
-		<jstl:out value="${tutorial.startMoment }"/><br/>
+		<b><spring:message code="panel.startMoment" /></b>:
+		<jstl:out value="${panel.startMoment }"/><br/>
 		
-		<b><spring:message code="tutorial.duration" /></b>:
-		<jstl:out value="${tutorial.duration }"/><br/>
+		<b><spring:message code="panel.duration" /></b>:
+		<jstl:out value="${panel.duration }"/><br/>
 		
-		<b><spring:message code="tutorial.room" /></b>:
-		<jstl:out value="${tutorial.room }"/><br/>
+		<b><spring:message code="panel.room" /></b>:
+		<jstl:out value="${panel.room }"/><br/>
 		
-		<b><spring:message code="tutorial.activitySummary" /></b>:
-		<jstl:out value="${tutorial.activitySummary }"/><br/>
+		<b><spring:message code="panel.activitySummary" /></b>:
+		<jstl:out value="${panel.activitySummary }"/><br/>
 		
-		<b><spring:message code="tutorial.attachments" /></b>:
+		<b><spring:message code="panel.attachments" /></b>:
 		<br/>
 		<ul>
-		<jstl:forEach items="${tutorial.attachments}" var="attachment" >
+		<jstl:forEach items="${panel.attachments}" var="attachment" >
 			<jstl:if test="${attachment != null}">
 	        	<li><jstl:out value="${attachment}"/></li>
 	        </jstl:if>
 		</jstl:forEach>
 		</ul>
 		
-		<!-- Sections -->
-		
-		<h3><spring:message code="tutorial.sections" /></h3>
-		
-<display:table name="sections" id="row"
-	requestURI="${requestURI }" pagesize="5" class="displaytag">
-
-	<!-- Attributes -->
-
-	<spring:message code="section.sectionTitle" var="sectionTitleHeader" />
-	<display:column property="sectionTitle" title="${sectionTitleHeader}" sortable="true" />
-
-	<spring:message code="section.sectionSummary" var="sectionSummaryHeader" />
-	<display:column property="sectionSummary" title="${sectionSummaryHeader}"
-		sortable="true" />
-
-	<spring:message code="section.pictures" var="picturesHeader" />
-	<display:column property="pictures" title="${picturesHeader}"
-		sortable="true" />
-
-</display:table>
-		
 		<!-- Comments -->
 		
-		<h3><spring:message code="tutorial.comments" /></h3>
+		<h3><spring:message code="panel.comments" /></h3>
 		
 <display:table name="activityComments" id="row"
 	requestURI="${requestURI }" pagesize="5" class="displaytag">

@@ -456,7 +456,7 @@
 		<property name="moment" value="2018/05/18 09:30" />
 		<property name="author" value="Author 4" />
 		<property name="text" value="Text 4" />
-		<property name="activity" ref="tutorial1" />
+		<property name="activity" ref="tutorial2" />
 	</bean>
 
 	<bean class="domain.ActivityComment" id="activityComment2">
@@ -464,7 +464,7 @@
 		<property name="moment" value="2018/04/25 12:00" />
 		<property name="author" value="Author 5" />
 		<property name="text" value="Text 5" />
-		<property name="activity" ref="panel1" />
+		<property name="activity" ref="panel3" />
 	</bean>
 
 	<bean class="domain.ActivityComment" id="activityComment3">
@@ -472,7 +472,7 @@
 		<property name="moment" value="2018/05/02 11:20" />
 		<property name="author" value="Author 6" />
 		<property name="text" value="Text 6" />
-		<property name="activity" ref="presentation1" />
+		<property name="activity" ref="presentation3" />
 	</bean>
 
 	<!-- Sections -->

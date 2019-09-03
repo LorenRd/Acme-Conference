@@ -10,19 +10,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActivityCommentService;
-import services.TutorialService;
+import services.PresentationService;
 
 import controllers.AbstractController;
 import domain.ActivityComment;
-import domain.Section;
-import domain.Tutorial;
+import domain.Presentation;
 
 @Controller
-@RequestMapping("/tutorial")
-public class TutorialController extends AbstractController {
+@RequestMapping("/presentation")
+public class PresentationController extends AbstractController {
 
 	@Autowired
-	private TutorialService tutorialService;
+	private PresentationService presentationService;
 
 	@Autowired
 	private ActivityCommentService activityCommentService;
@@ -30,23 +29,20 @@ public class TutorialController extends AbstractController {
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int tutorialId) {
+	public ModelAndView display(@RequestParam final int presentationId) {
 		final ModelAndView result;
-		Tutorial tutorial;
+		Presentation presentation;
 		final Collection<ActivityComment> activityComments;
-		final Collection<Section> sections;
 
-		tutorial = this.tutorialService.findOne(tutorialId);
+		presentation = this.presentationService.findOne(presentationId);
 
 		activityComments = this.activityCommentService
-				.findAllByActivity(tutorialId);
-		sections = this.tutorialService.findSections(tutorialId);
+				.findAllByActivity(presentationId);
 
-		result = new ModelAndView("tutorial/display");
-		result.addObject("tutorial", tutorial);
+		result = new ModelAndView("presentation/display");
+		result.addObject("presentation", presentation);
 		result.addObject("activityComments", activityComments);
-		result.addObject("sections", sections);
-		result.addObject("requestURI", "tutorial/display.do");
+		result.addObject("requestURI", "presentation/display.do");
 		return result;
 	}
 

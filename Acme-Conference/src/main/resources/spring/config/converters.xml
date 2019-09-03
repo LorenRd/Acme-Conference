@@ -54,9 +54,6 @@
 		<bean class="converters.SubmissionToStringConverter" />
 		<bean class="converters.StringToSubmissionConverter" />
 
-		<!-- <bean class="converters.ActivityToStringConverter" />
-		<bean class="converters.StringToActiviyConverter" /> -->
-
 		<bean class="converters.ActivityCommentToStringConverter" />
 		<bean class="converters.StringToActivityCommentConverter" />
 
@@ -68,9 +65,6 @@
 
 		<bean class="converters.PresentationToStringConverter" />
 		<bean class="converters.StringToPresentationConverter" />
-
-		<!-- <bean class="converters.SectionToStringConverter" />
-		<bean class="converters.StringToSectionConverter" /> -->
 
 	</util:list>
 
