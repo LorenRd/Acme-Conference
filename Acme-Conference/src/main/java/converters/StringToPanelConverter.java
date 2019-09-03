@@ -1,3 +1,4 @@
+
 package converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,8 @@ import domain.Panel;
 public class StringToPanelConverter implements Converter<String, Panel> {
 
 	@Autowired
-	PanelRepository panelRepository;
+	PanelRepository	panelRepository;
+
 
 	@Override
 	public Panel convert(final String text) {
@@ -33,4 +35,5 @@ public class StringToPanelConverter implements Converter<String, Panel> {
 		}
 		return result;
 	}
+
 }

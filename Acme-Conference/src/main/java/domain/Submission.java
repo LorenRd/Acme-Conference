@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Access;
@@ -7,6 +8,7 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,7 +27,8 @@ public class Submission extends DomainEntity {
 	private String ticker;
 	private Date moment;
 	private String status;
-
+	private Boolean	decisionNotification;
+	
 	@Column(unique = true)
 	@Pattern(regexp = "^([A-Z]{3})-([A-Z, 0-9]{4})$")
 	public String getTicker() {
@@ -56,12 +59,22 @@ public class Submission extends DomainEntity {
 	public void setStatus(final String status) {
 		this.status = status;
 	}
+	
+	public boolean getDecisionNotification() {
+		return this.decisionNotification;
+	}
+
+	public void setDecisionNotification(final boolean decisionNotification) {
+		this.decisionNotification = decisionNotification;
+	}
+
 
 	// Relationships----------------------------------------------
 
 	private Conference conference;
 	private Author author;
 	public Paper paper;
+	private Collection<Reviewer> reviewers;
 
 	@NotNull
 	@Valid
@@ -95,4 +108,15 @@ public class Submission extends DomainEntity {
 	public void setPaper(final Paper paper) {
 		this.paper = paper;
 	}
+
+	@Valid
+	@OneToMany
+	public Collection<Reviewer> getReviewers() {
+		return this.reviewers;
+	}
+
+	public void setReviewers(Collection<Reviewer> reviewers) {
+		this.reviewers = reviewers;
+	}
+
 }

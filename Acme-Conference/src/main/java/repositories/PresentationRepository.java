@@ -1,3 +1,4 @@
+
 package repositories;
 
 import java.util.Collection;
@@ -9,10 +10,9 @@ import org.springframework.stereotype.Repository;
 import domain.Presentation;
 
 @Repository
-public interface PresentationRepository extends
-		JpaRepository<Presentation, Integer> {
+public interface PresentationRepository extends JpaRepository<Presentation, Integer> {
 
 	@Query("select p from Presentation p where p.conference.id = ?1")
-	Collection<Presentation> findByConferenceId(int conferenceId);
+	Collection<Presentation> findAllByConferenceId(int conferenceId);
 
 }

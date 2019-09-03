@@ -16,4 +16,13 @@
 		<put-attribute name="body" value="/views/conference/display.jsp" />
 	</definition>
 	
+	<definition name="conference/edit" extends="master.page">
+		<put-attribute name="title" value="Edit conference" />
+		<put-attribute name="body" value="/views/conference/edit.jsp" />
+	</definition>
+	
+	<definition name="conference/create" extends="master.page">
+		<put-attribute name="title" value="Create conference" />
+		<put-attribute name="body" value="/views/conference/create.jsp" />
+	</definition>
 </tiles-definitions>

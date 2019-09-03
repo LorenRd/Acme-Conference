@@ -2,6 +2,8 @@ package controllers.administrator;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AdministratorService;
 import services.ConferenceService;
+import services.SubmissionService;
 
 import controllers.AbstractController;
 import domain.Administrator;
@@ -30,6 +33,9 @@ public class ConferenceAdministratorController extends AbstractController {
 	@Autowired
 	private AdministratorService administratorService;
 
+	@Autowired
+	private SubmissionService	submissionService;
+
 	// Listing
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -42,7 +48,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		
 		conferences = this.conferenceService.findByAdministratorId(administratorId);
 				
-		result = new ModelAndView("application/list");
+		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
 		result.addObject("requestURI", "conference/administrator/list.do");
 
@@ -59,16 +65,16 @@ public class ConferenceAdministratorController extends AbstractController {
 		principal = this.administratorService.findByPrincipal();
 
 		//Submission deadline pasó hace 5 dias
-		if (conferenceStatus == 0)
+		if (conferenceStatus == 1)
 			conferences = this.conferenceService.submissionDeadline5daysOverByAdministratorId(principal.getId());
 		//Notification deadline va a pasar en 5 dias o menos
-		else if (conferenceStatus == 1)
+		else if (conferenceStatus == 2)
 			conferences = this.conferenceService.notificationDeadline5daysOrLessByAdministratorId(principal.getId());
 		//Camera deadline va a pasar en 5 dias o menos
-		else if (conferenceStatus == 2)
+		else if (conferenceStatus == 3)
 			conferences = this.conferenceService.cameraReadyDeadline5daysOrLessByAdministratorId(principal.getId());
 		//Conferencias que van a ser organizadas en menos de 5 dias
-		else if (conferenceStatus == 3)
+		else if (conferenceStatus == 4)
 			conferences = this.conferenceService.conferences5daysOrLessByAdministratorId(principal.getId());
 		else //En cualquier otro caso devolvemos todas
 			conferences = this.conferenceService.findByAdministratorId(principal.getId());
@@ -89,15 +95,22 @@ public class ConferenceAdministratorController extends AbstractController {
 			// Inicializa resultado
 			ModelAndView result;
 			Conference conference;
+			boolean submissionDeadlineOver = false;
+			Date date = new Date(System.currentTimeMillis());
 
 			// Busca en el repositorio
 			conference = this.conferenceService.findOne(conferenceId);
 			Assert.notNull(conference);
 
+			if(conference.getSubmissionDeadline().before(date)){
+				submissionDeadlineOver = true;
+			}
+		
 			// Crea y añade objetos a la vista
 			result = new ModelAndView("conference/display");
 			result.addObject("requestURI", "conference/display.do");
 			result.addObject("conference", conference);
+			result.addObject("submissionDeadlineOver", submissionDeadlineOver);
 
 			// Envía la vista
 			return result;
@@ -244,7 +257,34 @@ public class ConferenceAdministratorController extends AbstractController {
 			return result;
 		}
 
+		//Analiza todas las submissions de una conference y les cambia el estado a Accepted o Rejected
 		
+		@RequestMapping(value = "/analyseSubmissions", method = RequestMethod.GET)
+		public ModelAndView computeScore(@RequestParam final int conferenceId){
+			final ModelAndView result;
+			Conference conference;
+			
+			conference = this.conferenceService.findOne(conferenceId);
+			 
+			this.conferenceService.analyseSubmissions(conference);
+			
+			result = new ModelAndView("redirect:/conference/administrator/list.do");
+			
+			return result;
+		}
+		
+		
+		//Decision notification procedure
+		@RequestMapping(value = "/decisionNotification", method = RequestMethod.GET)
+		public ModelAndView decisionNotificationProcedure(@RequestParam final int conferenceId){
+			final ModelAndView result;
+			
+			this.submissionService.decisionNotificationProcedure(conferenceId);
+			
+			result = new ModelAndView("redirect:list.do");
+			
+			return result;
+		}
 		
 		// -------------------
 		

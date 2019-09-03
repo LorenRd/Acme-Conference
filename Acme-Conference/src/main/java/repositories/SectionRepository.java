@@ -1,3 +1,4 @@
+
 package repositories;
 
 import java.util.Collection;
@@ -10,8 +11,8 @@ import domain.Section;
 
 @Repository
 public interface SectionRepository extends JpaRepository<Section, Integer> {
-
+	
 	@Query("select s from Section s where s.tutorial.id = ?1")
-	Collection<Section> findSections(int tutorialId);
+	Collection<Section> findAllByTutorialId(int tutorialId);
 
 }

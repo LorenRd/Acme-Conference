@@ -88,6 +88,15 @@ public class AuthorService {
 		return result;
 	}
 
+
+	public Collection<Author> findAllBySubmission(final int submissionId) {
+		Collection<Author> result;
+
+		result = this.authorRepository.findAllBySubmission(submissionId);
+		Assert.notNull(result);
+		return result;
+	}
+	
 	public Author findByPrincipal() {
 		Author result;
 		UserAccount userAccount;

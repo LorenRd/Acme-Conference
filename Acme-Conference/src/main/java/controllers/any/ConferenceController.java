@@ -5,8 +5,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.List;
-import java.util.Random;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -276,6 +274,8 @@ public class ConferenceController extends AbstractController {
 		// Inicializa resultado
 		ModelAndView result;
 		Conference conference;
+		boolean submissionDeadlineOver = false;
+		Date date = new Date(System.currentTimeMillis());
 		List<Sponsorship> sponsorships;
 		Random r;
 		Sponsorship sponsorship;
@@ -284,9 +284,15 @@ public class ConferenceController extends AbstractController {
 		final Collection<Panel> panels;
 		final Collection<Presentation> presentations;
 
+		
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
 		Assert.notNull(conference);
+		
+		if(conference.getSubmissionDeadline().before(date)){
+			submissionDeadlineOver = true;
+		}
+	
 
 		sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
 		r = new Random();
@@ -308,6 +314,7 @@ public class ConferenceController extends AbstractController {
 		result.addObject("panels", panels);
 		result.addObject("presentations", presentations);
 		result.addObject("conference", conference);
+		result.addObject("submissionDeadlineOver", submissionDeadlineOver);
 		result.addObject("banner", sponsorship.getBanner());
 
 		// Env�a la vista

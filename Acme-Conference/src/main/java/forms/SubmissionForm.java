@@ -1,11 +1,15 @@
 package forms;
 
+import java.util.Collection;
+
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
 import domain.Conference;
+import domain.Reviewer;
 
 public class SubmissionForm {
 
@@ -71,5 +75,16 @@ public class SubmissionForm {
 	public void setDocument(final String document) {
 		this.document = document;
 	}
+	
+	private Collection<Reviewer> reviewers;
 
+	@Valid
+	@OneToMany
+	public Collection<Reviewer> getReviewers() {
+		return this.reviewers;
+	}
+
+	public void setReviewers(Collection<Reviewer> reviewers) {
+		this.reviewers = reviewers;
+	}
 }

@@ -1,3 +1,4 @@
+
 package repositories;
 
 import java.util.Collection;
@@ -10,8 +11,9 @@ import domain.Tutorial;
 
 @Repository
 public interface TutorialRepository extends JpaRepository<Tutorial, Integer> {
-
+	
 	@Query("select t from Tutorial t where t.conference.id = ?1")
-	Collection<Tutorial> findByConferenceId(int conferenceId);
+	Collection<Tutorial> findAllByConferenceId(int conferenceId);
 
+	
 }

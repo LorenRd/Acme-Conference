@@ -1,3 +1,4 @@
+
 package repositories;
 
 import java.util.Collection;
@@ -12,6 +13,7 @@ import domain.Panel;
 public interface PanelRepository extends JpaRepository<Panel, Integer> {
 
 	@Query("select p from Panel p where p.conference.id = ?1")
-	Collection<Panel> findByConferenceId(int conferenceId);
+	Collection<Panel> findAllByConferenceId(int conferenceId);
 
+	
 }

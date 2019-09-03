@@ -1,3 +1,13 @@
+/*
+ * ActorToStringConverter.java
+ * 
+ * Copyright (C) 2019 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the
+ * TDG Licence, a copy of which you may download from
+ * http://www.tdg-seville.info/License.html
+ */
+
 package converters;
 
 import org.springframework.core.convert.converter.Converter;
@@ -11,13 +21,13 @@ import domain.Tutorial;
 public class TutorialToStringConverter implements Converter<Tutorial, String> {
 
 	@Override
-	public String convert(final Tutorial tutorial) {
+	public String convert(final Tutorial activity) {
 		String result;
 
-		if (tutorial == null)
+		if (activity == null)
 			result = null;
 		else
-			result = String.valueOf(tutorial.getId());
+			result = String.valueOf(activity.getId());
 
 		return result;
 	}

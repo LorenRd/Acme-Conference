@@ -8,4 +8,5 @@ import javax.persistence.Entity;
 @Access(AccessType.PROPERTY)
 public class Tutorial extends Activity {
 
+	
 }

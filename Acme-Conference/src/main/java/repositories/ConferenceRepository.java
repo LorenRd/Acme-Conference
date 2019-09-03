@@ -42,26 +42,32 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 	Collection<Conference> findByAdministratorId(int administratorId);
 
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.submissionDeadline < NOW() AND c.submissionDeadline > ?2")
-	Collection<Conference> submissionDeadline5daysOverByAdministratorId(int administratorId, String dateMax);
-
+	Collection<Conference> submissionDeadline5daysOverByAdministratorId(int administratorId, Date dateMax);
+	
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.notificationDeadline > ?2")
-	Collection<Conference> notificationDeadline5daysOrLessByAdministratorId(int administratorId, String dateMax);
-
+	Collection<Conference> notificationDeadline5daysOrLessByAdministratorId(int administratorId, Date dateMax);
+	
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.cameraReadyDeadline > ?2")
-	Collection<Conference> cameraReadyDeadline5daysOrLessByAdministratorId(int administratorId, String dateMax);
-
-	@Query("select c from Conference c where c.administrator.id = ?1 AND c.startDate > ?2")
-	Collection<Conference> conferences5daysOrLessByAdministratorId(int administratorId, String dateMax);
-<<<<<<< HEAD
+	Collection<Conference> cameraReadyDeadline5daysOrLessByAdministratorId(int administratorId, Date dateMax);
 		
+	@Query("select c from Conference c where c.administrator.id = ?1 AND c.startDate > ?2")
+	Collection<Conference> conferences5daysOrLessByAdministratorId(int administratorId, Date dateMax);
+		
+	@Query("select avg(c.fee) from Conference c")
+	Double avgConferenceFees();
+
+	@Query("select min(c.fee) from Conference c")
+	Double minConferenceFees();
+
+	@Query("select max(c.fee) from Conference c")
+	Double maxConferenceFees();
+
+	@Query("select stddev(c.fee) from Conference c")
+	Double stddevConferenceFees();
+	
 	@Query("select c from Conference c where c.startDate > NOW()")
 	Collection<Conference> findAvailableConferencesForRegistration();
 	
-=======
-
-	//	@Query("select f from Conference f where (f.startDate BETWEEN ?1 AND ?2) AND (f.fee <= ?3) AND (f.title LIKE %:keyword% OR f.acronym LIKE %:keyword% OR f.venue LIKE %:keyword% OR f.summary LIKE %:keyword% OR f.category.id LIKE ?4) and f.isFinal = true")
-	//	Collection<Conference> searchConference(Date dateMin, Date dateMax, Double maxFee, @Param("keyword") String keyword, int categoryId);
-
 	@Query("select f from Conference f where (f.fee <= ?1) and f.isFinal = true")
 	Collection<Conference> searchByMaxFee(Double maxFee);
 
@@ -73,5 +79,6 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select f from Conference f where (f.startDate BETWEEN ?1 AND ?2) and f.isFinal = true")
 	Collection<Conference> searchByDateRange(Date dateMin, Date dateMax);
->>>>>>> CU6-Finder
+
+    
 }

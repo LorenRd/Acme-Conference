@@ -18,22 +18,42 @@
 
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="submission/author/edit.do" modelAttribute="submissionForm">
-		<form:hidden path="id"/>
-		<form:hidden path="conference"/>
-		
-		<h3><spring:message code="submission.paper" /></h3>
-		
-		<acme:textbox code="submission.paper.title" path="title"/>
-		
-		<acme:textbox code="submission.paper.author" path="author"/>
-		
-		<acme:textbox code="submission.paper.summary" path="summary"/>
-		
-		<acme:textbox code="submission.paper.document" path="document"/>
-		
-		<acme:submit name="save" code="submission.save"/>
 
-		<acme:cancel url="welcome/index.do" code="submission.cancel"/>
-		
-</form:form>
+
+<security:authorize access="hasRole('AUTHOR')">
+	<form:form action="submission/author/edit.do" modelAttribute="submissionForm">
+	<form:hidden path="id"/>
+	<h3><spring:message code="submission.paper" /></h3>
+	
+	<acme:textbox code="submission.paper.title" path="title"/>
+	
+	<acme:textbox code="submission.paper.authorPaper" path="authorPaper"/>
+	
+	<acme:textbox code="submission.paper.summary" path="summary"/>
+	
+	<acme:textbox code="submission.paper.document" path="document"/>
+	
+	<acme:submit name="save" code="submission.save"/>
+	
+	<acme:cancel url="welcome/index.do" code="submission.cancel"/>
+	</form:form>
+</security:authorize>
+<security:authorize access="hasRole('ADMIN')">
+	<form:form action="submission/administrator/edit.do" modelAttribute="submissionForm">
+	<form:hidden path="id"/>
+	<h3><spring:message code="submission.reviewers" /></h3>
+
+	<form:label path="reviewers">
+	<spring:message code="submission.reviewers" />:
+	</form:label>
+	<form:select multiple="true" path="reviewers" >
+		<form:options items="${reviewers}" itemValue="id" itemLabel="name" />
+	</form:select>
+	<form:errors cssClass="error" path="reviewers" />
+	<br/><br/>
+	<acme:submit name="save" code="submission.save"/>
+	
+	<acme:cancel url="welcome/index.do" code="submission.cancel"/>
+	</form:form>
+
+</security:authorize>

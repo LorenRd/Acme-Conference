@@ -371,6 +371,14 @@
 		<property name="author" ref="author1" />
 		<property name="conference" ref="conference1" />
 		<property name="paper" ref="paper1" />
+		<property name="decisionNotification" value="false" />
+		<property name="reviewers">
+			<list>
+				<ref bean="reviewer1" />
+				<ref bean="reviewer2" />
+				<ref bean="reviewer3" />
+			</list>
+		</property>
 	</bean>
 
 	<bean class="domain.Submission" id="submission2">
@@ -380,6 +388,7 @@
 		<property name="author" ref="author2" />
 		<property name="conference" ref="conference2" />
 		<property name="paper" ref="paper2" />
+		<property name="decisionNotification" value="false" />
 	</bean>
 
 	<bean class="domain.Submission" id="submission3">
@@ -389,6 +398,7 @@
 		<property name="author" ref="author3" />
 		<property name="conference" ref="conference3" />
 		<property name="paper" ref="paper3" />
+		<property name="decisionNotification" value="false" />
 	</bean>
 
 	<!-- Paper -->
@@ -430,6 +440,38 @@
 		<property name="summary" value="Summary cameraReadyPaper 2" />
 		<property name="document" value="Document cameraReadyPaper 2" />
 		<property name="submission" ref="submission2" />
+	</bean>
+	<!-- Report -->
+	<bean class="domain.Report" id="report1">
+		<property name="originalityScore" value="5.5" />
+		<property name="qualityScore" value="7.5" />
+		<property name="readabilityScore" value="8.2" />
+		<property name="decision" value="ACCEPT" />
+		<property name="comments">
+			<list>
+				<value>Comentario 1</value>
+				<value>Comentario 2</value>
+				<value>Comentario 3</value>
+				<value>Comentario 4</value>
+			</list>
+		</property>
+		<property name="reviewer" ref="reviewer1" />
+		<property name="submission" ref="submission1" />
+	</bean>
+	<bean class="domain.Report" id="report2">
+		<property name="originalityScore" value="3.5" />
+		<property name="qualityScore" value="8.5" />
+		<property name="readabilityScore" value="4.2" />
+		<property name="decision" value="ACCEPT" />
+		<property name="comments">
+			<list>
+				<value>Comentario 1</value>
+				<value>Comentario 2</value>
+				<value>Comentario 3</value>
+			</list>
+		</property>
+		<property name="reviewer" ref="reviewer2" />
+		<property name="submission" ref="submission1" />
 	</bean>
 
 	<!-- Credit Card -->
@@ -742,10 +784,8 @@
 	<bean id="customisation" class="domain.Customisation">
 		<property name="systemName" value="Acme Conference" />
 		<property name="welcomeBanner" value="https://i.ibb.co/GVpZCtM/acme-conference.png" />
-		<property name="welcomeMessageEn"
-			value="Welcome to Acme Conference! Your scientific event manager" />
-		<property name="welcomeMessageEs"
-			value="“¡Bienvenidos a Acme Conference! Su gestor de eventos científicos" />
+		<property name="welcomeMessageEn" value="Welcome to Acme Conferences!" />
+		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Conferences!" />
 		<property name="countryCode" value="+34" />
 		<property name="creditCardMakes">
 			<list>
@@ -1270,7 +1310,96 @@
 		</property>
 	</bean>
 	
-<<<<<<< HEAD
+	<!-- Tutorial -->
+
+	<bean class="domain.Tutorial" id="tutorial1">
+		<property name="activityTitle" value="Tutorial 1" />
+		<property name="speakers">
+			<list>
+				<value>speaker1</value>
+				<value>speaker2</value>
+				<value>speaker3</value>
+			</list>
+		</property>
+		<property name="schedule" value="18/07/2018 15:00" />
+		<property name="startMoment" value="18/07/2018 12:00" />
+		<property name="duration" value="3" />
+		<property name="room" value="Esto es una room" />
+		<property name="activitySummary" value="Esto es un resumen" />
+		<property name="attachments">
+			<list>
+				<value>attachment1</value>
+				<value>attachment2</value>
+			</list>
+		</property>
+		<property name="conference" ref="conference2" />
+	</bean>
+	
+	<!-- Panel -->
+
+	<bean class="domain.Panel" id="panel1">
+		<property name="activityTitle" value="Panel 1" />
+		<property name="speakers">
+			<list>
+				<value>speaker1</value>
+				<value>speaker2</value>
+				<value>speaker3</value>
+			</list>
+		</property>
+		<property name="schedule" value="18/07/2018 15:00" />
+		<property name="startMoment" value="18/07/2018 12:00" />
+		<property name="duration" value="3" />
+		<property name="room" value="Esto es una room" />
+		<property name="activitySummary" value="Esto es un resumen" />
+		<property name="attachments">
+			<list>
+				<value>attachment1</value>
+				<value>attachment2</value>
+			</list>
+		</property>
+		<property name="conference" ref="conference2" />
+	</bean>
+	
+	<!-- Presentation -->
+
+	<bean class="domain.Presentation" id="presentation1">
+		<property name="activityTitle" value="Presentation 1" />
+		<property name="speakers">
+			<list>
+				<value>speaker1</value>
+				<value>speaker2</value>
+				<value>speaker3</value>
+			</list>
+		</property>
+		<property name="schedule" value="18/07/2018 15:00" />
+		<property name="startMoment" value="18/07/2018 12:00" />
+		<property name="duration" value="3" />
+		<property name="room" value="Esto es una room" />
+		<property name="activitySummary" value="Esto es un resumen" />
+		<property name="attachments">
+			<list>
+				<value>attachment1</value>
+				<value>attachment2</value>
+			</list>
+		</property>
+		<property name="cameraReadyVersion" value="La camara esta ready" />
+		<property name="conference" ref="conference2" />
+	</bean>
+	
+	<!-- Section -->
+
+	<bean class="domain.Section" id="section1">
+		<property name="sectionTitle" value="Section 1" />
+		<property name="sectionSummary" value="Esto es un resumen" />
+		<property name="pictures">
+			<list>
+				<value>http://www.foto1.com</value>
+				<value>http://www.foto2.com</value>
+			</list>
+		</property>
+		<property name="tutorial" ref="tutorial1" />
+	</bean>	
+	
 	<!-- Categories -->
 	
 	<bean class="domain.Category" id="category1">
@@ -1385,8 +1514,6 @@
 		<property name="parentCategory" ref="category16" />
 		<property name="englishName" value="Fungi" />
 		<property name="spanishName" value="Hongos" />
-=======
-	<!-- Sponsor -->
 	
 	<bean class="domain.Sponsor" id="sponsor1">
 		<property name="name" value="Maria" />
@@ -1445,7 +1572,6 @@
 		<property name="creditCard" ref="creditCard3" />
 		<property name="sponsor" ref="sponsor3" />
 		<property name="conference" ref="conference4" />
->>>>>>> CU8-NivelA
 	</bean>
 
 </beans>

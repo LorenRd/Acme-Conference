@@ -9,6 +9,28 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<security:authorize access="hasRole('ADMIN')">
+
+	<form action="conference/administrator/list.do" method="get">
+
+		<input type="radio" name="conferenceStatus" value="0" checked>
+		<spring:message code="conference.status.all" />
+		<input type="radio" name="conferenceStatus" value="1">
+		<spring:message code="conference.status.submission5" />
+		<input type="radio" name="conferenceStatus" value="2">
+		<spring:message code="conference.status.notification5" />
+		<input type="radio" name="conferenceStatus" value="3">
+		<spring:message code="conference.status.camera5" />
+		<input type="radio" name="conferenceStatus" value="4">
+		<spring:message code="conference.status.organised5" />
+		<br />
+		<spring:message code="conference.status.choose" var="choose" />
+		<input type="submit" value="${choose}">
+	</form>
+
+</security:authorize>
+<br/><br/>
+
 <!-- Buscar rutas por palabra clave -->
 <form action="${requestURI }" method="get">
 	<spring:message code="conference.keyword" var="searchHeader"/>
@@ -54,7 +76,7 @@
 </display:table>
 
 <!-- Create conference -->
-<security:authorize access="hasRole('ADMINISTRATOR')">
+<security:authorize access="hasRole('ADMIN')">
 		<acme:button url="conference/administrator/create.do" code="conference.create"/>
 	
 </security:authorize> 

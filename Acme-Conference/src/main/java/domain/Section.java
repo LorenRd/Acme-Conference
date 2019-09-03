@@ -18,11 +18,11 @@ import cz.jirutka.validator.collection.constraints.EachURL;
 @Entity
 @Access(AccessType.PROPERTY)
 public class Section extends DomainEntity {
+	private String	sectionTitle;
+	private String	sectionSummary;
+	private Collection<String>	pictures;
 
-	private String sectionTitle;
-	private String sectionSummary;
-	private Collection<String> pictures;
-
+	
 	@NotBlank
 	public String getSectionTitle() {
 		return this.sectionTitle;
@@ -40,8 +40,7 @@ public class Section extends DomainEntity {
 	public void setSectionSummary(final String sectionSummary) {
 		this.sectionSummary = sectionSummary;
 	}
-
-	@NotNull
+	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@EachURL
 	public Collection<String> getPictures() {
@@ -51,9 +50,9 @@ public class Section extends DomainEntity {
 	public void setPictures(final Collection<String> pictures) {
 		this.pictures = pictures;
 	}
-
-	// Relationships--------------------------
-
+	
+	//Relations-------------------
+	
 	private Tutorial tutorial;
 
 	@NotNull
@@ -67,4 +66,5 @@ public class Section extends DomainEntity {
 		this.tutorial = tutorial;
 	}
 
+	
 }

@@ -3,21 +3,15 @@ package services;
 
 import java.util.Collection;
 
-import javax.validation.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
-import repositories.CreditCardRepository;
 import repositories.RegistrationRepository;
-import domain.Author;
-import domain.CreditCard;
+import security.Authority;
+import domain.Actor;
 import domain.Registration;
-import forms.RegistrationForm;
 
 @Service
 @Transactional
@@ -27,19 +21,70 @@ public class RegistrationService {
 	@Autowired
 	private RegistrationRepository	registrationRepository;
 
-	@Autowired
-	private CreditCardRepository	creditCardRepository;
-
 	// Supporting services ----------------------------------------------------
-
 	@Autowired
-	private AuthorService			authorService;
+	private ActorService			actorService;
 
-	@Autowired
-	private CreditCardService		creditCardService;
 
-	@Autowired
-	private Validator				validator;
+	//-------------------------------------
+
+	public Double avgRegistrationPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.registrationRepository.avgRegistrationPerConference();
+
+		return result;
+	}
+
+	public Double minRegistrationPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.registrationRepository.minRegistrationPerConference();
+		return result;
+	}
+
+	public Double maxRegistrationPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.registrationRepository.maxRegistrationPerConference();
+
+		return result;
+	}
+
+	public Double stddevRegistrationPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.registrationRepository.stddevRegistrationPerConference();
+
+		return result;
+	}
+
+	public Collection<Registration> findAllByConferenceId(final int id) {
+		Collection<Registration> result;
+
+		result = this.registrationRepository.findAllByConferenceId(id);
+		return result;
+	}
 
 
 	// Simple CRUD Methods

@@ -1,4 +1,5 @@
 #./src/main/resources/Entities.map
+<<<<<<< HEAD
 #Wed Aug 07 20:47:10 CEST 2019
 creditCard2=204
 creditCard1=203
@@ -37,3 +38,50 @@ author3=190
 author2=189
 creditCard3=205
 author1=188
+=======
+#Sun Sep 01 11:07:05 CEST 2019
+presentation1=219
+creditCard2=211
+creditCard1=210
+message3=216
+tutorial1=217
+message2=215
+message1=214
+cameraReadyPaper2=209
+cameraReadyPaper1=208
+section1=220
+registration3=223
+registration2=222
+administrator3=194
+registration1=221
+administrator2=193
+administrator1=192
+userAccount9=191
+userAccount8=190
+userAccount7=189
+customisation=213
+userAccount6=188
+userAccount5=187
+userAccount4=186
+userAccount3=185
+reviewer3=200
+userAccount2=184
+reviewer2=199
+userAccount1=183
+conference4=204
+reviewer1=198
+submission3=226
+conference3=203
+submission2=225
+conference2=202
+submission1=224
+paper3=207
+conference1=201
+paper2=206
+paper1=205
+panel1=218
+author3=197
+author2=196
+creditCard3=212
+author1=195
+>>>>>>> CU4-Admin

@@ -10,5 +10,14 @@
 		<put-attribute name="title" value="Mostrar panel" />
 		<put-attribute name="body" value="/views/panel/display.jsp" />
 	</definition>
-
+	
+	<definition name="panel/edit" extends="master.page">
+		<put-attribute name="title" value="Editar panel" />
+		<put-attribute name="body" value="/views/panel/edit.jsp" />
+	</definition>
+	
+	<definition name="panel/create" extends="master.page">
+		<put-attribute name="title" value="Crear panel" />
+		<put-attribute name="body" value="/views/panel/create.jsp" />
+	</definition>
 </tiles-definitions>

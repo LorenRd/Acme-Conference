@@ -1,3 +1,4 @@
+
 package converters;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,11 @@ import domain.Presentation;
 
 @Component
 @Transactional
-public class StringToPresentationConverter implements
-		Converter<String, Presentation> {
+public class StringToPresentationConverter implements Converter<String, Presentation> {
 
 	@Autowired
-	PresentationRepository presentationRepository;
+	PresentationRepository	presentationRepository;
+
 
 	@Override
 	public Presentation convert(final String text) {

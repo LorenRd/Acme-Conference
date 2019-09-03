@@ -4,6 +4,10 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.validation.ValidationException;
@@ -17,8 +21,14 @@ import org.springframework.validation.Validator;
 
 import repositories.PaperRepository;
 import repositories.SubmissionRepository;
+import security.Authority;
+
+import domain.Actor;
+import domain.Administrator;
 import domain.Author;
+import domain.Message;
 import domain.Paper;
+import domain.Reviewer;
 import domain.Submission;
 import forms.SubmissionForm;
 
@@ -36,13 +46,25 @@ public class SubmissionService {
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	private AuthorService			authorService;
+	private AuthorService authorService;
+	
+	@Autowired
+	private ActorService actorService;
+	
+	@Autowired
+	private AdministratorService administratorService;
+	
+	@Autowired
+	private ReviewerService reviewerService;
 
 	@Autowired
-	private PaperService			paperService;
+	private MessageService messageService;
 
 	@Autowired
-	private Validator				validator;
+	private PaperService paperService;
+	
+	@Autowired
+	private Validator validator;
 
 
 	// Simple CRUD Methods
@@ -54,7 +76,32 @@ public class SubmissionService {
 		Assert.notNull(result);
 		return result;
 	}
+	
+	public Collection<Submission> findAll() {
+		Collection<Submission> result;
 
+		result = this.submissionRepository.findAll();
+		Assert.notNull(result);
+		return result;
+	}
+	
+	
+	public Collection<Submission> findAllByConferenceId(final int conferenceId) {
+		Collection<Submission> result;
+
+		result = this.submissionRepository.findAllByConferenceId(conferenceId);
+		Assert.notNull(result);
+		return result;
+	}
+	
+	public Collection<Submission> findAllByConferenceIdDecision(final int conferenceId) {
+		Collection<Submission> result;
+
+		result = this.submissionRepository.findAllByConferenceIdDecision(conferenceId);
+		Assert.notNull(result);
+		return result;
+	}
+	
 	public Submission create() {
 		//		Submission result;
 		//
@@ -79,6 +126,7 @@ public class SubmissionService {
 		result.setAuthor(principal);
 		result.setTicker(this.generateTicker(principal));
 		result.setStatus("UNDER-REVIEW");
+		result.setDecisionNotification(false);
 		result.setMoment(new Date(System.currentTimeMillis() - 1));
 		result.setPaper(paper);
 
@@ -106,7 +154,12 @@ public class SubmissionService {
 
 		return result;
 	}
-
+	public void saveSubmissionAdmin(final Submission submission){
+		Submission result;
+		result = this.submissionRepository.save(submission);
+		Assert.notNull(result);
+	}
+	
 	public void delete(final Submission submission) {
 		Paper paper;
 
@@ -206,10 +259,14 @@ public class SubmissionService {
 
 		} else {
 			result = this.submissionRepository.findOne(submissionForm.getId());
-			result.getPaper().setTitle(submissionForm.getTitle());
-			result.getPaper().setAuthor(submissionForm.getAuthor());
-			result.getPaper().setSummary(submissionForm.getSummary());
-			result.getPaper().setDocument(submissionForm.getDocument());
+			if(submissionForm.getReviewers()!=null){
+				result.setReviewers(submissionForm.getReviewers());
+			}else{
+				result.getPaper().setTitle(submissionForm.getTitle());
+				result.getPaper().setAuthor(submissionForm.getAuthorPaper());
+				result.getPaper().setSummary(submissionForm.getSummary());
+				result.getPaper().setDocument(submissionForm.getDocument());
+			}
 		}
 
 		this.validator.validate(result, binding);
@@ -229,18 +286,146 @@ public class SubmissionService {
 		submissionForm.setDocument(submission.getPaper().getDocument());
 		return submissionForm;
 	}
+	
+	public Collection<Submission> findAllByAdministratorId(final int administratorId) {
+		Collection<Submission> result;
+		result = new ArrayList<Submission>();
+		result = this.submissionRepository.findAllByAdministrator(administratorId);
 
-	public Collection<Submission> findAvailableSubmissions(final int authorId) {
-		final Collection<Submission> result = new ArrayList<Submission>();
-		final Collection<Submission> accepted = this.submissionRepository.findAcceptedSubmissions();
+		return result;
+	}
+	
+	public Map<String, List<Submission>> groupByStatus(final Collection<Submission> submissions) {
+		final Map<String, List<Submission>> result = new HashMap<String, List<Submission>>();
 
-		final Date date = new Date();
+		Assert.notNull(submissions);
+		for (final Submission r : submissions)
+			if (result.containsKey(r.getStatus()))
+				result.get(r.getStatus()).add(r);
+			else {
+				final List<Submission> l = new ArrayList<Submission>();
+				l.add(r);
+				result.put(r.getStatus(), l);
+			}
 
-		for (final Submission s : accepted)
-			if (s.getConference().getCameraReadyDeadline().after(date) && s.getAuthor().getId() == authorId)
-				result.add(s);
+		if (!result.containsKey("ACCEPTED"))
+			result.put("ACCEPTED", new ArrayList<Submission>());
+		if (!result.containsKey("UNDER-REVIEW"))
+			result.put("UNDER-REVIEW", new ArrayList<Submission>());
+		if (!result.containsKey("REJECTED"))
+			result.put("REJECTED", new ArrayList<Submission>());
+
 
 		return result;
 	}
 
+	public void reviewerAssignation (){
+		Collection <Submission> submissions;
+		Collection <Reviewer> reviewers;
+		
+		submissions = this.submissionRepository.findSubmissionUnderReview();
+		reviewers = this.reviewerService.findAll();
+		
+		Iterator<Reviewer> revIterator = reviewers.iterator();
+		
+		for (Submission s: submissions) {
+			Collection <Reviewer> submissionReviewers = new ArrayList<Reviewer>();
+
+			if(s.getReviewers().size()<3){
+				for (Reviewer r : reviewers) {
+					revIterator.next();
+					for (String e: r.getExpertises()) {
+						if(s.getConference().getTitle().toLowerCase().contains(e.toLowerCase()) || s.getConference().getSummary().toLowerCase().contains(e.toLowerCase())){
+							submissionReviewers.add(r);
+						}	
+					}
+				if(!revIterator.hasNext() && submissionReviewers.isEmpty()){
+					submissionReviewers.add(r);
+				}
+				s.setReviewers(submissionReviewers);
+			}
+			}
+			this.saveSubmissionAdmin(s);
+		}
+						
+	}
+	
+	public void decisionNotificationProcedure (final int conferenceId){
+		Administrator principal;
+		Collection<Actor> recipients = new ArrayList<Actor>();
+		Collection<Submission> submissions = new ArrayList<Submission>();
+		principal = this.administratorService.findByPrincipal();
+		
+		submissions = this.findAllByConferenceIdDecision(conferenceId);
+		
+		for (Submission s : submissions) {
+			s.setDecisionNotification(true);
+			this.saveSubmissionAdmin(s);
+			
+			Actor actor = this.actorService.findOne(s.getAuthor().getId());
+			recipients.add(actor);
+		}
+		
+		Message message;
+		message = this.messageService.create();
+		message.setSender(principal);
+		message.setRecipients(recipients);
+		message.setTopic("NOTIFICATION");
+		message.setSubject("Submission notification");
+		message.setBody("One of your submission has any update.");
+		this.messageService.save(message);
+	}
+	
+	//-------------------------------------
+	
+	public Double avgSubmissionPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.submissionRepository.avgSubmissionPerConference();
+
+		return result;
+	}
+
+	public Double minSubmissionPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.submissionRepository.minSubmissionPerConference();
+		return result;
+	}
+
+	public Double maxSubmissionPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.submissionRepository.maxSubmissionPerConference();
+
+		return result;
+	}
+
+	public Double stddevSubmissionPerConference() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.submissionRepository.stddevSubmissionPerConference();
+
+		return result;
+	}
 }

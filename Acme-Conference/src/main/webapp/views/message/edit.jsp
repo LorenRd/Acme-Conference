@@ -21,6 +21,18 @@
 
 <%-- Formulario para la creación de mensajes nuevos, (escritura de un mensaje a un actor) --%>
 <jstl:if test="${mensaje.id==0}">
+
+<jstl:if test="${conference}">
+	
+	<spring:message code="message.conference" />:
+	
+	<form:select path="conferences">
+		<form:options items="${conferences}" itemValue="id" itemLabel="title" />
+	</form:select>
+	<br>
+	<br>
+</jstl:if>
+
 <form:form action="${requestURI}" modelAttribute="mensaje">
 
 	<form:hidden path="id" />
@@ -29,13 +41,13 @@
 	<form:hidden path="moment" />
 	
 	
-	<jstl:if test="${broadcast}">
+	<jstl:if test="${broadcast || conference}">
 	<form:hidden path="recipients" />
 	
 	</jstl:if>
 	
 	<%-- Mostrado para elegir en el input el destinatario del mensaje, cuando es un mensaje broadcast de un administrador este input no se muestra puesto que el destinatario son todos los actores del sistema--%>
-	<jstl:if test="${!broadcast}">
+	<jstl:if test="${!broadcast && !conference}">
 	<form:label path="recipients">
 		<spring:message code="message.recipient.userAccount" />:
 	</form:label>
@@ -80,7 +92,7 @@
 	
 	<input type="button" name="cancel"
 		value="<spring:message code="message.cancel" />"
-		onclick="javascript: relativeRedir('/messageBox/actor/list.do');" />
+		onclick="javascript: relativeRedir('/message/actor/list.do');" />
 	<br />
 
 </form:form>

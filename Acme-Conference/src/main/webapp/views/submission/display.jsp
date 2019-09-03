@@ -32,11 +32,36 @@
 		
 		<b><spring:message code="submission.paper.document" /></b>:
 		<jstl:out value="${submission.paper.document}"/><br/>
-
+		
+		<!-- Reviewers -->
+		
+		<b><spring:message code="submission.reviewers" /></b>:
+		<br/><ul>
+		<jstl:forEach items="${submission.reviewers}" var="reviewer" >
+			<jstl:if test="${reviewer != null}">
+	        	<li><jstl:out value="${reviewer.name}"/></li>
+	        </jstl:if>
+		</jstl:forEach></ul>
+		<!-- Reports -->
+		<jstl:if test="${submission.decisionNotification}">
+		<b><spring:message code="submission.reports" /></b>:
+		<br/><ul>
+		<jstl:forEach items="${reports}" var="report" >
+			<jstl:if test="${report != null}">
+	        	<li><a href="report/author/display.do?reportId=${report.id}"><jstl:out value="${report.decision}"/></a></li>
+	        </jstl:if>
+		</jstl:forEach></ul>
+		</jstl:if>
 
 <security:authorize access="hasRole('AUTHOR')">
 <jstl:if test="${submission.author.userAccount.username == pageContext.request.userPrincipal.name}">
 <br/>
 	<a href="submission/author/edit.do?submissionId=${submission.id}"><spring:message code="submission.edit"/></a><br/>
+</jstl:if>
+</security:authorize>
+<!-- Para asignar revisores -->
+<security:authorize access="hasRole('ADMIN')">
+<jstl:if test="${submission.status == 'UNDER-REVIEW'}">
+		<a href="submission/administrator/edit.do?submissionId=${submission.id}"><spring:message code="administrator.assignReviewers"/></a><br/>
 </jstl:if>
 </security:authorize>

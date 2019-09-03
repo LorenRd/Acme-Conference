@@ -1,11 +1,11 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +14,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ConferenceRepository;
-import repositories.SubmissionRepository;
+import repositories.ReportRepository;
+import security.Authority;
+import domain.Actor;
 import domain.Administrator;
 import domain.Conference;
+import domain.Report;
 import domain.Submission;
 
 @Service
@@ -28,24 +31,23 @@ public class ConferenceService {
 	private ConferenceRepository	conferenceRepository;
 
 	@Autowired
-	private SubmissionRepository	submissionRepository;
+	private ReportRepository reportRepository;
 
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-<<<<<<< HEAD
+	private ActorService actorService;
+	
+	@Autowired
+	private SubmissionService submissionService;
+	
+	@Autowired
 	private AdministratorService administratorService;
 
 	@Autowired
-	private Validator validator;
-=======
-	private AdministratorService	administratorService;
-
-	@Autowired
-	private Validator				validator;
-
->>>>>>> CU6-Finder
-
+	private Validator			validator;
+	
+	
 	// Simple CRUD Methods
 
 	public Conference findOne(final int conferenceid) {
@@ -91,10 +93,19 @@ public class ConferenceService {
 			original.setIsFinal(false);
 		} else {
 			original = this.conferenceRepository.findOne(conference.getId());
-			original.setAdministrator(this.administratorService
-					.findByPrincipal());
-			original.setIsFinal(false);
+			conference.setAdministrator(this.administratorService.findByPrincipal());
+			conference.setIsFinal(false);
 		}
+		if (conference.getSubmissionDeadline().after(conference.getNotificationDeadline()))
+			binding.rejectValue("submissionDeadline", "conference.validation.submissionDeadline", "Submission deadline date must be before than Notification deadline");
+		if (conference.getNotificationDeadline().after(conference.getCameraReadyDeadline()))
+			binding.rejectValue("notificationDeadline", "conference.validation.notificationDeadline", "Notification deadline date must be before than Camera Ready deadline");
+		if (conference.getCameraReadyDeadline().after(conference.getStartDate()))
+			binding.rejectValue("cameraReadyDeadline", "conference.validation.cameraReadyDeadline", "Camera Ready deadline date must be before than Start Date");
+		if (conference.getStartDate().after(conference.getEndDate()))
+			binding.rejectValue("startDate", "conference.validation.startDate", "Start date deadline date must be before than End Date");
+		if (conference.getEndDate().before(Calendar.getInstance().getTime()))
+			binding.rejectValue("endDate", "conference.validation.endDate", "End date must be future");
 
 		this.validator.validate(conference, binding);
 
@@ -190,9 +201,9 @@ public class ConferenceService {
 	}
 
 	public Collection<Conference> findAvailableConferences() {
-		final Collection<Conference> result = this.findFinals();
-		final Collection<Conference> finals = this.findFinals();
-		final Collection<Submission> allSubmissions = this.submissionRepository.findAll();
+		Collection<Conference> result = this.findFinals();
+		Collection<Conference> finals = this.findFinals();
+		Collection<Submission> allSubmissions = this.submissionService.findAll();
 
 		for (final Submission s : allSubmissions)
 			for (final Conference c : finals)
@@ -221,9 +232,8 @@ public class ConferenceService {
 		cal.add(Calendar.DAY_OF_MONTH, -5);
 		Date fiveDaysAgo = cal.getTime();
 
-		result = this.conferenceRepository
-				.submissionDeadline5daysOverByAdministratorId(administratorId,
-						fiveDaysAgo.toString());
+		
+		result = this.conferenceRepository.submissionDeadline5daysOverByAdministratorId(administratorId, fiveDaysAgo);
 		return result;
 	}
 
@@ -235,10 +245,9 @@ public class ConferenceService {
 		Calendar cal = new GregorianCalendar();
 		cal.add(Calendar.DAY_OF_MONTH, -5);
 		Date fiveDaysAgo = cal.getTime();
-
-		result = this.conferenceRepository
-				.notificationDeadline5daysOrLessByAdministratorId(
-						administratorId, fiveDaysAgo.toString());
+		
+		
+		result = this.conferenceRepository.notificationDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo);
 		return result;
 	}
 
@@ -250,10 +259,9 @@ public class ConferenceService {
 		Calendar cal = new GregorianCalendar();
 		cal.add(Calendar.DAY_OF_MONTH, -5);
 		Date fiveDaysAgo = cal.getTime();
-
-		result = this.conferenceRepository
-				.cameraReadyDeadline5daysOrLessByAdministratorId(
-						administratorId, fiveDaysAgo.toString());
+		
+		
+		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo);
 		return result;
 	}
 
@@ -265,98 +273,189 @@ public class ConferenceService {
 		Calendar cal = new GregorianCalendar();
 		cal.add(Calendar.DAY_OF_MONTH, -5);
 		Date fiveDaysAgo = cal.getTime();
+		
+		
+		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo);
+		return result;
+	}
+	
+	public void analyseSubmissions(final Conference conference){
+		Collection<Submission> submissions;
+		
+		submissions = this.submissionService.findAllByConferenceId(conference.getId());
+		
+		for (Submission s : submissions) {
+			if(s.getStatus().equals("UNDER-REVIEW"))
+			{
+				Collection<Report> reports;
+				int possitive = 0;
+				int negative = 0;
+				reports = this.reportRepository.findReportsBySubmissionId(s.getId());
+				for (Report r : reports) {
+					if(r.getDecision().equals("ACCEPT") || r.getDecision().equals("BORDER-LINE")){
+						possitive++;
+					}else {
+						negative++;
+					}
+				}
+				if(possitive>=negative){
+					s.setStatus("ACCEPTED");
+				}else {
+					s.setStatus("REJECTED");
+				}
+				this.submissionService.saveSubmissionAdmin(s);
+			}
+		}
+	}
+	
+	//----------------------------------------
+	
+	public Double avgConferenceFees() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
 
-		result = this.conferenceRepository
-				.cameraReadyDeadline5daysOrLessByAdministratorId(
-						administratorId, fiveDaysAgo.toString());
+		result = this.conferenceRepository.avgConferenceFees();
+
 		return result;
 	}
 
-	public Collection<Conference> findAvailableConferencesForRegistration() {
+	public Double minConferenceFees() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
 
-		return this.conferenceRepository
-				.findAvailableConferencesForRegistration();
-	}
-
-=======
-	public Collection<Conference> submissionDeadline5daysOverByAdministratorId(final int administratorId) {
-
-		Collection<Conference> result;
-
-		final Calendar cal = new GregorianCalendar();
-		cal.add(Calendar.DAY_OF_MONTH, -5);
-		final Date fiveDaysAgo = cal.getTime();
-
-		result = this.conferenceRepository.submissionDeadline5daysOverByAdministratorId(administratorId, fiveDaysAgo.toString());
+		result = this.conferenceRepository.minConferenceFees();
 		return result;
 	}
 
-	public Collection<Conference> notificationDeadline5daysOrLessByAdministratorId(final int administratorId) {
+	public Double maxConferenceFees() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
 
-		Collection<Conference> result;
+		result = this.conferenceRepository.maxConferenceFees();
 
-		final Calendar cal = new GregorianCalendar();
-		cal.add(Calendar.DAY_OF_MONTH, -5);
-		final Date fiveDaysAgo = cal.getTime();
-
-		result = this.conferenceRepository.notificationDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
 		return result;
 	}
 
-	public Collection<Conference> cameraReadyDeadline5daysOrLessByAdministratorId(final int administratorId) {
+	public Double stddevConferenceFees() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
 
-		Collection<Conference> result;
-
-		final Calendar cal = new GregorianCalendar();
-		cal.add(Calendar.DAY_OF_MONTH, -5);
-		final Date fiveDaysAgo = cal.getTime();
-
-		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
+		result = this.conferenceRepository.stddevConferenceFees();
+		
 		return result;
 	}
-
-	public Collection<Conference> conferences5daysOrLessByAdministratorId(final int administratorId) {
-
-		Collection<Conference> result;
-
-		final Calendar cal = new GregorianCalendar();
-		cal.add(Calendar.DAY_OF_MONTH, -5);
-		final Date fiveDaysAgo = cal.getTime();
-
-		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
+	
+	public Double avgDaysPerConference(){
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result = 0.0;
+		Collection<Conference> conferences;
+		conferences = this.conferenceRepository.findAll();
+		Collection<Long> conferenceDuration = new ArrayList<Long>();
+		for (Conference c : conferences) {
+			long duration = (c.getEndDate().getTime()-c.getStartDate().getTime())/86400000;
+			conferenceDuration.add(duration);
+		}
+		
+		for (Long d : conferenceDuration) {
+			result += d;
+		}
+		result = result/conferenceDuration.size();
+		
 		return result;
 	}
-
-	public Collection<Conference> searchByMaxFee(final Double fee) {
-		Collection<Conference> result;
-		result = this.conferenceRepository.searchByMaxFee(fee);
+	
+	public Long minDaysPerConference(){
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Long result = (long) 0;
+		Collection<Conference> conferences;
+		conferences = this.conferenceRepository.findAll();
+		Collection<Long> conferenceDuration = new ArrayList<Long>();
+		for (Conference c : conferences) {
+			long duration = (c.getEndDate().getTime()-c.getStartDate().getTime())/86400000;
+			conferenceDuration.add(duration);
+		}
+		
+		result = conferenceDuration.iterator().next();
+		for (Long d : conferenceDuration) {
+			if(d < result)
+				result = d;
+		}
+		
 		return result;
 	}
-
-	public Collection<Conference> findByKeyword(final String keyword) {
-		Collection<Conference> result;
-		result = this.conferenceRepository.findByKeyword(keyword);
+	public Long maxDaysPerConference(){
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Long result = (long) 0;
+		Collection<Conference> conferences;
+		conferences = this.conferenceRepository.findAll();
+		Collection<Long> conferenceDuration = new ArrayList<Long>();
+		for (Conference c : conferences) {
+			long duration = (c.getEndDate().getTime()-c.getStartDate().getTime())/86400000;
+			conferenceDuration.add(duration);
+		}
+		
+		result = conferenceDuration.iterator().next();
+		for (Long d : conferenceDuration) {
+			if(d > result)
+				result = d;
+		}
+		
 		return result;
 	}
-
-	public Collection<Conference> searchByCategory(final String categoryId) {
-		Collection<Conference> result;
-		result = this.conferenceRepository.searchByCategory(categoryId);
-		return result;
+	
+	public Double stddevDaysPerConference(){
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result = 0.0;
+		Collection<Conference> conferences;
+		conferences = this.conferenceRepository.findAll();
+		Collection<Long> conferenceDuration = new ArrayList<Long>();
+		for (Conference c : conferences) {
+			long duration = (c.getEndDate().getTime()-c.getStartDate().getTime())/86400000;
+			conferenceDuration.add(duration);
+		}
+		
+		for (Long d : conferenceDuration) {
+			result += d;
+		}
+		double mean = result/conferenceDuration.size();
+		
+		for (Long d1 : conferenceDuration) {
+			result += Math.pow(d1 - mean, 2);
+			
+		}
+				
+		return Math.sqrt(result/conferenceDuration.size());
 	}
-
-	public Collection<Conference> searchByDates(final Date minDate, final Date maxDate) {
-		Collection<Conference> result;
-		result = this.conferenceRepository.searchByDateRange(minDate, maxDate);
-		return result;
-	}
-
-	//	public Collection<Conference> searchConference(final Date dateMin, final Date dateMax, final Double maxFee, final String keyword, final int categoryId) {
-	//
-	//		Collection<Conference> result;
-	//
-	//		result = this.conferenceRepository.searchConference(dateMin, dateMax, maxFee, keyword, categoryId);
-	//		return result;
-	//	}
->>>>>>> CU6-Finder
 }
