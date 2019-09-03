@@ -61,6 +61,8 @@
 			<jstl:if test="${submissionDeadlineOver}">
 					<input type="button" name="analyseSubmissions" value="<spring:message code="conference.analyseSubmissions" />" onclick="redirect: location.href = 'conference/administrator/analyseSubmissions.do?conferenceId=${conference.id}';" />	
 			</jstl:if>
+			<br />
+			<input type="button" name="decisionNotification" value="<spring:message code="conference.decisionNotification" />" onclick="redirect: location.href = 'conference/administrator/decisionNotification.do?conferenceId=${conference.id}';" />	
 		</jstl:if>
 		</security:authorize>
 		

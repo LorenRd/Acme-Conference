@@ -92,6 +92,14 @@ public class SubmissionService {
 		return result;
 	}
 	
+	public Collection<Submission> findAllByConferenceIdDecision(final int conferenceId) {
+		Collection<Submission> result;
+
+		result = this.submissionRepository.findAllByConferenceIdDecision(conferenceId);
+		Assert.notNull(result);
+		return result;
+	}
+	
 	public Submission create() {
 		Submission result;
 		final Author principal;
@@ -334,32 +342,31 @@ public class SubmissionService {
 		}
 						
 	}
-	@SuppressWarnings("null")
-	public void decisionNotificationProcedure (final int submissionId){
-		Submission submission;
+	
+	public void decisionNotificationProcedure (final int conferenceId){
 		Administrator principal;
-		Collection<Author> authors;
-		Collection<Actor> recipients = null;
-		
+		Collection<Actor> recipients = new ArrayList<Actor>();
+		Collection<Submission> submissions = new ArrayList<Submission>();
 		principal = this.administratorService.findByPrincipal();
-
-		submission = this.findOne(submissionId);
-		submission.setDecisionNotification(true);
-		this.save(submission);
 		
-		authors = this.authorService.findAllBySubmission(submissionId);
-		for (Author a : authors) {
-			Actor actor = this.actorService.findOne(a.getId());
+		submissions = this.findAllByConferenceIdDecision(conferenceId);
+		
+		for (Submission s : submissions) {
+			s.setDecisionNotification(true);
+			this.saveSubmissionAdmin(s);
+			
+			Actor actor = this.actorService.findOne(s.getAuthor().getId());
 			recipients.add(actor);
 		}
+		
 		Message message;
 		message = this.messageService.create();
 		message.setSender(principal);
 		message.setRecipients(recipients);
-		message.setTopic("Submission notification");
+		message.setTopic("NOTIFICATION");
+		message.setSubject("Submission notification");
 		message.setBody("One of your submission has any update.");
 		this.messageService.save(message);
-		
 	}
 	
 	//-------------------------------------

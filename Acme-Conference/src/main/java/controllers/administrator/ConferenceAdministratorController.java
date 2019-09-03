@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AdministratorService;
 import services.ConferenceService;
+import services.SubmissionService;
 
 import controllers.AbstractController;
 import domain.Administrator;
@@ -31,6 +32,9 @@ public class ConferenceAdministratorController extends AbstractController {
 
 	@Autowired
 	private AdministratorService administratorService;
+
+	@Autowired
+	private SubmissionService	submissionService;
 
 	// Listing
 
@@ -269,6 +273,18 @@ public class ConferenceAdministratorController extends AbstractController {
 			return result;
 		}
 		
+		
+		//Decision notification procedure
+		@RequestMapping(value = "/decisionNotification", method = RequestMethod.GET)
+		public ModelAndView decisionNotificationProcedure(@RequestParam final int conferenceId){
+			final ModelAndView result;
+			
+			this.submissionService.decisionNotificationProcedure(conferenceId);
+			
+			result = new ModelAndView("redirect:list.do");
+			
+			return result;
+		}
 		
 		// -------------------
 		

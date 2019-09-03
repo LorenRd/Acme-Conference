@@ -42,6 +42,14 @@
 	        	<li><jstl:out value="${reviewer.name}"/></li>
 	        </jstl:if>
 		</jstl:forEach></ul>
+		<!-- Reports -->
+		<b><spring:message code="submission.reports" /></b>:
+		<br/><ul>
+		<jstl:forEach items="${reports}" var="report" >
+			<jstl:if test="${report != null}">
+	        	<li><a href="report/author/display.do?reportId=${report.id}"><jstl:out value="${report.decision}"/></a></li>
+	        </jstl:if>
+		</jstl:forEach></ul>
 
 
 <security:authorize access="hasRole('AUTHOR')">
@@ -51,6 +59,7 @@
 	<a href="submission/author/delete.do?submissionId=${submission.id}"><spring:message code="submission.delete"/></a><br/>
 </jstl:if>
 </security:authorize>
+<!-- Para asignar revisores -->
 <security:authorize access="hasRole('ADMIN')">
 <jstl:if test="${submission.status == 'UNDER-REVIEW'}">
 		<a href="submission/administrator/edit.do?submissionId=${submission.id}"><spring:message code="administrator.assignReviewers"/></a><br/>

@@ -16,10 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AuthorService;
 import services.ConferenceService;
+import services.ReportService;
 import services.SubmissionService;
 
 import controllers.AbstractController;
 import domain.Author;
+import domain.Report;
 import domain.Submission;
 import forms.SubmissionForm;
 
@@ -36,6 +38,8 @@ public class SubmissionAuthorController extends AbstractController {
 	@Autowired
 	private ConferenceService conferenceService;
 
+	@Autowired
+	private ReportService reportService;
 	// Listing
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -62,12 +66,23 @@ public class SubmissionAuthorController extends AbstractController {
 	public ModelAndView display(@RequestParam final int submissionId) {
 		final ModelAndView result;
 		Submission submission;
-
+		Author author;
+		Collection <Report> reports;
+		
+		author = this.authorService.findByPrincipal();
 		submission = this.submissionService.findOne(submissionId);
+		reports = this.reportService.findReportsBySubmissionId(submissionId);
+		
+		if(submission.getAuthor().getId()== author.getId()){
+			result = new ModelAndView("submission/display");
+			result.addObject("submission", submission);
+			result.addObject("requestURI", "submission/display.do");
+			result.addObject("reports", reports);
+			
+		}else{
+			result = new ModelAndView("redirect:/welcome/index.do");
+		}
 
-		result = new ModelAndView("submission/display");
-		result.addObject("submission", submission);
-		result.addObject("requestURI", "submission/display.do");
 		return result;
 	}
 

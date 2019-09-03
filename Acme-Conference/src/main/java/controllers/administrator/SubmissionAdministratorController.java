@@ -163,17 +163,6 @@ public class SubmissionAdministratorController extends AbstractController {
 		return result;
 	}
 	
-	//Decision notification procedure
-	@RequestMapping(value = "/display", method = RequestMethod.GET, params ="decisionNotification")
-	public ModelAndView decisionNotificationProcedure(@RequestParam final int submissionId){
-		final ModelAndView result;
-		
-		this.submissionService.decisionNotificationProcedure(submissionId);
-		
-		result = new ModelAndView("redirect:list.do");
-		
-		return result;
-	}
 	
 	//--------------------
 	protected ModelAndView createEditModelAndView(final SubmissionForm submissionForm) {
