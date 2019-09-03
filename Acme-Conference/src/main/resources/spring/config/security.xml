@@ -95,6 +95,7 @@
 		<security:intercept-url pattern="/cameraReadyPaper/author/edit.do" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/cameraReadyPaper/author/delete.do" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/cameraReadyPaper/author/display.do" access="hasRole('AUTHOR')"/>		
+<<<<<<< HEAD
 		<security:intercept-url pattern="/cameraReadyPaper/author/cancel.do" access="hasRole('AUTHOR')"/>	
 		
 		<security:intercept-url pattern="/registration/author/list.do" access="hasRole('AUTHOR')"/>
@@ -103,6 +104,13 @@
 		<security:intercept-url pattern="/registration/author/delete.do" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/registration/author/display.do" access="hasRole('AUTHOR')"/>		
 		<security:intercept-url pattern="/registration/author/cancel.do" access="hasRole('AUTHOR')"/>	
+=======
+		<security:intercept-url pattern="/cameraReadyPaper/author/cancel.do" access="hasRole('AUTHOR')"/>
+		
+		<security:intercept-url pattern="/category/administrator/list.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/category/administrator/edit.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/category/administrator/create.do" access="hasRole('ADMIN')" /> 	
+>>>>>>> CU6-Finder
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

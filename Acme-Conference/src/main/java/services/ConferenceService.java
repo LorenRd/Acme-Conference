@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Calendar;
@@ -24,18 +25,26 @@ public class ConferenceService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ConferenceRepository conferenceRepository;
+	private ConferenceRepository	conferenceRepository;
 
 	@Autowired
-	private SubmissionRepository submissionRepository;
+	private SubmissionRepository	submissionRepository;
 
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
+<<<<<<< HEAD
 	private AdministratorService administratorService;
 
 	@Autowired
 	private Validator validator;
+=======
+	private AdministratorService	administratorService;
+
+	@Autowired
+	private Validator				validator;
+
+>>>>>>> CU6-Finder
 
 	// Simple CRUD Methods
 
@@ -68,8 +77,12 @@ public class ConferenceService {
 		return result;
 	}
 
+<<<<<<< HEAD
 	public Conference reconstruct(final Conference conference,
 			final BindingResult binding) {
+=======
+	public Conference reconstruct(final Conference conference, final BindingResult binding) {
+>>>>>>> CU6-Finder
 		Conference original;
 		if (conference.getId() == 0) {
 			original = conference;
@@ -147,12 +160,10 @@ public class ConferenceService {
 		return result;
 	}
 
-	public Collection<Conference> findFinalForthcomingByKeyword(
-			final String keyword) {
+	public Collection<Conference> findFinalForthcomingByKeyword(final String keyword) {
 		Collection<Conference> result;
 
-		result = this.conferenceRepository
-				.findFinalForthcomingByKeyword(keyword);
+		result = this.conferenceRepository.findFinalForthcomingByKeyword(keyword);
 		return result;
 	}
 
@@ -179,23 +190,19 @@ public class ConferenceService {
 	}
 
 	public Collection<Conference> findAvailableConferences() {
-		Collection<Conference> result = this.findFinals();
-		Collection<Conference> finals = this.findFinals();
-		Collection<Submission> allSubmissions = this.submissionRepository
-				.findAll();
+		final Collection<Conference> result = this.findFinals();
+		final Collection<Conference> finals = this.findFinals();
+		final Collection<Submission> allSubmissions = this.submissionRepository.findAll();
 
-		for (Submission s : allSubmissions) {
-			for (Conference c : finals) {
-				if (s.getConference().equals(c)) {
+		for (final Submission s : allSubmissions)
+			for (final Conference c : finals)
+				if (s.getConference().equals(c))
 					result.remove(c);
-				}
-			}
-		}
 
 		return result;
 	}
 
-	public Collection<Conference> findByAdministratorId(int administratorId) {
+	public Collection<Conference> findByAdministratorId(final int administratorId) {
 
 		Collection<Conference> result;
 
@@ -204,6 +211,7 @@ public class ConferenceService {
 		return result;
 	}
 
+<<<<<<< HEAD
 	public Collection<Conference> submissionDeadline5daysOverByAdministratorId(
 			int administratorId) {
 
@@ -270,4 +278,85 @@ public class ConferenceService {
 				.findAvailableConferencesForRegistration();
 	}
 
+=======
+	public Collection<Conference> submissionDeadline5daysOverByAdministratorId(final int administratorId) {
+
+		Collection<Conference> result;
+
+		final Calendar cal = new GregorianCalendar();
+		cal.add(Calendar.DAY_OF_MONTH, -5);
+		final Date fiveDaysAgo = cal.getTime();
+
+		result = this.conferenceRepository.submissionDeadline5daysOverByAdministratorId(administratorId, fiveDaysAgo.toString());
+		return result;
+	}
+
+	public Collection<Conference> notificationDeadline5daysOrLessByAdministratorId(final int administratorId) {
+
+		Collection<Conference> result;
+
+		final Calendar cal = new GregorianCalendar();
+		cal.add(Calendar.DAY_OF_MONTH, -5);
+		final Date fiveDaysAgo = cal.getTime();
+
+		result = this.conferenceRepository.notificationDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
+		return result;
+	}
+
+	public Collection<Conference> cameraReadyDeadline5daysOrLessByAdministratorId(final int administratorId) {
+
+		Collection<Conference> result;
+
+		final Calendar cal = new GregorianCalendar();
+		cal.add(Calendar.DAY_OF_MONTH, -5);
+		final Date fiveDaysAgo = cal.getTime();
+
+		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
+		return result;
+	}
+
+	public Collection<Conference> conferences5daysOrLessByAdministratorId(final int administratorId) {
+
+		Collection<Conference> result;
+
+		final Calendar cal = new GregorianCalendar();
+		cal.add(Calendar.DAY_OF_MONTH, -5);
+		final Date fiveDaysAgo = cal.getTime();
+
+		result = this.conferenceRepository.cameraReadyDeadline5daysOrLessByAdministratorId(administratorId, fiveDaysAgo.toString());
+		return result;
+	}
+
+	public Collection<Conference> searchByMaxFee(final Double fee) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByMaxFee(fee);
+		return result;
+	}
+
+	public Collection<Conference> findByKeyword(final String keyword) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.findByKeyword(keyword);
+		return result;
+	}
+
+	public Collection<Conference> searchByCategory(final String categoryId) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByCategory(categoryId);
+		return result;
+	}
+
+	public Collection<Conference> searchByDates(final Date minDate, final Date maxDate) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByDateRange(minDate, maxDate);
+		return result;
+	}
+
+	//	public Collection<Conference> searchConference(final Date dateMin, final Date dateMax, final Double maxFee, final String keyword, final int categoryId) {
+	//
+	//		Collection<Conference> result;
+	//
+	//		result = this.conferenceRepository.searchConference(dateMin, dateMax, maxFee, keyword, categoryId);
+	//		return result;
+	//	}
+>>>>>>> CU6-Finder
 }

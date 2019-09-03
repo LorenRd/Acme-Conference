@@ -53,6 +53,9 @@
 
 		<bean class="converters.SubmissionToStringConverter" />
 		<bean class="converters.StringToSubmissionConverter" />
+		
+		<bean class="converters.CategoryToStringConverter" />
+		<bean class="converters.StringToCategoryConverter" />
 
 		<bean class="converters.ActivityCommentToStringConverter" />
 		<bean class="converters.StringToActivityCommentConverter" />

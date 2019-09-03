@@ -14,6 +14,15 @@
 :
 <jstl:out value="${conference.title}" />
 <br />
+		<jstl:if test="${cookie['language'].getValue()=='en'}">
+		<b><spring:message code="conference.category" /></b>:
+		<jstl:out value="${conference.category.englishName}"> </jstl:out>
+		</jstl:if>
+		<jstl:if test="${cookie['language'].getValue()=='es'}">
+		<b><spring:message code="conference.category" /></b>:
+		<jstl:out value="${conference.category.spanishName}"> </jstl:out>
+		</jstl:if>
+		<br/>
 
 <b><spring:message code="conference.acronym" /></b>
 :

@@ -143,6 +143,7 @@ public class Conference extends DomainEntity {
 	// Relationships----------------------------------------------
 
 	private Administrator	administrator;
+	private Category		category;
 
 
 	@NotNull
@@ -154,6 +155,17 @@ public class Conference extends DomainEntity {
 
 	public void setAdministrator(final Administrator administrator) {
 		this.administrator = administrator;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToOne(optional = false)
+	public Category getCategory() {
+		return this.category;
+	}
+
+	public void setCategory(final Category category) {
+		this.category = category;
 	}
 
 }
