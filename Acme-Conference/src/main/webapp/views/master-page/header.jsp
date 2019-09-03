@@ -27,22 +27,12 @@
 					<li class="arrow"></li>
 					<li><a href="administrator/register.do"><spring:message code="master.page.administrator.register"/></a></li>
 					<li><a href="dashboard/administrator/display.do"><spring:message code="master.page.administrator.dashboard"/></a></li>
+					<li><a href="customisation/administrator/display.do"><spring:message code="master.page.administrator.customisation"/></a></li>
 					<li><a href="conference/administrator/list.do"><spring:message code="master.page.administrator.conference"/></a></li>
 					<li><a href="submission/administrator/list.do"><spring:message code="master.page.administrator.submission"/></a></li>
 				</ul>
 			</li>
 		</security:authorize>
-		
-		<security:authorize access="hasRole('CUSTOMER')">
-			<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="customer/action-1.do"><spring:message code="master.page.customer.action.1" /></a></li>
-					<li><a href="customer/action-2.do"><spring:message code="master.page.customer.action.2" /></a></li>					
-				</ul>
-			</li>
-		</security:authorize>
-		
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a>
 			<ul>
