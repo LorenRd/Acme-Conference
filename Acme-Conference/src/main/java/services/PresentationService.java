@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.PresentationRepository;
+import domain.Conference;
 import domain.Presentation;
 
 @Service
@@ -20,7 +22,9 @@ public class PresentationService {
 	private PresentationRepository	presentationRepository;
 
 	// Supporting services ----------------------------------------------------
-
+	@Autowired
+	private ConferenceService		conferenceService;
+	
 	// Additional functions
 
 	// Simple CRUD Methods
@@ -33,8 +37,19 @@ public class PresentationService {
 		return result;
 	}
 
-	public Presentation save(final Presentation presentation) {
+	public Presentation save(final Presentation presentation, final int conferenceId) {
 		Presentation saved;
+		Conference conference;
+		
+		conference = this.conferenceService.findOne(conferenceId);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(presentation.getStartMoment());
+		calendar.add(Calendar.HOUR_OF_DAY, presentation.getDuration());
+		
+		presentation.setSchedule(calendar.getTime());
+		presentation.setConference(conference);
+		
 		saved = this.presentationRepository.save(presentation);
 		return saved;
 	}

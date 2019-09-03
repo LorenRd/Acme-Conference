@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.PanelRepository;
+import domain.Conference;
 import domain.Panel;
 
 @Service
@@ -20,7 +22,9 @@ public class PanelService {
 	private PanelRepository	panelRepository;
 
 	// Supporting services ----------------------------------------------------
-
+	@Autowired
+	private ConferenceService		conferenceService;
+	
 	// Additional functions
 
 	// Simple CRUD Methods
@@ -33,8 +37,19 @@ public class PanelService {
 		return result;
 	}
 
-	public Panel save(final Panel panel) {
+	public Panel save(final Panel panel, final int conferenceId) {
 		Panel saved;
+		Conference conference;
+		
+		conference = this.conferenceService.findOne(conferenceId);
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(panel.getStartMoment());
+		calendar.add(Calendar.HOUR_OF_DAY, panel.getDuration());
+		
+		panel.setSchedule(calendar.getTime());
+		panel.setConference(conference);
+		
 		saved = this.panelRepository.save(panel);
 		return saved;
 	}

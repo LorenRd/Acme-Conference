@@ -1,7 +1,5 @@
 package controllers.administrator;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,17 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.SectionService;
-import services.TutorialService;
 import controllers.AbstractController;
 import domain.Section;
-import domain.Tutorial;
 @Controller
 @RequestMapping("/section/administrator")
 public class SectionAdministratorController extends AbstractController {
 	// Services
-	@Autowired
-	private TutorialService tutorialService;
-
 	@Autowired
 	private SectionService	sectionService;
 
@@ -30,11 +23,11 @@ public class SectionAdministratorController extends AbstractController {
 		//Create
 		
 		@RequestMapping(value = "/create", method = RequestMethod.GET)
-		public ModelAndView create() {
+		public ModelAndView create(@RequestParam final int tutorialId) {
 			ModelAndView result;
 			Section section;
 			
-			section = this.sectionService.create();
+			section = this.sectionService.create(tutorialId);
 			result = this.createModelAndView(section);
 
 			return result;
@@ -48,17 +41,10 @@ public class SectionAdministratorController extends AbstractController {
 		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
 		public ModelAndView createFinal(@RequestParam final int tutorialId, @ModelAttribute("section") Section section, final BindingResult binding) {
 			ModelAndView result;
-			Tutorial tutorial;
-			Collection <Section> sections;
-			
-			tutorial = this.tutorialService.findOne(tutorialId);
-			sections = tutorial.getSections();
-			
 			
 			try {
-				section = this.sectionService.save(section);
-				sections.add(section);
-
+				section = this.sectionService.save(section, tutorialId);
+				
 				result = new ModelAndView("redirect:/welcome/index.do");
 				
 			} catch (final Throwable oops) {

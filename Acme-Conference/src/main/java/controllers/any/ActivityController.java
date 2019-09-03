@@ -19,6 +19,7 @@ import domain.Tutorial;
 import services.ConferenceService;
 import services.PanelService;
 import services.PresentationService;
+import services.SectionService;
 import services.TutorialService;
 
 @Controller
@@ -30,6 +31,9 @@ public class ActivityController {
 	@Autowired
 	private TutorialService	tutorialService;
 
+	@Autowired
+	private SectionService	sectionService;
+	
 	@Autowired
 	private PanelService	panelService;
 	
@@ -80,7 +84,7 @@ public class ActivityController {
 		tutorial = this.tutorialService.findOne(tutorialId);
 		Assert.notNull(tutorial);
 
-		sections = tutorial.getSections();
+		sections = this.sectionService.findByTutorialId(tutorialId);
 		// Crea y añade objetos a la vista
 		result = new ModelAndView("tutorial/display");
 		result.addObject("requestURI", "tutorial/display.do");

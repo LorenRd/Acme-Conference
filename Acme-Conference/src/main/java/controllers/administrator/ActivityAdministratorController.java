@@ -21,6 +21,7 @@ import domain.Tutorial;
 import services.ConferenceService;
 import services.PanelService;
 import services.PresentationService;
+import services.SectionService;
 import services.TutorialService;
 
 @Controller
@@ -32,6 +33,9 @@ public class ActivityAdministratorController {
 	@Autowired
 	private TutorialService	tutorialService;
 
+	@Autowired
+	private SectionService	sectionService;
+	
 	@Autowired
 	private PanelService	panelService;
 	
@@ -79,7 +83,7 @@ public class ActivityAdministratorController {
 		tutorial = this.tutorialService.findOne(tutorialId);
 		Assert.notNull(tutorial);
 
-		sections = tutorial.getSections();
+		sections = this.sectionService.findByTutorialId(tutorialId);
 		// Crea y añade objetos a la vista
 		result = new ModelAndView("tutorial/display");
 		result.addObject("requestURI", "tutorial/display.do");
@@ -145,11 +149,11 @@ public class ActivityAdministratorController {
 	
 	
 	@RequestMapping(value = "/tutorial/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView createFinalTutorial(@ModelAttribute("tutorial") Tutorial tutorial, final BindingResult binding) {
+	public ModelAndView createFinalTutorial(@RequestParam final int conferenceId, @ModelAttribute("tutorial") Tutorial tutorial, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			tutorial = this.tutorialService.save(tutorial);
+			tutorial = this.tutorialService.save(tutorial, conferenceId);
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
 			result = this.createModelAndViewTutorial(tutorial, "tutorial.commit.error");
@@ -170,11 +174,11 @@ public class ActivityAdministratorController {
 	
 	
 	@RequestMapping(value = "/panel/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView createFinalPanel(@ModelAttribute("panel") Panel panel, final BindingResult binding) {
+	public ModelAndView createFinalPanel(@RequestParam final int conferenceId,@ModelAttribute("panel") Panel panel, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			panel = this.panelService.save(panel);
+			panel = this.panelService.save(panel, conferenceId);
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
 			result = this.createModelAndViewPanel(panel, "panel.commit.error");
@@ -196,11 +200,11 @@ public class ActivityAdministratorController {
 	
 	
 	@RequestMapping(value = "/presentation/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView createFinalPanel(@ModelAttribute("presentation") Presentation presentation, final BindingResult binding) {
+	public ModelAndView createFinalPanel(@RequestParam final int conferenceId,@ModelAttribute("presentation") Presentation presentation, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			presentation = this.presentationService.save(presentation);
+			presentation = this.presentationService.save(presentation, conferenceId);
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
 			result = this.createModelAndViewPresentation(presentation, "presentation.commit.error");
@@ -221,12 +225,14 @@ public class ActivityAdministratorController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/tutorial/edit", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/tutorial/edit", method = RequestMethod.POST)
 	public ModelAndView saveFinalTutorial(@ModelAttribute("tutorial") Tutorial tutorial, final BindingResult binding) {
 		ModelAndView result;
-
+		Tutorial original;
+		
 		try {
-			tutorial = this.tutorialService.save(tutorial);
+			original = this.tutorialService.findOne(tutorial.getId());
+			tutorial = this.tutorialService.save(tutorial, original.getConference().getId());
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
 			result = this.createModelAndViewTutorial(tutorial, "tutorial.commit.error");
@@ -249,9 +255,10 @@ public class ActivityAdministratorController {
 	@RequestMapping(value = "/panel/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveFinalPanel(@ModelAttribute("panel") Panel panel, final BindingResult binding) {
 		ModelAndView result;
-
+		Panel original;
 		try {
-			panel = this.panelService.save(panel);
+			original = this.panelService.findOne(panel.getId());
+			panel = this.panelService.save(panel, original.getConference().getId());
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
 			result = this.createModelAndViewPanel(panel, "panel.commit.error");
@@ -275,9 +282,10 @@ public class ActivityAdministratorController {
 	@RequestMapping(value = "/presentation/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveFinalPresentation(@ModelAttribute("presentation") Presentation presentation, final BindingResult binding) {
 		ModelAndView result;
-
+		Presentation original;
 		try {
-			presentation = this.presentationService.save(presentation);
+			original = this.presentationService.findOne(presentation.getId());
+			presentation = this.presentationService.save(presentation, original.getConference().getId());
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
 			result = this.createModelAndViewPresentation(presentation, "presentation.commit.error");

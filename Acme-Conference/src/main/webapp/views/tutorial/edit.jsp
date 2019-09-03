@@ -18,36 +18,28 @@
 
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="conference/administrator/edit.do" modelAttribute="conference">
+<form:form action="activity/administrator/tutorial/edit.do" modelAttribute="tutorial">
 		<form:hidden path="id"/>
 		<form:hidden path="version"/>
-		
-		
-		<acme:textbox code="conference.title" path="title" placeholder="Conference title"/>
-		<br />
-		<acme:textbox code="conference.acronym" path="acronym"/>
+				
+		<acme:textbox code="activity.title" path="activityTitle"/>
 		<br />		
-		<acme:textarea code="conference.venue" path="venue"/>
+		<acme:textarea code="activity.speakers" path="speakers"/>
 		<br />
-		<acme:datebox code="conference.submissionDeadline" path="submissionDeadline" placeholder="dd/MM/yyyy HH:mm" />
+		<acme:datebox code="activity.startDate" path="startMoment" placeholder="dd/MM/yyyy HH:mm" />
 		<br />
-		<acme:datebox code="conference.notificationDeadline" path="notificationDeadline" placeholder="dd/MM/yyyy HH:mm" />
+		<acme:textbox code="activity.duration" path="duration" placeholder="0" />
 		<br />
-		<acme:datebox code="conference.cameraReadyDeadline" path="cameraReadyDeadline" placeholder="dd/MM/yyyy HH:mm" />
+		<acme:textarea code="activity.room" path="room" />
 		<br />
-		<acme:datebox code="conference.startDate" path="startDate" placeholder="dd/MM/yyyy HH:mm" />
+		<acme:textarea code="activity.summary" path="activitySummary" />
 		<br />
-		<acme:datebox code="conference.endDate" path="endDate" placeholder="dd/MM/yyyy HH:mm" />
-		<br />
-		<acme:textarea code="conference.summary" path="summary"/>
-		<br />
-		<acme:textbox code="conference.fee" path="fee" placeholder="0.0"/>
+		<acme:textarea code="activity.attachments" path="attachments" />
 		<br />		
 		<br />
-		<acme:submit name="saveDraft" code="conference.saveDraft"/>
-		<acme:submit name="saveFinal" code="conference.saveFinal"/>
+		<acme:submit name="save" code="activity.save"/>
 
 		
-		<acme:cancel url="welcome/index.do" code="conference.cancel"/>
+		<acme:cancel url="welcome/index.do" code="activity.cancel"/>
 		
 </form:form>
