@@ -20,7 +20,12 @@ public class ReportService {
 
 
 	// Simple CRUD Methods
-
+	public Report findOne(final int reportId){
+		Report result;
+		result = this.reportRepository.findOne(reportId);
+		return result;
+	}
+	
 	// Business Methods
 
 	public Collection<Report> findReportsBySubmissionId(final int submissionId) {

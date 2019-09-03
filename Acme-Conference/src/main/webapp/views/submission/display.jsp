@@ -43,6 +43,7 @@
 	        </jstl:if>
 		</jstl:forEach></ul>
 		<!-- Reports -->
+		<jstl:if test="${submission.decisionNotification}">
 		<b><spring:message code="submission.reports" /></b>:
 		<br/><ul>
 		<jstl:forEach items="${reports}" var="report" >
@@ -50,7 +51,7 @@
 	        	<li><a href="report/author/display.do?reportId=${report.id}"><jstl:out value="${report.decision}"/></a></li>
 	        </jstl:if>
 		</jstl:forEach></ul>
-
+		</jstl:if>
 
 <security:authorize access="hasRole('AUTHOR')">
 <jstl:if test="${submission.author.userAccount.username == pageContext.request.userPrincipal.name}">
