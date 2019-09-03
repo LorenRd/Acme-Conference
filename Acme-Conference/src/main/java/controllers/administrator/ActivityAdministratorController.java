@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Conference;
 import domain.Panel;
 import domain.Presentation;
 import domain.Section;
 import domain.Tutorial;
 
+import services.ConferenceService;
 import services.PanelService;
 import services.PresentationService;
 import services.TutorialService;
@@ -36,6 +38,8 @@ public class ActivityAdministratorController {
 	@Autowired
 	private PresentationService	presentationService;
 	
+	@Autowired
+	private ConferenceService	conferenceService;
 	// List
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -45,16 +49,18 @@ public class ActivityAdministratorController {
 		Collection <Tutorial> tutorials;
 		Collection <Panel> panels;
 		Collection <Presentation> presentations;
+		Conference conference;
 		
+		conference = this.conferenceService.findOne(conferenceId);
 		tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
 		panels = this.panelService.findAllByConferenceId(conferenceId);
 		presentations = this.presentationService.findAllByConferenceId(conferenceId);
 		
-		
-		result = new ModelAndView("activity/display");
+		result = new ModelAndView("activity/list");
 		result.addObject("tutorials", tutorials);
 		result.addObject("panels", panels);
 		result.addObject("presentations", presentations);
+		result.addObject("conference", conference);
 		
 		return result;
 	}

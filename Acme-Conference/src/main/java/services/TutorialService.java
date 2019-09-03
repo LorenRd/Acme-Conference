@@ -1,7 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +32,6 @@ public class TutorialService {
 		Tutorial result;
 
 		result = new Tutorial();
-		final Section initialSection = this.sectionService.create();
-		Collection<Section> sections = new ArrayList<Section>();
-		sections.add(initialSection);
-		
-		result.setSections(sections);
 
 		return result;
 	}

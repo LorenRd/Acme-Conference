@@ -17,6 +17,11 @@
 		<value>/views/security/messages</value>
 		<value>/views/welcome/messages</value>
 		<value>/views/customisation/messages</value>
+		<value>/views/activity/messages</value>
+		<value>/views/tutorial/messages</value>
+		<value>/views/panel/messages</value>
+		<value>/views/presentation/messages</value>
+		<value>/views/section/messages</value>
 
 		<value>/views/administrator/messages</value>
 		<value>/views/customer/messages</value>

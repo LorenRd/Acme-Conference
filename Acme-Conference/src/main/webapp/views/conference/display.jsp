@@ -44,25 +44,31 @@
 		<b><spring:message code="conference.isFinal" /></b>:
 		<jstl:out value="${conference.isFinal }"/><br/>
 		</jstl:if>
-		
-		<!-- Administrator -->
-		<b><spring:message code="conference.administrator" /></b>:
-		<a href="administrator/display.do?administratorId=${conference.administrator.id}">
-			<jstl:out value="${conference.administrator.userAccount.username}"/>
-		</a><br/>
-		<security:authorize access="hasRole('ADMIN')">
 		<jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
-		<br/>
-			<jstl:if test="${!conference.isFinal}">			
-				<a href="conference/administrator/edit.do?conferenceId=${conference.id}"><spring:message code="conference.edit"/></a><br/>
-			</jstl:if>
+			<b><a href="activity/administrator/list.do?conferenceId=${conference.id}"><spring:message code="conference.activity" /></a></b>
 		</jstl:if>
-		<jstl:if test="${conference.isFinal}">			
-			<jstl:if test="${submissionDeadlineOver}">
-					<input type="button" name="analyseSubmissions" value="<spring:message code="conference.analyseSubmissions" />" onclick="redirect: location.href = 'conference/administrator/analyseSubmissions.do?conferenceId=${conference.id}';" />	
-			</jstl:if>
-			<br />
-			<input type="button" name="decisionNotification" value="<spring:message code="conference.decisionNotification" />" onclick="redirect: location.href = 'conference/administrator/decisionNotification.do?conferenceId=${conference.id}';" />	
+		<jstl:if test="${conference.administrator.userAccount.username != pageContext.request.userPrincipal.name}">
+			<b><a href="activity/list.do?conferenceId=${conference.id}"><spring:message code="conference.activity" /></a></b>
 		</jstl:if>
-		</security:authorize>
+		<br/><br/>
+<!-- Administrator -->
+<b><spring:message code="conference.administrator" /></b>:
+<a href="administrator/display.do?administratorId=${conference.administrator.id}">
+	<jstl:out value="${conference.administrator.userAccount.username}"/>
+</a><br/>
+<security:authorize access="hasRole('ADMIN')">
+<jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
+<br/>
+	<jstl:if test="${!conference.isFinal}">			
+		<a href="conference/administrator/edit.do?conferenceId=${conference.id}"><spring:message code="conference.edit"/></a><br/>
+	</jstl:if>
+</jstl:if>
+<jstl:if test="${conference.isFinal}">			
+	<jstl:if test="${submissionDeadlineOver}">
+			<input type="button" name="analyseSubmissions" value="<spring:message code="conference.analyseSubmissions" />" onclick="redirect: location.href = 'conference/administrator/analyseSubmissions.do?conferenceId=${conference.id}';" />	
+	</jstl:if>
+	<br />
+	<input type="button" name="decisionNotification" value="<spring:message code="conference.decisionNotification" />" onclick="redirect: location.href = 'conference/administrator/decisionNotification.do?conferenceId=${conference.id}';" />	
+</jstl:if>
+</security:authorize>
 		

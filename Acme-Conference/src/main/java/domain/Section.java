@@ -19,8 +19,6 @@ public class Section extends DomainEntity {
 	private Collection<String>	pictures;
 
 	
-	
-	
 	@NotBlank
 	public String getSectionTitle() {
 		return this.sectionTitle;
@@ -48,5 +46,6 @@ public class Section extends DomainEntity {
 	public void setPictures(final Collection<String> pictures) {
 		this.pictures = pictures;
 	}
+	
 	
 }

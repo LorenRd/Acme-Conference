@@ -6,9 +6,9 @@
 
 <tiles-definitions>
 
-	<definition name="section/create" extends="master.page">
-		<put-attribute name="title" value="Create section" />
-		<put-attribute name="body" value="/views/section/create.jsp" />
+	<definition name="report/display" extends="master.page">
+		<put-attribute name="title" value="Mostrar revision" />
+		<put-attribute name="body" value="/views/report/display.jsp" />
 	</definition>
 
 </tiles-definitions>

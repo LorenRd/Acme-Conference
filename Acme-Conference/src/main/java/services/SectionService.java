@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-
 import repositories.SectionRepository;
 import domain.Section;
 
@@ -29,12 +28,13 @@ public class SectionService {
 		Section result;
 
 		result = new Section();
-
+		
 		return result;
 	}
 
 	public Section save(final Section section) {
 		Section saved;
+		
 		saved = this.sectionRepository.save(section);
 		return saved;
 	}
@@ -58,4 +58,5 @@ public class SectionService {
 	public void delete(Section section) {
 		this.sectionRepository.delete(section);
 	}
+	
 }

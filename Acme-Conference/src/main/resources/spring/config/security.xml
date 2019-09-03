@@ -47,6 +47,27 @@
 		<security:intercept-url pattern="/conference/listRunning.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/display.do" access="permitAll" />
 		
+		<security:intercept-url pattern="/activity/list.do" access="permitAll" />
+		<security:intercept-url pattern="/activity/tutorial/display.do" access="permitAll" />
+		<security:intercept-url pattern="/activity/panel/display.do" access="permitAll" />
+		<security:intercept-url pattern="/activity/presentation/display.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/activity/administrator/list.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/tutorial/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/tutorial/edit.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/tutorial/create.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/tutorial/delete.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/panel/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/panel/edit.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/panel/create.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/panel/delete.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/presentation/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/presentation/edit.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/presentation/create.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/presentation/delete.do" access="hasRole('ADMIN')"/>
+
+		<security:intercept-url pattern="/section/administrator/create.do" access="hasRole('ADMIN')"/>
+
 		<security:intercept-url pattern="/author/register.do" access="permitAll" /> 
 		<security:intercept-url pattern="/author/edit.do" access="hasRole('AUTHOR')" />
 		<security:intercept-url pattern="/author/display.do" access="hasRole('AUTHOR')" /> 
