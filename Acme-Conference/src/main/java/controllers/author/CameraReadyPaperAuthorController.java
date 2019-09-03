@@ -187,8 +187,7 @@ public class CameraReadyPaperAuthorController extends AbstractController {
 			result = new ModelAndView("cameraReadyPaper/create");
 
 		result.addObject("cameraReadyPaper", cameraReadyPaper);
-		result.addObject("submissions", this.submissionService
-				.findAvailableSubmissions(principal.getId()));
+		result.addObject("submissions", this.submissionService.findAvailableSubmissions(principal.getId()));
 		result.addObject("message", messageCode);
 		return result;
 	}

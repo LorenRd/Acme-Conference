@@ -50,7 +50,7 @@
 <!-- Credit Card Makes -->
 <b><spring:message code="customisation.creditCardMakes" /></b>:
 <ul>
-<jstl:forEach items="${customisation.creditCardsMakes}" var="card" >
+<jstl:forEach items="${customisation.creditCardMakes}" var="card" >
 	<jstl:if test="${card != null}">
        	<li><jstl:out value="${card}"/></li>
        </jstl:if>

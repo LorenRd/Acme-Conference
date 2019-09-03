@@ -50,11 +50,11 @@
 	<form:errors cssClass="error" path="countryCode" />
 	<br />
 	<br />
-	<form:label path="creditCardsMakes">
+	<form:label path="creditCardMakes">
 		<spring:message code="customisation.creditCardMakes" />:
 	</form:label>
-	<form:textarea path="creditCardsMakes" />
-	<form:errors cssClass="error" path="creditCardsMakes" />
+	<form:textarea path="creditCardMakes" />
+	<form:errors cssClass="error" path="creditCardMakes" />
 	<br />	
 	<br />	
 	<form:label path="topics">

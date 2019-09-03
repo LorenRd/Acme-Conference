@@ -536,7 +536,7 @@
 		<property name="moment" value="2018/05/18 09:30" />
 		<property name="author" value="Author 4" />
 		<property name="text" value="Text 4" />
-		<property name="activity" ref="tutorial2" />
+		<property name="activity" ref="tutorial1" />
 	</bean>
 
 	<bean class="domain.ActivityComment" id="activityComment2">
@@ -544,7 +544,7 @@
 		<property name="moment" value="2018/04/25 12:00" />
 		<property name="author" value="Author 5" />
 		<property name="text" value="Text 5" />
-		<property name="activity" ref="panel3" />
+		<property name="activity" ref="panel1" />
 	</bean>
 
 	<bean class="domain.ActivityComment" id="activityComment3">
@@ -552,240 +552,17 @@
 		<property name="moment" value="2018/05/02 11:20" />
 		<property name="author" value="Author 6" />
 		<property name="text" value="Text 6" />
-		<property name="activity" ref="presentation3" />
+		<property name="activity" ref="presentation1" />
 	</bean>
 
-	<!-- Sections -->
-
-	<bean class="domain.Section" id="section1">
-		<property name="sectionTitle" value="Title 1" />
-		<property name="sectionSummary" value="Summary 1" />
-		<property name="pictures">
-			<list>
-				<value>http://www.foto1.com</value>
-				<value>http://www.foto2.com</value>
-			</list>
-		</property>
-		<property name="tutorial" ref="tutorial1" />
-	</bean>
-
-	<bean class="domain.Section" id="section2">
-		<property name="sectionTitle" value="Title 2" />
-		<property name="sectionSummary" value="Summary 2" />
-		<property name="pictures">
-			<list>
-				<value>http://www.foto3.com</value>
-			</list>
-		</property>
-		<property name="tutorial" ref="tutorial2" />
-	</bean>
-
-	<bean class="domain.Section" id="section3">
-		<property name="sectionTitle" value="Title 3" />
-		<property name="sectionSummary" value="Summary 3" />
-		<property name="pictures">
-			<list>
-			</list>
-		</property>
-		<property name="tutorial" ref="tutorial3" />
-	</bean>
-
-	<!-- Tutorials -->
-
-	<bean class="domain.Tutorial" id="tutorial1">
-		<property name="activityTitle" value="Title 1" />
-		<property name="speakers">
-			<list>
-				<value>Speaker 1</value>
-				<value>Speaker 2</value>
-			</list>
-		</property>
-		<property name="schedule" value="2019/12/18 09:30" />
-		<property name="startMoment" value="2019/12/18 09:00" />
-		<property name="duration" value="30" />
-		<property name="room" value="Room 1" />
-		<property name="activitySummary" value="Summary 1" />
-		<property name="attachments">
-			<list>
-				<value>Attachment 1</value>
-				<value>Attachment 2</value>
-			</list>
-		</property>
-		<property name="conference" ref="conference1" />
-	</bean>
-
-	<bean class="domain.Tutorial" id="tutorial2">
-		<property name="activityTitle" value="Title 2" />
-		<property name="speakers">
-			<list>
-				<value>Speaker 3</value>
-			</list>
-		</property>
-		<property name="schedule" value="2020/01/10 12:00" />
-		<property name="startMoment" value="2020/01/10 13:00" />
-		<property name="duration" value="60" />
-		<property name="room" value="Room 2" />
-		<property name="activitySummary" value="Summary 2" />
-		<property name="attachments">
-			<list>
-				<value>Attachment 3</value>
-			</list>
-		</property>
-		<property name="conference" ref="conference2" />
-	</bean>
-
-	<bean class="domain.Tutorial" id="tutorial3">
-		<property name="activityTitle" value="Title 3" />
-		<property name="speakers">
-			<list>
-			</list>
-		</property>
-		<property name="schedule" value="2020/02/11 15:30" />
-		<property name="startMoment" value="2020/02/11 17:30" />
-		<property name="duration" value="120" />
-		<property name="room" value="Room 3" />
-		<property name="activitySummary" value="Summary 3" />
-		<property name="attachments">
-			<list>
-			</list>
-		</property>
-		<property name="conference" ref="conference3" />
-	</bean>
-
-	<!-- Panels -->
-
-	<bean class="domain.Panel" id="panel1">
-		<property name="activityTitle" value="Title 4" />
-		<property name="speakers">
-			<list>
-				<value>Speaker 4</value>
-				<value>Speaker 5</value>
-			</list>
-		</property>
-		<property name="schedule" value="2019/12/16 09:30" />
-		<property name="startMoment" value="2019/12/16 09:00" />
-		<property name="duration" value="30" />
-		<property name="room" value="Room 4" />
-		<property name="activitySummary" value="Summary 4" />
-		<property name="attachments">
-			<list>
-				<value>Attachment 4</value>
-				<value>Attachment 5</value>
-			</list>
-		</property>
-		<property name="conference" ref="conference1" />
-	</bean>
-
-	<bean class="domain.Panel" id="panel2">
-		<property name="activityTitle" value="Title 5" />
-		<property name="speakers">
-			<list>
-				<value>Speaker 6</value>
-			</list>
-		</property>
-		<property name="schedule" value="2020/05/16 07:00" />
-		<property name="startMoment" value="2020/05/16 08:00" />
-		<property name="duration" value="60" />
-		<property name="room" value="Room 5" />
-		<property name="activitySummary" value="Summary 5" />
-		<property name="attachments">
-			<list>
-				<value>Attachment 6</value>
-			</list>
-		</property>
-		<property name="conference" ref="conference2" />
-	</bean>
-
-	<bean class="domain.Panel" id="panel3">
-		<property name="activityTitle" value="Title 6" />
-		<property name="speakers">
-			<list>
-			</list>
-		</property>
-		<property name="schedule" value="2020/06/16 10:00" />
-		<property name="startMoment" value="2020/06/16 12:00" />
-		<property name="duration" value="120" />
-		<property name="room" value="Room 6" />
-		<property name="activitySummary" value="Summary 6" />
-		<property name="attachments">
-			<list>
-			</list>
-		</property>
-		<property name="conference" ref="conference3" />
-	</bean>
-
-	<!-- Presentation -->
-
-	<bean class="domain.Presentation" id="presentation1">
-		<property name="activityTitle" value="Title 7" />
-		<property name="speakers">
-			<list>
-				<value>Speaker 7</value>
-				<value>Speaker 8</value>
-			</list>
-		</property>
-		<property name="schedule" value="2019/11/21 20:30" />
-		<property name="startMoment" value="2019/11/21 21:00" />
-		<property name="duration" value="30" />
-		<property name="room" value="Room 7" />
-		<property name="activitySummary" value="Summary 7" />
-		<property name="attachments">
-			<list>
-				<value>Attachment 7</value>
-				<value>Attachment 8</value>
-			</list>
-		</property>
-		<property name="cameraReadyVersion" value="Version 1" />
-		<property name="conference" ref="conference1" />
-	</bean>
-
-	<bean class="domain.Presentation" id="presentation2">
-		<property name="activityTitle" value="Title 8" />
-		<property name="speakers">
-			<list>
-				<value>Speaker 9</value>
-			</list>
-		</property>
-		<property name="schedule" value="2020/03/21 20:00" />
-		<property name="startMoment" value="2020/03/21 21:00" />
-		<property name="duration" value="60" />
-		<property name="room" value="Room 8" />
-		<property name="activitySummary" value="Summary 8" />
-		<property name="attachments">
-			<list>
-				<value>Attachment 9</value>
-			</list>
-		</property>
-		<property name="cameraReadyVersion" value="Version 2" />
-		<property name="conference" ref="conference2" />
-	</bean>
-
-	<bean class="domain.Presentation" id="presentation3">
-		<property name="activityTitle" value="Title 9" />
-		<property name="speakers">
-			<list>
-			</list>
-		</property>
-		<property name="schedule" value="2020/05/21 20:00" />
-		<property name="startMoment" value="2020/05/21 22:00" />
-		<property name="duration" value="120" />
-		<property name="room" value="Room 9" />
-		<property name="activitySummary" value="Summary 9" />
-		<property name="attachments">
-			<list>
-			</list>
-		</property>
-		<property name="cameraReadyVersion" value="Version 3" />
-		<property name="conference" ref="conference3" />
-	</bean>
 
 	<!-- Customisation -->
 
 	<bean id="customisation" class="domain.Customisation">
 		<property name="systemName" value="Acme Conference" />
 		<property name="welcomeBanner" value="https://i.ibb.co/GVpZCtM/acme-conference.png" />
-		<property name="welcomeMessageEn" value="Welcome to Acme Conferences!" />
-		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Conferences!" />
+		<property name="welcomeMessageEn" value="Welcome to Acme Conferences! Your scientific event manager" />
+		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Conferences! Su gestor de eventos científicos" />
 		<property name="countryCode" value="+34" />
 		<property name="creditCardMakes">
 			<list>
@@ -1514,6 +1291,7 @@
 		<property name="parentCategory" ref="category16" />
 		<property name="englishName" value="Fungi" />
 		<property name="spanishName" value="Hongos" />
+	</bean>
 	
 	<bean class="domain.Sponsor" id="sponsor1">
 		<property name="name" value="Maria" />

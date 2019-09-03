@@ -3,15 +3,23 @@ package services;
 
 import java.util.Collection;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
+import repositories.CreditCardRepository;
 import repositories.RegistrationRepository;
 import security.Authority;
 import domain.Actor;
+import domain.Author;
+import domain.CreditCard;
 import domain.Registration;
+import forms.RegistrationForm;
 
 @Service
 @Transactional
@@ -21,11 +29,19 @@ public class RegistrationService {
 	@Autowired
 	private RegistrationRepository	registrationRepository;
 
+	@Autowired
+	private CreditCardRepository	creditCardRepository;
+	
 	// Supporting services ----------------------------------------------------
 	@Autowired
 	private ActorService			actorService;
 
+	@Autowired
+	private AuthorService			authorService;
 
+	@Autowired
+	private Validator			validator;
+	
 	//-------------------------------------
 
 	public Double avgRegistrationPerConference() {
@@ -143,7 +159,7 @@ public class RegistrationService {
 		creditCard = registration.getCreditCard();
 
 		if (creditCard != null)
-			this.creditCardService.delete(creditCard);
+			this.creditCardRepository.delete(creditCard);
 
 		this.registrationRepository.delete(registration);
 	}

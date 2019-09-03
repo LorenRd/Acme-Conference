@@ -70,8 +70,7 @@
 
 		<security:intercept-url pattern="/author/register.do" access="permitAll" /> 
 		<security:intercept-url pattern="/author/edit.do" access="hasRole('AUTHOR')" />
-		<security:intercept-url pattern="/author/display.do" access="hasRole('AUTHOR')" /> 
-		<security:intercept-url pattern="/author/display.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/author/display.do" access="hasAnyRole('ADMIN','AUTHOR')" /> 
 		<security:intercept-url pattern="/author/list.do" access="hasRole('ADMIN')" /> 
 		
 		<security:intercept-url pattern="/reviewer/register.do" access="permitAll" /> 

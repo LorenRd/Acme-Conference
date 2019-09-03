@@ -263,7 +263,7 @@ public class SubmissionService {
 				result.setReviewers(submissionForm.getReviewers());
 			}else{
 				result.getPaper().setTitle(submissionForm.getTitle());
-				result.getPaper().setAuthor(submissionForm.getAuthorPaper());
+				result.getPaper().setAuthor(submissionForm.getAuthor());
 				result.getPaper().setSummary(submissionForm.getSummary());
 				result.getPaper().setDocument(submissionForm.getDocument());
 			}
@@ -428,4 +428,17 @@ public class SubmissionService {
 
 		return result;
 	}
+	
+	public Collection<Submission> findAvailableSubmissions(final int authorId) {
+        final Collection<Submission> result = new ArrayList<Submission>();
+        final Collection<Submission> accepted = this.submissionRepository.findAcceptedSubmissions();
+
+        final Date date = new Date();
+
+        for (final Submission s : accepted)
+            if (s.getConference().getCameraReadyDeadline().after(date) && s.getAuthor().getId() == authorId)
+                result.add(s);
+
+        return result;
+    }
 }

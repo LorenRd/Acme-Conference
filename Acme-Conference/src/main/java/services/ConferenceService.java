@@ -79,12 +79,8 @@ public class ConferenceService {
 		return result;
 	}
 
-<<<<<<< HEAD
-	public Conference reconstruct(final Conference conference,
-			final BindingResult binding) {
-=======
+
 	public Conference reconstruct(final Conference conference, final BindingResult binding) {
->>>>>>> CU6-Finder
 		Conference original;
 		if (conference.getId() == 0) {
 			original = conference;
@@ -222,7 +218,6 @@ public class ConferenceService {
 		return result;
 	}
 
-<<<<<<< HEAD
 	public Collection<Conference> submissionDeadline5daysOverByAdministratorId(
 			int administratorId) {
 
@@ -458,4 +453,34 @@ public class ConferenceService {
 				
 		return Math.sqrt(result/conferenceDuration.size());
 	}
+	
+	public Collection<Conference> findAvailableConferencesForRegistration() {
+
+        return this.conferenceRepository.findAvailableConferencesForRegistration();
+    }
+	
+	public Collection<Conference> searchByMaxFee(final Double fee) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByMaxFee(fee);
+		return result;
+	}
+
+	public Collection<Conference> findByKeyword(final String keyword) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.findByKeyword(keyword);
+		return result;
+	}
+
+	public Collection<Conference> searchByCategory(final String categoryId) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByCategory(categoryId);
+		return result;
+	}
+
+	public Collection<Conference> searchByDates(final Date minDate, final Date maxDate) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByDateRange(minDate, maxDate);
+		return result;
+	}
+
 }

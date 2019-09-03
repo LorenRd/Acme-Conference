@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -86,7 +88,6 @@ public class ConferenceController extends AbstractController {
 				try {
 					date1 = format.parse(minDate);
 				} catch (final ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -94,7 +95,6 @@ public class ConferenceController extends AbstractController {
 				try {
 					date2 = format.parse(maxDate);
 				} catch (final ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -122,7 +122,6 @@ public class ConferenceController extends AbstractController {
 				try {
 					date1 = format.parse(minDate);
 				} catch (final ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -130,7 +129,6 @@ public class ConferenceController extends AbstractController {
 				try {
 					date2 = format.parse(maxDate);
 				} catch (final ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -152,7 +150,6 @@ public class ConferenceController extends AbstractController {
 				try {
 					date1 = format.parse(minDate);
 				} catch (final ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -160,7 +157,6 @@ public class ConferenceController extends AbstractController {
 				try {
 					date2 = format.parse(maxDate);
 				} catch (final ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -177,7 +173,6 @@ public class ConferenceController extends AbstractController {
 			try {
 				date1 = format.parse(minDate);
 			} catch (final ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -185,7 +180,6 @@ public class ConferenceController extends AbstractController {
 			try {
 				date2 = format.parse(maxDate);
 			} catch (final ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -301,10 +295,9 @@ public class ConferenceController extends AbstractController {
 		conferenceComments = this.conferenceCommentService
 				.findAllByConference(conferenceId);
 
-		tutorials = this.tutorialService.findByConferenceId(conferenceId);
-		panels = this.panelService.findByConferenceId(conferenceId);
-		presentations = this.presentationService
-				.findByConferenceId(conferenceId);
+		tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
+		panels = this.panelService.findAllByConferenceId(conferenceId);
+		presentations = this.presentationService.findAllByConferenceId(conferenceId);
 
 		// Crea y a�ade objetos a la vista
 		result = new ModelAndView("conference/display");
