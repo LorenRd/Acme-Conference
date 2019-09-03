@@ -57,7 +57,9 @@
 		<security:intercept-url pattern="/conference/listRunning.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/display.do" access="permitAll" />
 		
-		<security:intercept-url pattern="/conferenceComment/list.do" access="permitAll" />
+		<security:intercept-url pattern="/conferenceComment/create.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/activityComment/create.do" access="permitAll" />
 		
 		<security:intercept-url pattern="/tutorial/display.do" access="permitAll" />
 		

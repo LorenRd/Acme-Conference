@@ -96,5 +96,5 @@
 </display:table>
 
 <!-- Create comment -->
-<acme:button url="activityComment/create.do"
+<acme:button url="activityComment/create.do?activityId=${tutorial.id}"
 	code="activityComment.create" />

@@ -77,5 +77,5 @@
 </display:table>
 
 <!-- Create comment -->
-<acme:button url="activityComment/create.do"
+<acme:button url="activityComment/create.do?activityId=${presentation.id}"
 	code="activityComment.create" />
