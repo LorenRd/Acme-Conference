@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -52,8 +54,6 @@ public class MessageController extends AbstractController {
 		Collection<String> englishTopics;
 		Collection<String> spanishTopics;
 
-
-		
 		try {
 			final int actorId = this.actorService.findByPrincipal().getId();
 			Assert.notNull(actorId);
@@ -98,22 +98,20 @@ public class MessageController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "send")
-	public ModelAndView createFinal(@ModelAttribute("mensaje") Message message, final BindingResult binding) {
+	public ModelAndView createFinal(@Valid @ModelAttribute("mensaje") final Message message, final BindingResult binding) {
 		ModelAndView result;
 
-		try {
-			if (binding.hasErrors()) {
-				result = this.createModelAndView(message);
-				for (final ObjectError e : binding.getAllErrors())
-					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
-			} else {
-				message = this.messageService.save(message);
-				result = new ModelAndView("redirect:/welcome/index.do");
+		if (binding.hasErrors()) {
+			for (final ObjectError e : binding.getAllErrors())
+				System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
+			result = this.createModelAndView(message);
+		} else
+			try {
+				this.messageService.save(message);
+				result = new ModelAndView("redirect:list.do");
+			} catch (final Throwable oops) {
+				result = this.createModelAndView(message, "message.commit.error");
 			}
-
-		} catch (final Throwable oops) {
-			result = this.createModelAndView(message, "message.commit.error");
-		}
 		return result;
 	}
 
