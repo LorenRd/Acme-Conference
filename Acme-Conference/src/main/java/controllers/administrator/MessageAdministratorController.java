@@ -183,17 +183,20 @@ public class MessageAdministratorController extends AbstractController {
 		final ModelAndView result;
 		Collection<Conference> conferences;
 		Customisation customisation;
-		Collection<String> topics;
+		Collection<String> englishTopics;
+		Collection<String> spanishTopics;
 
 		conferences = this.conferenceService.findFinals();
 		customisation = this.customisationService.find();
-		topics = customisation.getTopics();
+		englishTopics = customisation.getEnglishTopics();
+		spanishTopics = customisation.getSpanishTopics();
 
 		result = new ModelAndView("message/create");
 		result.addObject("mensaje", mensaje);
 		result.addObject("conference", true);
 		result.addObject("conferences", conferences);
-		result.addObject("topics", topics);
+		result.addObject("englishTopics", englishTopics);
+		result.addObject("spanishTopics", spanishTopics);
 		result.addObject("permission", true);
 
 		result.addObject("message", messageCode);
@@ -212,15 +215,17 @@ public class MessageAdministratorController extends AbstractController {
 	protected ModelAndView modelAndViewAuthorsAndAll(final Message mensaje, final String messageCode) {
 		final ModelAndView result;
 		Customisation customisation;
-		Collection<String> topics;
+		Collection<String> englishTopics;
+		Collection<String> spanishTopics;
 
 		customisation = this.customisationService.find();
-		topics = customisation.getTopics();
-
+		englishTopics = customisation.getEnglishTopics();
+		spanishTopics = customisation.getSpanishTopics();
 		result = new ModelAndView("message/create");
 		result.addObject("mensaje", mensaje);
 		result.addObject("broadcast", true);
-		result.addObject("topics", topics);
+		result.addObject("englishTopics", englishTopics);
+		result.addObject("spanishTopics", spanishTopics);
 		result.addObject("permission", true);
 
 		result.addObject("message", messageCode);

@@ -57,11 +57,18 @@
 	<form:errors cssClass="error" path="creditCardMakes" />
 	<br />	
 	<br />	
-	<form:label path="topics">
-		<spring:message code="customisation.topics" />:
+	<form:label path="spanishTopics">
+		<spring:message code="customisation.spanishTopics" />:
 	</form:label>
-	<form:textarea path="topics" />
-	<form:errors cssClass="error" path="topics" />
+	<form:textarea path="spanishTopics" />
+	<form:errors cssClass="error" path="spanishTopics" />
+	<br />	
+	<br />	
+	<form:label path="englishTopics">
+		<spring:message code="customisation.englishTopics" />:
+	</form:label>
+	<form:textarea path="englishTopics" />
+	<form:errors cssClass="error" path="englishTopics" />
 	<br />	
 	<br />	
 	

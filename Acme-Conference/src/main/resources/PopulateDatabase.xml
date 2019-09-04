@@ -590,13 +590,17 @@
 				<value>AMEX</value>
 			</list>
 		</property>
-		<property name="topics">
+		<property name="englishTopics">
 			<list>
 				<value>INQUIRY</value>
 				<value>REBUTTAL</value>
 				<value>REGISTRATION</value>
 				<value>TOPICS</value>
 				<value>OTHER</value>
+			</list>
+		</property>
+		<property name="spanishTopics">
+			<list>
 				<value>CONSULTA</value>
 				<value>REFUTACIÓN</value>
 				<value>INSCRIPCIÓN</value>

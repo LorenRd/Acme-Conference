@@ -24,7 +24,8 @@ public class Customisation extends DomainEntity {
 	private String				welcomeMessageEs;
 	private String				countryCode;
 	private Collection<String>	creditCardMakes;
-	private Collection<String>	topics;
+	private Collection<String>	englishTopics;
+	private Collection<String>	spanishTopics;
 	private Collection<String>	voidWords;
 
 
@@ -86,14 +87,23 @@ public class Customisation extends DomainEntity {
 
 	@ElementCollection
 	@EachNotBlank
-	public Collection<String> getTopics() {
-		return this.topics;
+	public Collection<String> getEnglishTopics() {
+		return this.englishTopics;
 	}
 
-	public void setTopics(final Collection<String> topics) {
-		this.topics = topics;
+	public void setEnglishTopics(final Collection<String> englishTopics) {
+		this.englishTopics = englishTopics;
+	}
+	
+	@ElementCollection
+	@EachNotBlank
+	public Collection<String> getSpanishTopics() {
+		return this.spanishTopics;
 	}
 
+	public void setSpanishTopics(final Collection<String> spanishTopics) {
+		this.spanishTopics = spanishTopics;
+	}
 	@ElementCollection
 	@EachNotBlank
 	public Collection<String> getVoidWords() {
