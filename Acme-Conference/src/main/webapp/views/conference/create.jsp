@@ -21,7 +21,7 @@
 <form:form action="conference/administrator/create.do" modelAttribute="conference">
 		<form:hidden path="id"/>
 		<form:hidden path="version"/>
-		
+		<form:hidden path="administrator"/>
 		
 		<acme:textbox code="conference.title" path="title" placeholder="Conference title"/>
 		<br />
@@ -43,6 +43,28 @@
 		<br />
 		<acme:textbox code="conference.fee" path="fee" placeholder="0.0"/>
 		<br />		
+		
+	<jstl:if test="${cookie['language'].getValue()=='en'}">
+	<form:label path="category">
+		<spring:message code="conference.category" />:
+		</form:label>
+		<form:select path="category" >
+			<form:options items="${categories}" itemValue="id" itemLabel="englishName" />
+		</form:select>
+		<form:errors cssClass="error" path="category" />
+	</jstl:if>
+	
+	<jstl:if test="${cookie['language'].getValue()=='es'}">
+	<form:label path="category">
+		<spring:message code="conference.category" />:
+		</form:label>
+		<form:select multiple="true" path="category" >
+			<form:options items="${categories}" itemValue="id" itemLabel="spanishName" />
+		</form:select>
+		<form:errors cssClass="error" path="category" />
+	</jstl:if>
+		
+		<br />
 		<br />
 		<acme:submit name="saveDraft" code="conference.saveDraft"/>
 		<acme:submit name="saveFinal" code="conference.saveFinal"/>

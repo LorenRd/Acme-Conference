@@ -30,6 +30,7 @@
 					<li><a href="customisation/administrator/display.do"><spring:message code="master.page.administrator.customisation"/></a></li>
 					<li><a href="conference/administrator/list.do"><spring:message code="master.page.administrator.conference"/></a></li>
 					<li><a href="submission/administrator/list.do"><spring:message code="master.page.administrator.submission"/></a></li>
+					<li><a href="category/administrator/list.do"><spring:message code="master.page.administrator.category" /></a></li>
 				</ul>
 			</li>
 			<li>
