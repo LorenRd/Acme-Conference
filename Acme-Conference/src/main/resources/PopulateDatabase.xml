@@ -427,17 +427,17 @@
 	<!-- CameraReadyPaper -->
 
 	<bean class="domain.CameraReadyPaper" id="cameraReadyPaper1">
-		<property name="title" value="Title cameraReadyPaper 1" />
+		<property name="title" value="Title cameraReadyPaper 1 for Conference" />
 		<property name="author" value="Isabel" />
-		<property name="summary" value="Summary cameraReadyPaper 1" />
+		<property name="summary" value="Summary cameraReadyPaper 1 for Conference" />
 		<property name="document" value="Document cameraReadyPaper 1" />
 		<property name="submission" ref="submission1" />
 	</bean>
 
 	<bean class="domain.CameraReadyPaper" id="cameraReadyPaper2">
-		<property name="title" value="Title cameraReadyPaper 2" />
+		<property name="title" value="Title cameraReadyPaper 2 for Conference" />
 		<property name="author" value="Marta" />
-		<property name="summary" value="Summary cameraReadyPaper 2" />
+		<property name="summary" value="Summary cameraReadyPaper 2 for Conference" />
 		<property name="document" value="Document cameraReadyPaper 2" />
 		<property name="submission" ref="submission2" />
 	</bean>

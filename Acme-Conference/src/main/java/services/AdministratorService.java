@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.AdministratorRepository;
+import repositories.AuthorRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
@@ -57,6 +58,9 @@ public class AdministratorService {
 
 	@Autowired
 	private CameraReadyPaperService	cameraReadyPaperService;
+
+	@Autowired
+	private AuthorRepository		authorRepository;
 
 
 	public Administrator findByPrincipal() {
@@ -220,7 +224,7 @@ public class AdministratorService {
 				final Double n = (double) (points.get(a) / maxPoints);
 				final Double score = Double.parseDouble(df.format(n));
 				a.setScore(score);
-				this.authorService.save(a);
+				this.authorRepository.save(a);
 			}
 	}
 
