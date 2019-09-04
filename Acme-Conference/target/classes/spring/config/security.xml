@@ -40,34 +40,62 @@
 		<security:intercept-url pattern="/security/loginFailure.do" access="permitAll" /> 
 
 		<security:intercept-url pattern="/welcome/index.do" access="permitAll" /> 
-
-		<security:intercept-url pattern="/administrator/action-1.do" access="hasRole('ADMIN')" /> 
-		<security:intercept-url pattern="/administrator/action-2.do" access="hasRole('ADMIN')" /> 
-
-		<security:intercept-url pattern="/customer/action-1.do" access="hasRole('CUSTOMER')" /> 
-		<security:intercept-url pattern="/customer/action-2.do" access="hasRole('CUSTOMER')" /> 
-
-		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
-		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
-		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
-		
+				
 		<security:intercept-url pattern="/conference/list.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/listForthcoming.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/listPast.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/listRunning.do" access="permitAll" />
 		<security:intercept-url pattern="/conference/display.do" access="permitAll" />
 		
+		<security:intercept-url pattern="/activity/list.do" access="permitAll" />
+		<security:intercept-url pattern="/activity/tutorial/display.do" access="permitAll" />
+		<security:intercept-url pattern="/activity/panel/display.do" access="permitAll" />
+		<security:intercept-url pattern="/activity/presentation/display.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/activity/administrator/list.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/tutorial/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/tutorial/edit.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/tutorial/create.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/tutorial/delete.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/panel/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/panel/edit.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/panel/create.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/panel/delete.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/presentation/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/presentation/edit.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/presentation/create.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/activity/administrator/presentation/delete.do" access="hasRole('ADMIN')"/>
+
+		<security:intercept-url pattern="/conferenceComment/create.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/activityComment/create.do" access="permitAll" />
+
+		<security:intercept-url pattern="/section/administrator/create.do" access="hasRole('ADMIN')"/>
+
 		<security:intercept-url pattern="/author/register.do" access="permitAll" /> 
 		<security:intercept-url pattern="/author/edit.do" access="hasRole('AUTHOR')" />
-		<security:intercept-url pattern="/author/display.do" access="hasRole('AUTHOR')" /> 
+		<security:intercept-url pattern="/author/display.do" access="hasAnyRole('ADMIN','AUTHOR')" /> 
+		<security:intercept-url pattern="/author/list.do" access="hasRole('ADMIN')" /> 
 		
 		<security:intercept-url pattern="/reviewer/register.do" access="permitAll" /> 
 		<security:intercept-url pattern="/reviewer/edit.do" access="hasRole('REVIEWER')" />
 		<security:intercept-url pattern="/reviewer/display.do" access="hasRole('REVIEWER')" />
+				
+		<security:intercept-url pattern="/dashboard/administrator/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/customisation/administrator/display.do" access="hasRole('ADMIN')"/> 
+		<security:intercept-url pattern="/customisation/administrator/edit.do" access="hasRole('ADMIN')"/> 
 		
+		<security:intercept-url pattern="/conference/administrator/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/conference/administrator/list.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/conference/administrator/create.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/conference/administrator/edit.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/conference/administrator/analyseSubmissions.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/conference/administrator/decisionNotification.do" access="hasRole('ADMIN')"/>
+
 		<security:intercept-url pattern="/administrator/register.do" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/administrator/edit.do" access="hasRole('ADMIN')" />
-		<security:intercept-url pattern="/administrator/display.do" access="hasRole('ADMIN')" />  
+		<security:intercept-url pattern="/administrator/display.do" access="hasRole('ADMIN')" /> 
+		<security:intercept-url pattern="/administrator/score.do" access="hasRole('ADMIN')" />  
 		
 		<security:intercept-url pattern="/message/actor/list.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/message/actor/create.do" access="isAuthenticated()" />
@@ -79,7 +107,17 @@
 		<security:intercept-url pattern="/submission/author/delete.do" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/submission/author/display.do" access="hasRole('AUTHOR')"/>		
 		<security:intercept-url pattern="/submission/author/cancel.do" access="hasRole('AUTHOR')"/>	
-<<<<<<< HEAD
+		
+		<security:intercept-url pattern="/report/author/display.do" access="hasRole('AUTHOR')"/>	
+		
+		<security:intercept-url pattern="/submission/administrator/list.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/submission/administrator/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/submission/administrator/edit.do" access="hasRole('ADMIN')"/>
+		
+		<security:intercept-url pattern="/message/administrator/createBySubmission.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/message/administrator/createbyRegistered.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/message/administrator/createBySystem.do" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/message/administrator/createByAll.do" access="hasRole('ADMIN')" />
 		
 		<security:intercept-url pattern="/cameraReadyPaper/author/list.do" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/cameraReadyPaper/author/create.do" access="hasRole('AUTHOR')"/>
@@ -87,8 +125,21 @@
 		<security:intercept-url pattern="/cameraReadyPaper/author/delete.do" access="hasRole('AUTHOR')"/>
 		<security:intercept-url pattern="/cameraReadyPaper/author/display.do" access="hasRole('AUTHOR')"/>		
 		<security:intercept-url pattern="/cameraReadyPaper/author/cancel.do" access="hasRole('AUTHOR')"/>	
-=======
->>>>>>> CU4-Admin
+		
+		<security:intercept-url pattern="/registration/author/list.do" access="hasRole('AUTHOR')"/>
+		<security:intercept-url pattern="/registration/author/create.do" access="hasRole('AUTHOR')"/>
+		<security:intercept-url pattern="/registration/author/edit.do" access="hasRole('AUTHOR')"/>
+		<security:intercept-url pattern="/registration/author/delete.do" access="hasRole('AUTHOR')"/>
+		<security:intercept-url pattern="/registration/author/display.do" access="hasRole('AUTHOR')"/>		
+		<security:intercept-url pattern="/registration/author/cancel.do" access="hasRole('AUTHOR')"/>	
+		
+		<security:intercept-url pattern="/sponsor/register.do" access="permitAll" /> 
+		<security:intercept-url pattern="/sponsor/edit.do" access="hasRole('SPONSOR')" />
+		<security:intercept-url pattern="/sponsor/display.do" access="hasRole('SPONSOR')" />
+		
+		<security:intercept-url pattern="/sponsorship/sponsor/list.do" access="hasRole('SPONSOR')" />
+		<security:intercept-url pattern="/sponsorship/sponsor/edit.do" access="hasRole('SPONSOR')" />
+		<security:intercept-url pattern="/sponsorship/sponsor/create.do" access="hasRole('SPONSOR')" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

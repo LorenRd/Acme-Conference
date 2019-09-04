@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -24,11 +25,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Access(AccessType.PROPERTY)
 public class Submission extends DomainEntity {
 
-	private String ticker;
-	private Date moment;
-	private String status;
-	private Boolean	decisionNotification;
-	
+	private String	ticker;
+	private Date	moment;
+	private String	status;
+	private boolean	decisionNotification;
+
+
 	@Column(unique = true)
 	@Pattern(regexp = "^([A-Z]{3})-([A-Z, 0-9]{4})$")
 	public String getTicker() {
@@ -59,7 +61,7 @@ public class Submission extends DomainEntity {
 	public void setStatus(final String status) {
 		this.status = status;
 	}
-	
+
 	public boolean getDecisionNotification() {
 		return this.decisionNotification;
 	}
@@ -71,10 +73,11 @@ public class Submission extends DomainEntity {
 
 	// Relationships----------------------------------------------
 
-	private Conference conference;
-	private Author author;
-	public Paper paper;
-	private Collection<Reviewer> reviewers;
+	private Conference				conference;
+	private Author					author;
+	public Paper					paper;
+	private Collection<Reviewer>	reviewers;
+
 
 	@NotNull
 	@Valid
@@ -115,7 +118,7 @@ public class Submission extends DomainEntity {
 		return this.reviewers;
 	}
 
-	public void setReviewers(Collection<Reviewer> reviewers) {
+	public void setReviewers(final Collection<Reviewer> reviewers) {
 		this.reviewers = reviewers;
 	}
 
