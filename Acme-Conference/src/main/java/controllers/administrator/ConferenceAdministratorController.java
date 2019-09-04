@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AdministratorService;
+import services.CategoryService;
 import services.ConferenceService;
 import services.SubmissionService;
 
 import controllers.AbstractController;
 import domain.Administrator;
+import domain.Category;
 import domain.Conference;
 @Controller
 @RequestMapping("/conference/administrator")
@@ -35,6 +37,9 @@ public class ConferenceAdministratorController extends AbstractController {
 
 	@Autowired
 	private SubmissionService	submissionService;
+	
+	@Autowired
+	private CategoryService		categoryService;
 
 	// Listing
 
@@ -43,13 +48,16 @@ public class ConferenceAdministratorController extends AbstractController {
 		final ModelAndView result;
 		final Collection<Conference> conferences;
 		final int administratorId;
-		
+		Collection<Category> categories;
+
+		categories = this.categoryService.findAll();
 		administratorId = this.administratorService.findByPrincipal().getId();
 		
 		conferences = this.conferenceService.findByAdministratorId(administratorId);
 				
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
+		result.addObject("categories", categories);
 		result.addObject("requestURI", "conference/administrator/list.do");
 
 		return result;
@@ -62,6 +70,9 @@ public class ConferenceAdministratorController extends AbstractController {
 		final ModelAndView result;
 		Collection<Conference> conferences;
 		Administrator principal;
+		Collection<Category> categories;
+
+		categories = this.categoryService.findAll();
 		principal = this.administratorService.findByPrincipal();
 
 		//Submission deadline pasó hace 5 dias
@@ -81,7 +92,30 @@ public class ConferenceAdministratorController extends AbstractController {
 
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
-		result.addObject("conferenceURI", "conference/administrator/list.do");
+		result.addObject("categories", categories);
+		result.addObject("requestURI", "conference/administrator/list.do");
+
+		return result;
+
+	}
+	
+	//List grouped by categories
+	@RequestMapping(value = "/list", method = RequestMethod.GET, params = {
+			"conferenceCategory"
+		})
+	public ModelAndView listByStatus(@RequestParam final String conferenceCategory) {
+		final ModelAndView result;
+		Collection<Conference> conferences;
+		Collection<Category> categories;
+
+		categories = this.categoryService.findAll();
+		
+		conferences = this.conferenceService.searchByCategory(conferenceCategory);
+				
+		result = new ModelAndView("conference/list");
+		result.addObject("conferences", conferences);
+		result.addObject("categories", categories);
+		result.addObject("requestURI", "conference/list.do");
 
 		return result;
 

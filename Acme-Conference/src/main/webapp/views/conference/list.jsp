@@ -10,7 +10,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <security:authorize access="hasRole('ADMIN')">
-
+	<h3><spring:message code="conference.status.status" /></h3>
 	<form action="conference/administrator/list.do" method="get">
 
 		<input type="radio" name="conferenceStatus" value="0" checked>
@@ -27,10 +27,8 @@
 		<spring:message code="conference.status.choose" var="choose" />
 		<input type="submit" value="${choose}">
 	</form>
-
 </security:authorize>
-<br/><br/>
-
+<h3><spring:message code="conference.finder" /></h3>
 <!-- Buscar rutas por palabra clave -->
 <form action="${requestURI }" method="get">
 	<spring:message code="conference.keyword" var="searchHeader"/>
@@ -52,7 +50,27 @@
 	<input type="submit" value="${searchHeader}">
 	<input type="hidden" name="keywordBool" value="true">
 </form>
-
+<h3><spring:message code="conference.categories" /></h3>
+<!-- Agrupar por categorias -->
+<form action="${requestURI }" method="get">
+		<jstl:if test="${cookie['language'].getValue()=='es'}">
+			<select name="conferenceCategory">
+				<jstl:forEach items="${categories}" var="category">
+					<option value="${category.englishName}"><jstl:out value="${category.spanishName}"></jstl:out></option>
+				</jstl:forEach>
+			</select>
+		</jstl:if>
+		<jstl:if test="${cookie['language'].getValue()=='en'}">
+			<select name="conferenceCategory">
+				<jstl:forEach items="${categories}" var="category">
+					<option value="${category.englishName}"><jstl:out value="${category.englishName}"></jstl:out></option>
+				</jstl:forEach>
+			</select>
+		</jstl:if>
+	<br />
+	<spring:message code="conference.status.choose" var="choose" />
+	<input type="submit" value="${choose}">
+</form>
 <!-- Listing grid -->
 
 <display:table name="conferences" id="row" requestURI="${requestURI }"
