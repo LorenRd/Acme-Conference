@@ -30,8 +30,8 @@
 	<display:column property="activityTitle" title="${titleHeader}"
 		sortable="true" />
 		
-	<spring:message code="activity.startDate" var="startDateHeader" />
-	<display:column property="startMoment" title="${startDate}"
+	<spring:message code="activity.startMoment" var="startMomentHeader" />
+	<display:column property="startMoment" title="${startMomentHeader}"
 		sortable="true" />
 		
 	<security:authorize access="hasRole('ADMIN')">
@@ -63,8 +63,8 @@
 	<display:column property="activityTitle" title="${titleHeader}"
 		sortable="true" />
 		
-	<spring:message code="activity.startDate" var="startDateHeader" />
-	<display:column property="startMoment" title="${startDate}"
+	<spring:message code="activity.startMoment" var="startMomentHeader" />
+	<display:column property="startMoment" title="${startMomentHeader}"
 		sortable="true" />
 	<security:authorize access="hasRole('ADMIN')">
 		<display:column>
@@ -95,8 +95,8 @@
 	<display:column property="activityTitle" title="${titleHeader}"
 		sortable="true" />
 		
-	<spring:message code="activity.startDate" var="startDateHeader" />
-	<display:column property="startMoment" title="${startDate}"
+	<spring:message code="activity.startMoment" var="startMomentHeader" />
+	<display:column property="startMoment" title="${startMomentHeader}"
 		sortable="true" />
 		
 	<security:authorize access="hasRole('ADMIN')">

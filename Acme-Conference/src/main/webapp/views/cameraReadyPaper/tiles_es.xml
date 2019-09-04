@@ -7,22 +7,22 @@
 <tiles-definitions>
 
 	<definition name="cameraReadyPaper/list" extends="master.page">
-		<put-attribute name="title" value="Lista de papeles listos para cámara" />
+		<put-attribute name="title" value="Lista de papeles listos para camara" />
 		<put-attribute name="body" value="/views/cameraReadyPaper/list.jsp" />
 	</definition>
 
 	<definition name="cameraReadyPaper/display" extends="master.page">
-		<put-attribute name="title" value="Mostrar papel listo para cámara" />
+		<put-attribute name="title" value="Mostrar papel listo para camara" />
 		<put-attribute name="body" value="/views/cameraReadyPaper/display.jsp" />
 	</definition>
 
 	<definition name="cameraReadyPaper/create" extends="master.page">
-		<put-attribute name="title" value="Crear un papel listo para cámara nuevo" />
+		<put-attribute name="title" value="Crear un papel listo para camara nuevo" />
 		<put-attribute name="body" value="/views/cameraReadyPaper/create.jsp" />
 	</definition>
 
 	<definition name="cameraReadyPaper/edit" extends="master.page">
-		<put-attribute name="title" value="Editar el papel listo para cámara" />
+		<put-attribute name="title" value="Editar el papel listo para camara" />
 		<put-attribute name="body" value="/views/cameraReadyPaper/edit.jsp" />
 	</definition>
 

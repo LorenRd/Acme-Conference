@@ -26,7 +26,7 @@
 		<br />		
 		<acme:textarea code="activity.speakers" path="speakers"/>
 		<br />
-		<acme:datebox code="activity.startDate" path="startMoment" placeholder="dd/MM/yyyy HH:mm" />
+		<acme:datebox code="activity.startMoment" path="startMoment" placeholder="dd/MM/yyyy HH:mm" />
 		<br />
 		<acme:textbox code="activity.duration" path="duration" placeholder="0" />
 		<br />

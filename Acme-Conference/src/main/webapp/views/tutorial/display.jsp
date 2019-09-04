@@ -24,7 +24,7 @@
 		<b><spring:message code="activity.schedule" /></b>:
 		<jstl:out value="${tutorial.schedule}"/><br/>
 
-		<b><spring:message code="activity.startDate" /></b>:
+		<b><spring:message code="activity.startMoment" /></b>:
 		<jstl:out value="${tutorial.startMoment}"/><br/>	
 
 		<b><spring:message code="activity.duration" /></b>:
