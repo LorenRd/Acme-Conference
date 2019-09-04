@@ -101,13 +101,6 @@ public class SubmissionService {
 	}
 
 	public Submission create() {
-		//		Submission result;
-		//
-		//		result = new Submission();
-		//		result.setPaper(null);
-		//
-		//		return result;
-
 		Submission result;
 		final Author principal;
 

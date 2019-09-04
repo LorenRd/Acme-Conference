@@ -29,7 +29,7 @@
 	<form:label path="parentCategory">
 		<spring:message code="category.parents" />:
 		</form:label>
-		<form:select multiple="true" path="parentCategory" >
+		<form:select path="parentCategory" >
 			<form:options items="${allPossibleParents}" itemValue="id" itemLabel="englishName" />
 		</form:select>
 		<form:errors cssClass="error" path="parentCategory" />
@@ -39,7 +39,7 @@
 	<form:label path="parentCategory">
 		<spring:message code="category.parents" />:
 		</form:label>
-		<form:select multiple="true" path="parentCategory" >
+		<form:select path="parentCategory" >
 			<form:options items="${allPossibleParents}" itemValue="id" itemLabel="spanishName" />
 		</form:select>
 		<form:errors cssClass="error" path="parentCategory" />

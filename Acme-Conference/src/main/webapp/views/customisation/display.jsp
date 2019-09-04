@@ -66,6 +66,16 @@
        </jstl:if>
 </jstl:forEach>
 </ul>
+
+<!-- Void words -->
+<b><spring:message code="customisation.voidWords" /></b>:
+<ul>
+<jstl:forEach items="${customisation.voidWords}" var="voidWord" >
+	<jstl:if test="${voidWord != null}">
+       	<li><jstl:out value="${voidWord}"/></li>
+       </jstl:if>
+</jstl:forEach>
+</ul>
 <div>
 
 <a href="customisation/administrator/edit.do"> <spring:message code="customisation.edit"/> </a>
