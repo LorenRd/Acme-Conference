@@ -1,6 +1,9 @@
 
 package controllers.administrator;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -45,20 +48,141 @@ public class ConferenceAdministratorController extends AbstractController {
 	@Autowired
 	private CategoryService		categoryService;
 
-
 	// Listing
-
+	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
-		final ModelAndView result;
-		final Collection<Conference> conferences;
-		final int administratorId;
+	public ModelAndView list(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool, @RequestParam(required = false) final Double fee,
+		@RequestParam(required = false) final String category, @RequestParam(required = false) final String minDate, @RequestParam(required = false) final String maxDate) {
+		ModelAndView result;
+		Collection<Conference> conferences;
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		administratorId = this.administratorService.findByPrincipal().getId();
+		
+		if (keywordBool && keyword != "") {
+			conferences = this.conferenceService.findByKeyword(keyword);
 
-		conferences = this.conferenceService.findByAdministratorId(administratorId);
+			if (category != "") {
+				Collection<Conference> conferencesByCategory;
+				conferencesByCategory = this.conferenceService.searchByCategory(category);
+				conferences.retainAll(conferencesByCategory);
+			}
+
+			if (fee != null) {
+				Collection<Conference> conferencesByMaxFee;
+				conferencesByMaxFee = this.conferenceService.searchByMaxFee(fee);
+				conferences.retainAll(conferencesByMaxFee);
+			}
+
+			if (minDate != "" && maxDate != "") {
+				Collection<Conference> conferencesByDateRanges;
+
+				final DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+				Date date1 = null;
+
+				try {
+					date1 = format.parse(minDate);
+				} catch (final ParseException e) {
+					e.printStackTrace();
+				}
+
+				Date date2 = null;
+				try {
+					date2 = format.parse(maxDate);
+				} catch (final ParseException e) {
+					e.printStackTrace();
+				}
+
+				conferencesByDateRanges = this.conferenceService.searchByDates(date1, date2);
+				conferences.retainAll(conferencesByDateRanges);
+			}
+		}
+
+		else if (keywordBool && fee != null) {
+			conferences = this.conferenceService.searchByMaxFee(fee);
+
+			if (category != "") {
+				Collection<Conference> conferencesByCategory;
+				conferencesByCategory = this.conferenceService.searchByCategory(category);
+				conferences.retainAll(conferencesByCategory);
+			}
+
+			if (minDate != "" && maxDate != "") {
+				Collection<Conference> conferencesByDateRanges;
+
+				final DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+				Date date1 = null;
+
+				try {
+					date1 = format.parse(minDate);
+				} catch (final ParseException e) {
+					e.printStackTrace();
+				}
+
+				Date date2 = null;
+				try {
+					date2 = format.parse(maxDate);
+				} catch (final ParseException e) {
+					e.printStackTrace();
+				}
+
+				conferencesByDateRanges = this.conferenceService.searchByDates(date1, date2);
+				conferences.retainAll(conferencesByDateRanges);
+			}
+		}
+
+		else if (keywordBool && category != "") {
+			conferences = this.conferenceService.searchByCategory(category);
+
+			if (minDate != "" && maxDate != "") {
+				Collection<Conference> conferencesByDateRanges;
+
+				final DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+				Date date1 = null;
+
+				try {
+					date1 = format.parse(minDate);
+				} catch (final ParseException e) {
+					e.printStackTrace();
+				}
+
+				Date date2 = null;
+				try {
+					date2 = format.parse(maxDate);
+				} catch (final ParseException e) {
+					e.printStackTrace();
+				}
+
+				conferencesByDateRanges = this.conferenceService.searchByDates(date1, date2);
+				conferences.retainAll(conferencesByDateRanges);
+			}
+		}
+
+		else if (keywordBool && minDate != "" && maxDate != "") {
+			final DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+			Date date1 = null;
+
+			try {
+				date1 = format.parse(minDate);
+			} catch (final ParseException e) {
+				e.printStackTrace();
+			}
+
+			Date date2 = null;
+			try {
+				date2 = format.parse(maxDate);
+			} catch (final ParseException e) {
+				e.printStackTrace();
+			}
+
+			conferences = this.conferenceService.searchByDates(date1, date2);
+
+		} else
+			conferences = this.conferenceService.findFinals();
 
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
@@ -66,8 +190,9 @@ public class ConferenceAdministratorController extends AbstractController {
 		result.addObject("requestURI", "conference/administrator/list.do");
 
 		return result;
-
 	}
+
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET, params = {
 		"conferenceStatus"
 	})

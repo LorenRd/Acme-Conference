@@ -389,6 +389,10 @@
 		<property name="conference" ref="conference2" />
 		<property name="paper" ref="paper2" />
 		<property name="decisionNotification" value="false" />
+		<property name="reviewers">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<bean class="domain.Submission" id="submission3">
@@ -399,6 +403,10 @@
 		<property name="conference" ref="conference3" />
 		<property name="paper" ref="paper3" />
 		<property name="decisionNotification" value="false" />
+		<property name="reviewers">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<!-- Paper -->

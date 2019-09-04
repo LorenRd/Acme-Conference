@@ -120,6 +120,7 @@ public class SubmissionService {
 		result.setDecisionNotification(false);
 		result.setMoment(new Date(System.currentTimeMillis() - 1));
 		result.setPaper(paper);
+		result.setReviewers(new ArrayList<Reviewer>());
 
 		return result;
 
@@ -245,6 +246,7 @@ public class SubmissionService {
 			paper.setAuthor(submissionForm.getAuthor());
 			paper.setSummary(submissionForm.getSummary());
 			paper.setDocument(submissionForm.getDocument());
+			result.setReviewers(new ArrayList<Reviewer>());
 			this.paperService.save(paper);
 			result.setPaper(paper);
 
