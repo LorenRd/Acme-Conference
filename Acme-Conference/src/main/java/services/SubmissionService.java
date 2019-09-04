@@ -22,7 +22,6 @@ import org.springframework.validation.Validator;
 import repositories.PaperRepository;
 import repositories.SubmissionRepository;
 import security.Authority;
-
 import domain.Actor;
 import domain.Administrator;
 import domain.Author;
@@ -46,25 +45,25 @@ public class SubmissionService {
 	// Supporting services ----------------------------------------------------
 
 	@Autowired
-	private AuthorService authorService;
-	
-	@Autowired
-	private ActorService actorService;
-	
-	@Autowired
-	private AdministratorService administratorService;
-	
-	@Autowired
-	private ReviewerService reviewerService;
+	private AuthorService			authorService;
 
 	@Autowired
-	private MessageService messageService;
+	private ActorService			actorService;
 
 	@Autowired
-	private PaperService paperService;
-	
+	private AdministratorService	administratorService;
+
 	@Autowired
-	private Validator validator;
+	private ReviewerService			reviewerService;
+
+	@Autowired
+	private MessageService			messageService;
+
+	@Autowired
+	private PaperService			paperService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Simple CRUD Methods
@@ -76,7 +75,7 @@ public class SubmissionService {
 		Assert.notNull(result);
 		return result;
 	}
-	
+
 	public Collection<Submission> findAll() {
 		Collection<Submission> result;
 
@@ -84,8 +83,7 @@ public class SubmissionService {
 		Assert.notNull(result);
 		return result;
 	}
-	
-	
+
 	public Collection<Submission> findAllByConferenceId(final int conferenceId) {
 		Collection<Submission> result;
 
@@ -93,7 +91,7 @@ public class SubmissionService {
 		Assert.notNull(result);
 		return result;
 	}
-	
+
 	public Collection<Submission> findAllByConferenceIdDecision(final int conferenceId) {
 		Collection<Submission> result;
 
@@ -101,7 +99,7 @@ public class SubmissionService {
 		Assert.notNull(result);
 		return result;
 	}
-	
+
 	public Submission create() {
 		//		Submission result;
 		//
@@ -154,12 +152,12 @@ public class SubmissionService {
 
 		return result;
 	}
-	public void saveSubmissionAdmin(final Submission submission){
+	public void saveSubmissionAdmin(final Submission submission) {
 		Submission result;
 		result = this.submissionRepository.save(submission);
 		Assert.notNull(result);
 	}
-	
+
 	public void delete(final Submission submission) {
 		Paper paper;
 
@@ -259,9 +257,9 @@ public class SubmissionService {
 
 		} else {
 			result = this.submissionRepository.findOne(submissionForm.getId());
-			if(submissionForm.getReviewers()!=null){
+			if (submissionForm.getReviewers() != null)
 				result.setReviewers(submissionForm.getReviewers());
-			}else{
+			else {
 				result.getPaper().setTitle(submissionForm.getTitle());
 				result.getPaper().setAuthor(submissionForm.getAuthor());
 				result.getPaper().setSummary(submissionForm.getSummary());
@@ -286,7 +284,7 @@ public class SubmissionService {
 		submissionForm.setDocument(submission.getPaper().getDocument());
 		return submissionForm;
 	}
-	
+
 	public Collection<Submission> findAllByAdministratorId(final int administratorId) {
 		Collection<Submission> result;
 		result = new ArrayList<Submission>();
@@ -294,7 +292,7 @@ public class SubmissionService {
 
 		return result;
 	}
-	
+
 	public Map<String, List<Submission>> groupByStatus(final Collection<Submission> submissions) {
 		final Map<String, List<Submission>> result = new HashMap<String, List<Submission>>();
 
@@ -315,57 +313,52 @@ public class SubmissionService {
 		if (!result.containsKey("REJECTED"))
 			result.put("REJECTED", new ArrayList<Submission>());
 
-
 		return result;
 	}
 
-	public void reviewerAssignation (){
-		Collection <Submission> submissions;
-		Collection <Reviewer> reviewers;
-		
+	public void reviewerAssignation() {
+		Collection<Submission> submissions;
+		Collection<Reviewer> reviewers;
+
 		submissions = this.submissionRepository.findSubmissionUnderReview();
 		reviewers = this.reviewerService.findAll();
-		
-		Iterator<Reviewer> revIterator = reviewers.iterator();
-		
-		for (Submission s: submissions) {
-			Collection <Reviewer> submissionReviewers = new ArrayList<Reviewer>();
 
-			if(s.getReviewers().size()<3){
-				for (Reviewer r : reviewers) {
+		final Iterator<Reviewer> revIterator = reviewers.iterator();
+
+		for (final Submission s : submissions) {
+			final Collection<Reviewer> submissionReviewers = new ArrayList<Reviewer>();
+
+			if (s.getReviewers().size() < 3)
+				for (final Reviewer r : reviewers) {
 					revIterator.next();
-					for (String e: r.getExpertises()) {
-						if(s.getConference().getTitle().toLowerCase().contains(e.toLowerCase()) || s.getConference().getSummary().toLowerCase().contains(e.toLowerCase())){
+					for (final String e : r.getExpertises())
+						if (s.getConference().getTitle().toLowerCase().contains(e.toLowerCase()) || s.getConference().getSummary().toLowerCase().contains(e.toLowerCase()))
 							submissionReviewers.add(r);
-						}	
-					}
-				if(!revIterator.hasNext() && submissionReviewers.isEmpty()){
-					submissionReviewers.add(r);
+					if (!revIterator.hasNext() && submissionReviewers.isEmpty())
+						submissionReviewers.add(r);
+					s.setReviewers(submissionReviewers);
 				}
-				s.setReviewers(submissionReviewers);
-			}
-			}
 			this.saveSubmissionAdmin(s);
 		}
-						
+
 	}
-	
-	public void decisionNotificationProcedure (final int conferenceId){
+
+	public void decisionNotificationProcedure(final int conferenceId) {
 		Administrator principal;
-		Collection<Actor> recipients = new ArrayList<Actor>();
+		final Collection<Actor> recipients = new ArrayList<Actor>();
 		Collection<Submission> submissions = new ArrayList<Submission>();
 		principal = this.administratorService.findByPrincipal();
-		
+
 		submissions = this.findAllByConferenceIdDecision(conferenceId);
-		
-		for (Submission s : submissions) {
+
+		for (final Submission s : submissions) {
 			s.setDecisionNotification(true);
 			this.saveSubmissionAdmin(s);
-			
-			Actor actor = this.actorService.findOne(s.getAuthor().getId());
+
+			final Actor actor = this.actorService.findOne(s.getAuthor().getId());
 			recipients.add(actor);
 		}
-		
+
 		Message message;
 		message = this.messageService.create();
 		message.setSender(principal);
@@ -375,9 +368,9 @@ public class SubmissionService {
 		message.setBody("One of your submission has any update.");
 		this.messageService.save(message);
 	}
-	
+
 	//-------------------------------------
-	
+
 	public Double avgSubmissionPerConference() {
 		final Authority authority = new Authority();
 		authority.setAuthority(Authority.ADMIN);
@@ -428,17 +421,17 @@ public class SubmissionService {
 
 		return result;
 	}
-	
+
 	public Collection<Submission> findAvailableSubmissions(final int authorId) {
-        final Collection<Submission> result = new ArrayList<Submission>();
-        final Collection<Submission> accepted = this.submissionRepository.findAcceptedSubmissions();
+		final Collection<Submission> result = new ArrayList<Submission>();
+		final Collection<Submission> accepted = this.submissionRepository.findAcceptedSubmissions();
 
-        final Date date = new Date();
+		final Date date = new Date();
 
-        for (final Submission s : accepted)
-            if (s.getConference().getCameraReadyDeadline().after(date) && s.getAuthor().getId() == authorId)
-                result.add(s);
+		for (final Submission s : accepted)
+			if (s.getConference().getCameraReadyDeadline().after(date) && s.getAuthor().getId() == authorId)
+				result.add(s);
 
-        return result;
-    }
+		return result;
+	}
 }

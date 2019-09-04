@@ -16,6 +16,12 @@
 		<value>/views/misc/messages</value>
 		<value>/views/security/messages</value>
 		<value>/views/welcome/messages</value>
+		<value>/views/customisation/messages</value>
+		<value>/views/activity/messages</value>
+		<value>/views/tutorial/messages</value>
+		<value>/views/panel/messages</value>
+		<value>/views/presentation/messages</value>
+		<value>/views/section/messages</value>
 
 		<value>/views/administrator/messages</value>
 		<value>/views/customer/messages</value>
@@ -24,16 +30,23 @@
 		<value>/views/author/messages</value>
 		<value>/views/reviewer/messages</value>
 		<value>/views/conference/messages</value>
-		<!-- <value>/views/registration/messages</value> -->
+		<value>/views/registration/messages</value>
 		<value>/views/creditCard/messages</value>
 		<value>/views/submission/messages</value>
-<<<<<<< HEAD
-		<value>/views/cameraReadyPaper/messages</value>
-=======
+		<value>/views/report/messages</value>
+		
 <!-- 		<value>/views/paper/messages</value>
 		<value>/views/cameraReadyPaper/messages</value> -->
->>>>>>> CU4-Admin
+		<value>/views/cameraReadyPaper/messages</value>
 		<value>/views/message/messages</value>
+		<value>/views/category/messages</value>
+		<value>/views/conferenceComment/messages</value>
+		<value>/views/activityComment/messages</value>
+		<value>/views/tutorial/messages</value>
+		<value>/views/panel/messages</value>
+		<value>/views/presentation/messages</value>
+		<value>/views/sponsor/messages</value>
+		<value>/views/sponsorship/messages</value>
 	</util:list>
 
 </beans>
