@@ -378,12 +378,14 @@ public class ConferenceService {
 			final long duration = (c.getEndDate().getTime() - c.getStartDate().getTime()) / 86400000;
 			conferenceDuration.add(duration);
 		}
-
-		result = conferenceDuration.iterator().next();
-		for (final Long d : conferenceDuration)
-			if (d < result)
-				result = d;
-
+		if(conferenceDuration.size()>0){
+			result = conferenceDuration.iterator().next();
+			for (final Long d : conferenceDuration)
+				if (d < result)
+					result = d;
+		}else{
+			result = (long) 0.0;
+		}
 		return result;
 	}
 	public Long maxDaysPerConference() {
@@ -401,11 +403,14 @@ public class ConferenceService {
 			conferenceDuration.add(duration);
 		}
 
-		result = conferenceDuration.iterator().next();
-		for (final Long d : conferenceDuration)
-			if (d > result)
-				result = d;
-
+		if(conferenceDuration.size()>0){
+			result = conferenceDuration.iterator().next();
+			for (final Long d : conferenceDuration)
+				if (d > result)
+					result = d;
+		}else{
+			result = (long) 0.0;
+		}
 		return result;
 	}
 
