@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.CategoryService;
 import services.ConferenceCommentService;
 import services.ConferenceService;
+import services.QuoletService;
 import services.SponsorshipService;
 import services.PanelService;
 import services.PresentationService;
@@ -27,6 +28,7 @@ import services.TutorialService;
 import controllers.AbstractController;
 import domain.Category;
 import domain.Conference;
+import domain.Quolet;
 import domain.Sponsorship;
 import domain.ConferenceComment;
 import domain.Panel;
@@ -47,7 +49,6 @@ public class ConferenceController extends AbstractController {
 	@Autowired
 	private ConferenceCommentService conferenceCommentService;
 
-
 	@Autowired
 	private TutorialService tutorialService;
 
@@ -59,6 +60,10 @@ public class ConferenceController extends AbstractController {
 
 	@Autowired
 	private CategoryService categoryService;
+
+	@Autowired
+	private QuoletService quoletService;
+	
 	// List
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -321,6 +326,7 @@ public class ConferenceController extends AbstractController {
 		final Collection<Tutorial> tutorials;
 		final Collection<Panel> panels;
 		final Collection<Presentation> presentations;
+		final Collection<Quolet> quolets;
 
 		
 		// Busca en el repositorio
@@ -342,6 +348,7 @@ public class ConferenceController extends AbstractController {
 		tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
 		panels = this.panelService.findAllByConferenceId(conferenceId);
 		presentations = this.presentationService.findAllByConferenceId(conferenceId);
+		quolets = this.quoletService.findAllByConferenceId(conferenceId);
 
 		// Crea y a�ade objetos a la vista
 		result = new ModelAndView("conference/display");
@@ -353,6 +360,7 @@ public class ConferenceController extends AbstractController {
 		result.addObject("conference", conference);
 		result.addObject("submissionDeadlineOver", submissionDeadlineOver);
 		result.addObject("banner", sponsorship.getBanner());
+		result.addObject("quolets", quolets);
 
 		// Env�a la vista
 		return result;

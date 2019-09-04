@@ -24,11 +24,13 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AdministratorService;
 import services.CategoryService;
 import services.ConferenceService;
+import services.QuoletService;
 import services.SubmissionService;
 import controllers.AbstractController;
 import domain.Administrator;
 import domain.Category;
 import domain.Conference;
+import domain.Quolet;
 
 @Controller
 @RequestMapping("/conference/administrator")
@@ -48,6 +50,10 @@ public class ConferenceAdministratorController extends AbstractController {
 	@Autowired
 	private CategoryService		categoryService;
 
+	@Autowired
+	private QuoletService quoletService;
+	
+	
 	// Listing
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -262,6 +268,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		Conference conference;
 		boolean submissionDeadlineOver = false;
 		final Date date = new Date(System.currentTimeMillis());
+		final Collection<Quolet> quolets;
 
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
@@ -270,11 +277,14 @@ public class ConferenceAdministratorController extends AbstractController {
 		if (conference.getSubmissionDeadline().before(date))
 			submissionDeadlineOver = true;
 
+		quolets = this.quoletService.findAllByConferenceId(conferenceId);
+		
 		// Crea y a�ade objetos a la vista
 		result = new ModelAndView("conference/display");
 		result.addObject("requestURI", "conference/display.do");
 		result.addObject("conference", conference);
 		result.addObject("submissionDeadlineOver", submissionDeadlineOver);
+		result.addObject("quolets", quolets);
 
 		// Env�a la vista
 		return result;
