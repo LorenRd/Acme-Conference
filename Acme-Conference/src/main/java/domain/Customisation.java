@@ -95,6 +95,7 @@ public class Customisation extends DomainEntity {
 	}
 
 	@ElementCollection
+	@EachNotBlank
 	public Collection<String> getVoidWords() {
 		return this.voidWords;
 	}
