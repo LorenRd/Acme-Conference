@@ -13,7 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ActivityCommentRepository;
+import security.Authority;
 import domain.ActivityComment;
+import domain.Actor;
 
 @Service
 @Transactional
@@ -24,7 +26,9 @@ public class ActivityCommentService {
 	private ActivityCommentRepository activityCommentRepository;
 
 	// Supporting services ----------------------------------------------------
-
+	@Autowired
+	private ActorService actorService;
+	
 	@Autowired
 	private ActivityService activityService;
 
@@ -72,6 +76,57 @@ public class ActivityCommentService {
 		if (binding.hasErrors()) {
 			throw new ValidationException();
 		}
+
+		return result;
+	}
+	
+	//----------------------------------------
+	
+	public Double avgCommentsPerActivity() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.activityCommentRepository.avgCommentsPerActivity();
+
+		return result;
+	}
+	public Double minCommentsPerActivity() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.activityCommentRepository.minCommentsPerActivity();
+
+		return result;
+	}
+	public Double maxCommentsPerActivity() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.activityCommentRepository.maxCommentsPerActivity();
+
+		return result;
+	}
+	public Double stddevCommentsPerActivity() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.activityCommentRepository.stddevCommentsPerActivity();
 
 		return result;
 	}

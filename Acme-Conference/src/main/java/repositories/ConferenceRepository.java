@@ -80,5 +80,15 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 	@Query("select f from Conference f where (f.startDate BETWEEN ?1 AND ?2) and f.isFinal = true")
 	Collection<Conference> searchByDateRange(Date dateMin, Date dateMax);
 
-    
+	@Query("select avg(1.0*(select count (co) from Conference co where co.category.id = c.id)) from Category c")
+	Double avgConferencePerCategory();
+	
+	@Query("select min(1.0*(select count (co) from Conference co where co.category.id = c.id)) from Category c")
+	Double minConferencePerCategory();
+	
+	@Query("select max(1.0*(select count (co) from Conference co where co.category.id = c.id)) from Category c")
+	Double maxConferencePerCategory();
+	
+	@Query("select stddev(1.0*(select count (co) from Conference co where co.category.id = c.id)) from Category c")
+	Double stddevConferencePerCategory();
 }

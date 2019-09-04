@@ -555,6 +555,22 @@
 		<property name="activity" ref="presentation1" />
 	</bean>
 
+	<bean class="domain.ActivityComment" id="activityComment4">
+		<property name="title" value="Title 6" />
+		<property name="moment" value="2018/05/02 11:20" />
+		<property name="author" value="Author 6" />
+		<property name="text" value="Text 6" />
+		<property name="activity" ref="presentation1" />
+	</bean>
+
+	<bean class="domain.ActivityComment" id="activityComment5">
+		<property name="title" value="Title 6" />
+		<property name="moment" value="2018/05/02 11:20" />
+		<property name="author" value="Author 6" />
+		<property name="text" value="Text 6" />
+		<property name="activity" ref="presentation1" />
+	</bean>
+
 
 	<!-- Customisation -->
 

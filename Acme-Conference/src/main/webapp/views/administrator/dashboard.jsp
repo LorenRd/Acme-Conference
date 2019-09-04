@@ -76,5 +76,44 @@
 		</tr>
 	</table>
 
+	<table class="displayStyle">
+		<tr>
+			<th colspan="5"><spring:message code="administrator.statistics" /></th>
+		</tr>
+
+		<tr>
+			<th><spring:message code="administrator.metrics" /></th>
+			<th><spring:message code="administrator.average" /></th>
+			<th><spring:message code="administrator.minimum" /></th>
+			<th><spring:message code="administrator.maximum" /></th>
+			<th><spring:message code="administrator.std" /></th>
+		</tr>
+
+		<tr>
+			<td><spring:message code="administrator.conferencePerCategory" /></td>
+			<td><jstl:out value="${avgConferencePerCategory }" /></td>
+			<td><jstl:out value="${minConferencePerCategory }" /></td>
+			<td><jstl:out value="${maxConferencePerCategory }" /></td>
+			<td><jstl:out value="${stddevConferencePerCategory }" /></td>
+		</tr>
+
+		<tr>
+			<td><spring:message code="administrator.commentPerConference" /></td>
+			<td><jstl:out value="${avgCommentPerConference }" /></td>
+			<td><jstl:out value="${minCommentPerConference }" /></td>
+			<td><jstl:out value="${maxCommentPerConference }" /></td>
+			<td><jstl:out value="${stddevCommentPerConference }" /></td>
+		</tr>
+
+		<tr>
+			<td><spring:message
+					code="administrator.commentPerActivity" /></td>
+			<td><jstl:out value="${avgCommentPerActivity }" /></td>
+			<td><jstl:out value="${minCommentPerActivity }" /></td>
+			<td><jstl:out value="${maxCommentPerActivity }" /></td>
+			<td><jstl:out value="${stddevCommentPerActivity }" /></td>
+		</tr>
+
+	</table>
 
 </security:authorize>

@@ -482,5 +482,56 @@ public class ConferenceService {
 		result = this.conferenceRepository.searchByDateRange(minDate, maxDate);
 		return result;
 	}
+	
+	public Double avgConferencePerCategory() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.conferenceRepository.avgConferencePerCategory();
+		
+		return result;
+	}
+	public Double minConferencePerCategory() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.conferenceRepository.minConferencePerCategory();
+		
+		return result;
+	}
+	public Double maxConferencePerCategory() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.conferenceRepository.maxConferencePerCategory();
+		
+		return result;
+	}
+	
+	
+	public Double stddevConferencePerCategory() {
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.ADMIN);
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authority));
+		Double result;
+
+		result = this.conferenceRepository.stddevConferencePerCategory();
+		
+		return result;
+	}
 
 }
