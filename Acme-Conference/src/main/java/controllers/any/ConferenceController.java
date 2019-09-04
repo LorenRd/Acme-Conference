@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.CategoryService;
 import services.ConferenceCommentService;
 import services.ConferenceService;
 import services.SponsorshipService;
@@ -24,6 +25,7 @@ import services.PanelService;
 import services.PresentationService;
 import services.TutorialService;
 import controllers.AbstractController;
+import domain.Category;
 import domain.Conference;
 import domain.Sponsorship;
 import domain.ConferenceComment;
@@ -55,6 +57,8 @@ public class ConferenceController extends AbstractController {
 	@Autowired
 	private PresentationService presentationService;
 
+	@Autowired
+	private CategoryService categoryService;
 	// List
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -62,7 +66,10 @@ public class ConferenceController extends AbstractController {
 		@RequestParam(required = false) final String category, @RequestParam(required = false) final String minDate, @RequestParam(required = false) final String maxDate) {
 		ModelAndView result;
 		Collection<Conference> conferences;
+		Collection<Category> categories;
 
+		categories = this.categoryService.findAll();
+		
 		if (keywordBool && keyword != "") {
 			conferences = this.conferenceService.findByKeyword(keyword);
 
@@ -190,6 +197,7 @@ public class ConferenceController extends AbstractController {
 
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
+		result.addObject("categories", categories);
 		result.addObject("requestURI", "conference/list.do");
 
 		return result;
@@ -203,7 +211,10 @@ public class ConferenceController extends AbstractController {
 			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
+		Collection<Category> categories;
 
+		categories = this.categoryService.findAll();
+		
 		if (keywordBool && keyword != null)
 			conferences = this.conferenceService
 					.findFinalForthcomingByKeyword(keyword);
@@ -212,6 +223,7 @@ public class ConferenceController extends AbstractController {
 
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
+		result.addObject("categories", categories);
 		result.addObject("requestURI", "conference/list.do");
 
 		return result;
@@ -225,7 +237,10 @@ public class ConferenceController extends AbstractController {
 			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
+		Collection<Category> categories;
 
+		categories = this.categoryService.findAll();
+		
 		if (keywordBool && keyword != null)
 			conferences = this.conferenceService
 					.findFinalPastByKeyword(keyword);
@@ -234,6 +249,8 @@ public class ConferenceController extends AbstractController {
 
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
+		result.addObject("categories", categories);
+
 		result.addObject("requestURI", "conference/list.do");
 
 		return result;
@@ -247,6 +264,9 @@ public class ConferenceController extends AbstractController {
 			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
+		Collection<Category> categories;
+
+		categories = this.categoryService.findAll();
 
 		if (keywordBool && keyword != null)
 			conferences = this.conferenceService
@@ -256,10 +276,34 @@ public class ConferenceController extends AbstractController {
 
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
+		result.addObject("categories", categories);
 		result.addObject("requestURI", "conference/list.do");
 
 		return result;
 	}
+	
+	//List grouped by categories
+	@RequestMapping(value = "/list", method = RequestMethod.GET, params = {
+			"conferenceCategory"
+		})
+	public ModelAndView listByStatus(@RequestParam final String conferenceCategory) {
+		final ModelAndView result;
+		Collection<Conference> conferences;
+		Collection<Category> categories;
+
+		categories = this.categoryService.findAll();
+		
+		conferences = this.conferenceService.searchByCategory(conferenceCategory);
+				
+		result = new ModelAndView("conference/list");
+		result.addObject("conferences", conferences);
+		result.addObject("categories", categories);
+		result.addObject("requestURI", "conference/list.do");
+
+		return result;
+
+	}
+	
 
 	// Display
 
