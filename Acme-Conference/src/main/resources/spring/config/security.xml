@@ -66,6 +66,10 @@
 		<security:intercept-url pattern="/activity/administrator/presentation/create.do" access="hasRole('ADMIN')"/>
 		<security:intercept-url pattern="/activity/administrator/presentation/delete.do" access="hasRole('ADMIN')"/>
 
+		<security:intercept-url pattern="/conferenceComment/create.do" access="permitAll" />
+		
+		<security:intercept-url pattern="/activityComment/create.do" access="permitAll" />
+
 		<security:intercept-url pattern="/section/administrator/create.do" access="hasRole('ADMIN')"/>
 
 		<security:intercept-url pattern="/author/register.do" access="permitAll" /> 

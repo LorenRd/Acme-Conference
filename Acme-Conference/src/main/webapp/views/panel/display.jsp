@@ -44,4 +44,31 @@
 	        </jstl:if>
 		</jstl:forEach></ul>
 		
+<!-- Comments -->
 		
+		<h3><spring:message code="panel.comments" /></h3>
+		
+<display:table name="activityComments" id="row"
+	requestURI="${requestURI }" pagesize="5" class="displaytag">
+
+	<!-- Attributes -->
+
+	<spring:message code="activityComment.title" var="titleHeader" />
+	<display:column property="title" title="${titleHeader}" sortable="true" />
+
+	<spring:message code="activityComment.moment" var="momentHeader" />
+	<display:column property="moment" title="${momentHeader}"
+		sortable="true" />
+
+	<spring:message code="activityComment.author" var="authorHeader" />
+	<display:column property="author" title="${authorHeader}"
+		sortable="true" />
+
+	<spring:message code="activityComment.text" var="textHeader" />
+	<display:column property="text" title="${textHeader}" sortable="true" />
+
+</display:table>
+
+<!-- Create comment -->
+<acme:button url="activityComment/create.do?activityId=${panel.id}"
+	code="activityComment.create" />		
