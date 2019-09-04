@@ -64,6 +64,14 @@
 	<form:errors cssClass="error" path="topics" />
 	<br />	
 	<br />	
+	
+	<form:label path="voidWords">
+		<spring:message code="customisation.voidWords" />:
+	</form:label>
+	<form:textarea path="voidWords" />
+	<form:errors cssClass="error" path="voidWords" />
+	<br />	
+	<br />
 
 	
 	<spring:message code="customisation.save" var="saveCustomisation"  />
