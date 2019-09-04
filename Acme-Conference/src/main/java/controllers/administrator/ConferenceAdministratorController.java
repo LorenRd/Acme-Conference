@@ -45,9 +45,6 @@ public class ConferenceAdministratorController extends AbstractController {
 	@Autowired
 	private CategoryService		categoryService;
 
-	@Autowired
-	private CategoryService			categoryService;
-
 
 	// Listing
 
