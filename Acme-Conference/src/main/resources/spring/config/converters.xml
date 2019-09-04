@@ -86,6 +86,11 @@
 		
 		<bean class="converters.SectionToStringConverter" />
 		<bean class="converters.StringToSectionConverter" />
+		
+		<!-- Quolet -->
+		
+		<bean class="converters.QuoletToStringConverter" />
+		<bean class="converters.StringToQuoletConverter" />
 	</util:list>
 
 </beans>
