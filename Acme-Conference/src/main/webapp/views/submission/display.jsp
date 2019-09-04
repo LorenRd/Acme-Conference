@@ -53,12 +53,15 @@
 		</jstl:forEach></ul>
 		</jstl:if>
 
+<!--
 <security:authorize access="hasRole('AUTHOR')">
 <jstl:if test="${submission.author.userAccount.username == pageContext.request.userPrincipal.name}">
 <br/>
 	<a href="submission/author/edit.do?submissionId=${submission.id}"><spring:message code="submission.edit"/></a><br/>
 </jstl:if>
 </security:authorize>
+-->
+
 <!-- Para asignar revisores -->
 <security:authorize access="hasRole('ADMIN')">
 <jstl:if test="${submission.status == 'UNDER-REVIEW'}">
