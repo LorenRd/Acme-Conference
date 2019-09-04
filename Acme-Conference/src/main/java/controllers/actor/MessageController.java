@@ -49,8 +49,11 @@ public class MessageController extends AbstractController {
 		final Collection<Message> messagesBySender;
 		final Collection<Message> messagesByRecipient;
 		Customisation customisation;
-		Collection<String> topics;
+		Collection<String> englishTopics;
+		Collection<String> spanishTopics;
 
+
+		
 		try {
 			final int actorId = this.actorService.findByPrincipal().getId();
 			Assert.notNull(actorId);
@@ -61,13 +64,14 @@ public class MessageController extends AbstractController {
 			messagesByRecipient = this.messageService.findByRecipientId(actorId);
 
 			customisation = this.customisationService.find();
-			topics = customisation.getTopics();
-
+			englishTopics = customisation.getEnglishTopics();
+			spanishTopics = customisation.getSpanishTopics();
 			result = new ModelAndView("message/list");
 			result.addObject("messages", messages);
 			result.addObject("messagesBySender", messagesBySender);
 			result.addObject("messagesByRecipient", messagesByRecipient);
-			result.addObject("topics", topics);
+			result.addObject("englishTopics", englishTopics);
+			result.addObject("spanishTopics", spanishTopics);
 			result.addObject("requestURI", "message/actor/list.do");
 
 		} catch (final Throwable oops) {
@@ -141,18 +145,20 @@ public class MessageController extends AbstractController {
 	private ModelAndView createModelAndView(final Message mensaje, final String messageCode) {
 		ModelAndView result;
 		Customisation customisation;
-		Collection<String> topics;
+		Collection<String> englishTopics;
+		Collection<String> spanishTopics;
 		Collection<Actor> recipients;
 
 		customisation = this.customisationService.find();
-		topics = customisation.getTopics();
-
+		englishTopics = customisation.getEnglishTopics();
+		spanishTopics = customisation.getSpanishTopics();
 		recipients = this.actorService.findAllMinusPrincipal();
 
 		result = new ModelAndView("message/create");
 		result.addObject("mensaje", mensaje);
 		result.addObject("recipients", recipients);
-		result.addObject("topics", topics);
+		result.addObject("englishTopics", englishTopics);
+		result.addObject("spanishTopics", spanishTopics);
 		result.addObject("message", messageCode);
 		return result;
 	}

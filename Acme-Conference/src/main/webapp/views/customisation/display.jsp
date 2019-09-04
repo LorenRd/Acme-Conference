@@ -58,15 +58,22 @@
 </ul>
 
 <!-- Topics -->
-<b><spring:message code="customisation.topics" /></b>:
+<b><spring:message code="customisation.spanishTopics" /></b>:
 <ul>
-<jstl:forEach items="${customisation.topics}" var="topic" >
-	<jstl:if test="${topic != null}">
-       	<li><jstl:out value="${topic}"/></li>
+<jstl:forEach items="${customisation.spanishTopics}" var="estopic" >
+	<jstl:if test="${estopic != null}">
+       	<li><jstl:out value="${estopic}"/></li>
        </jstl:if>
 </jstl:forEach>
 </ul>
-
+<b><spring:message code="customisation.englishTopics" /></b>:
+<ul>
+<jstl:forEach items="${customisation.englishTopics}" var="entopic" >
+	<jstl:if test="${entopic != null}">
+       	<li><jstl:out value="${entopic}"/></li>
+       </jstl:if>
+</jstl:forEach>
+</ul>
 <!-- Void words -->
 <b><spring:message code="customisation.voidWords" /></b>:
 <ul>

@@ -79,7 +79,12 @@
 	<spring:message code="message.topic" />:
 	</form:label>
 	<form:select path="topic" >
-	<form:options items="${topics}" />
+	<jstl:if test="${cookie['language'].getValue()=='es'}">
+		<form:options items="${spanishTopics}" />
+	</jstl:if>
+	<jstl:if test="${cookie['language'].getValue()=='en'}">
+		<form:options items="${englishTopics}" />
+	</jstl:if>
 	</form:select>
 	<form:errors cssClass="error" path="topic" />	
 	<br>

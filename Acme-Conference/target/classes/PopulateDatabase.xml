@@ -427,17 +427,17 @@
 	<!-- CameraReadyPaper -->
 
 	<bean class="domain.CameraReadyPaper" id="cameraReadyPaper1">
-		<property name="title" value="Title cameraReadyPaper 1" />
+		<property name="title" value="Title cameraReadyPaper 1 for Conference" />
 		<property name="author" value="Isabel" />
-		<property name="summary" value="Summary cameraReadyPaper 1" />
+		<property name="summary" value="Summary cameraReadyPaper 1 for Conference" />
 		<property name="document" value="Document cameraReadyPaper 1" />
 		<property name="submission" ref="submission1" />
 	</bean>
 
 	<bean class="domain.CameraReadyPaper" id="cameraReadyPaper2">
-		<property name="title" value="Title cameraReadyPaper 2" />
+		<property name="title" value="Title cameraReadyPaper 2 for Conference" />
 		<property name="author" value="Marta" />
-		<property name="summary" value="Summary cameraReadyPaper 2" />
+		<property name="summary" value="Summary cameraReadyPaper 2 for Conference" />
 		<property name="document" value="Document cameraReadyPaper 2" />
 		<property name="submission" ref="submission2" />
 	</bean>
@@ -548,6 +548,22 @@
 	</bean>
 
 	<bean class="domain.ActivityComment" id="activityComment3">
+		<property name="title" value="Title 6" />
+		<property name="moment" value="2018/05/02 11:20" />
+		<property name="author" value="Author 6" />
+		<property name="text" value="Text 6" />
+		<property name="activity" ref="presentation1" />
+	</bean>
+
+	<bean class="domain.ActivityComment" id="activityComment4">
+		<property name="title" value="Title 6" />
+		<property name="moment" value="2018/05/02 11:20" />
+		<property name="author" value="Author 6" />
+		<property name="text" value="Text 6" />
+		<property name="activity" ref="presentation1" />
+	</bean>
+
+	<bean class="domain.ActivityComment" id="activityComment5">
 		<property name="title" value="Title 6" />
 		<property name="moment" value="2018/05/02 11:20" />
 		<property name="author" value="Author 6" />

@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActivityCommentService;
+import services.ConferenceCommentService;
 import services.ConferenceService;
 import services.RegistrationService;
 import services.SubmissionService;
@@ -23,6 +25,12 @@ public class DashboardAdministratorController {
 	
 	@Autowired
 	private ConferenceService conferenceService;
+	
+	@Autowired
+	private ActivityCommentService activityCommentService;
+
+	@Autowired
+	private ConferenceCommentService conferenceCommentService;
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -35,7 +43,10 @@ public class DashboardAdministratorController {
 		final Double avgConferenceFees, minConferenceFees, maxConferenceFees, stddevConferenceFees;
 		final Double avgDaysPerConference, stddevDaysPerConference;
 		final Long minDaysPerConference, maxDaysPerConference;
-
+		final Double avgCommentPerConference, minCommentPerConference, maxCommentPerConference, stddevCommentPerConference;
+		final Double avgCommentPerActivity, minCommentPerActivity, maxCommentPerActivity, stddevCommentPerActivity;
+		final Double avgConferencePerCategory, minConferencePerCategory, maxConferencePerCategory, stddevConferencePerCategory;
+		
 		// Stadistics
 		// SubmissionPerConference
 		avgSubmissionPerConference = this.submissionService.avgSubmissionPerConference();
@@ -62,7 +73,24 @@ public class DashboardAdministratorController {
 		stddevDaysPerConference = this.conferenceService.stddevDaysPerConference();
 
 		
+		//ConferencePerCategory
+		avgConferencePerCategory = this.conferenceService.avgConferencePerCategory();
+		minConferencePerCategory = this.conferenceService.minConferencePerCategory();
+		maxConferencePerCategory = this.conferenceService.maxConferencePerCategory();
+		stddevConferencePerCategory = this.conferenceService.stddevConferencePerCategory();
+
 		
+		//CommentPerConference
+		avgCommentPerConference = this.conferenceCommentService.avgCommentsPerConference();
+		minCommentPerConference = this.conferenceCommentService.minCommentsPerConference();
+		maxCommentPerConference = this.conferenceCommentService.maxCommentsPerConference();
+		stddevCommentPerConference = this.conferenceCommentService.stddevCommentsPerConference();
+
+		//CommentPerActivity
+		avgCommentPerActivity = this.activityCommentService.avgCommentsPerActivity();
+		minCommentPerActivity = this.activityCommentService.minCommentsPerActivity();
+		maxCommentPerActivity = this.activityCommentService.maxCommentsPerActivity();
+		stddevCommentPerActivity = this.activityCommentService.stddevCommentsPerActivity();
 
 		//----------------------------------------------------------------------------------
 		result = new ModelAndView("administrator/dashboard");
@@ -85,6 +113,21 @@ public class DashboardAdministratorController {
 		result.addObject("minDaysPerConference", minDaysPerConference);
 		result.addObject("maxDaysPerConference", maxDaysPerConference);
 		result.addObject("stddevDaysPerConference", stddevDaysPerConference);
+		
+		result.addObject("avgConferencePerCategory", avgConferencePerCategory);
+		result.addObject("minConferencePerCategory", minConferencePerCategory);
+		result.addObject("maxConferencePerCategory", maxConferencePerCategory);
+		result.addObject("stddevConferencePerCategory", stddevConferencePerCategory);
+		
+		result.addObject("avgCommentPerConference", avgCommentPerConference);
+		result.addObject("minCommentPerConference", minCommentPerConference);
+		result.addObject("maxCommentPerConference", maxCommentPerConference);
+		result.addObject("stddevCommentPerConference", stddevCommentPerConference);
+		
+		result.addObject("avgCommentPerActivity", avgCommentPerActivity);
+		result.addObject("minCommentPerActivity", minCommentPerActivity);
+		result.addObject("maxCommentPerActivity", maxCommentPerActivity);
+		result.addObject("stddevCommentPerActivity", stddevCommentPerActivity);
 		
 		return result;
 
