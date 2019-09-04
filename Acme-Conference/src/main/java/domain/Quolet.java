@@ -25,13 +25,14 @@ public class Quolet extends DomainEntity {
 	
 	private String	ticker;
 	private Date	publicationMoment;
+	private String 	title;
 	private String 	body;
 	private String 	picture;
 	private boolean	isDraft;
 
 
 	@Column(unique = true)
-	@Pattern(regexp = "^[0-9]{6}-([A-Z]{4})$")
+	@Pattern(regexp = "^[0-9]{8}-([A-Z]{4})$")
 	public String getTicker() {
 		return this.ticker;
 	}
@@ -51,7 +52,16 @@ public class Quolet extends DomainEntity {
 		this.publicationMoment = publicationMoment;
 	}
 	
-	@Size(min = 5, max = 32)	@NotBlank
+	@NotBlank
+	public String getTitle() {
+		return this.title;
+	}
+	public void setTitle(final String title) {
+		this.title = title;
+	}
+	
+	@NotBlank
+	@Size(min = 5, max = 100)
 	public String getBody() {
 		return this.body;
 	}

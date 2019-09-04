@@ -2,7 +2,10 @@
 package controllers.administrator;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AdministratorService;
-import services.ConferenceService;
 import services.QuoletService;
 import controllers.AbstractController;
 import domain.Administrator;
@@ -31,9 +33,6 @@ public class QuoletAdministratorController extends AbstractController {
 	// Services
 
 	@Autowired
-	private ConferenceService		conferenceService;
-
-	@Autowired
 	private AdministratorService	administratorService;
 
 	@Autowired
@@ -43,24 +42,29 @@ public class QuoletAdministratorController extends AbstractController {
 	// Listing
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam final int conferenceId) {
+	public ModelAndView list() {
 		final ModelAndView result;
 		final Collection<Quolet> quolets;
 		Administrator principal;
-		Conference conference;
 		
 		principal = this.administratorService.findByPrincipal();
-		quolets = this.quoletService.findAllByConferenceId(conferenceId);
-		conference = this.conferenceService.findOne(conferenceId);
+		quolets = this.quoletService.findAllByAdministratorId(principal.getId());
 		
-		if(conference.getAdministrator().getId()== principal.getId()){
-			result = new ModelAndView("quolet/list");
-			result.addObject("quolets", quolets);
-			result.addObject("requestURI", "quolet/administrator/list.do");
-		}
-		else{
-			result = new ModelAndView("redirect:/welcome/index.do");
-		}
+		result = new ModelAndView("quolet/list");
+		result.addObject("quolets", quolets);
+		result.addObject("requestURI", "quolet/administrator/list.do");
+	
+		//Dates
+		final Calendar cal = Calendar.getInstance();
+		//1 month old 
+		cal.add(Calendar.MONTH, -1);
+		final Date dateOneMonth = cal.getTime();
+		//2 months old 
+		cal.add(Calendar.MONTH, -1);
+		final Date dateTwoMonths = cal.getTime();
+		result.addObject("dateOneMonth", dateOneMonth);
+		result.addObject("dateTwoMonths", dateTwoMonths);
+
 
 		return result;
 
@@ -90,11 +94,11 @@ public class QuoletAdministratorController extends AbstractController {
 	//Create
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int conferenceId) {
 		ModelAndView result;
 		Quolet quolet;
 
-		quolet = this.quoletService.create();
+		quolet = this.quoletService.create(conferenceId);
 		result = this.createModelAndView(quolet);
 
 		return result;
@@ -174,7 +178,7 @@ public class QuoletAdministratorController extends AbstractController {
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 			} else {
-				quolet = this.quoletService.save(quolet, false);
+				quolet = this.quoletService.save(quolet, true);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
 
@@ -198,7 +202,7 @@ public class QuoletAdministratorController extends AbstractController {
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 			} else {
-				quolet = this.quoletService.save(quolet, true);
+				quolet = this.quoletService.save(quolet, false);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
 
@@ -260,7 +264,7 @@ public class QuoletAdministratorController extends AbstractController {
 		ModelAndView result;
 
 
-		result = new ModelAndView("conference/create");
+		result = new ModelAndView("quolet/create");
 		result.addObject("quolet", quolet);
 		result.addObject("message", messageCode);
 		return result;

@@ -15,6 +15,7 @@ import org.springframework.validation.Validator;
 
 import repositories.QuoletRepository;
 import domain.Administrator;
+import domain.Conference;
 import domain.Quolet;
 
 @Service
@@ -30,15 +31,21 @@ public class QuoletService {
 	private AdministratorService	administratorService;
 	
 	@Autowired
+	private ConferenceService		conferenceService;
+	
+	@Autowired
 	private Validator				validator;
 
 
 	// Simple CRUD Methods
 
-	public Quolet create() {
+	public Quolet create(final int conferenceId) {
 		Quolet result;
-
+		Conference conference;
+		
+		conference = this.conferenceService.findOne(conferenceId);
 		result = new Quolet();
+		result.setConference(conference);
 		result.setIsDraft(true);
 		result.setTicker(this.generateTicker());
 		return result;
@@ -54,7 +61,7 @@ public class QuoletService {
 		String month = String.valueOf(cal.get(Calendar.MONTH));
 		String year = String.valueOf(cal.get(Calendar.YEAR));
 
-		year = year.substring(2, 4);
+		//year = year.substring(2, 4);
 
 		if (Integer.parseInt(month) < 10)
 			month = "0" + month;
@@ -137,17 +144,26 @@ public class QuoletService {
 		if (quolet.getId() == 0) {
 			original = quolet;
 			original.setTicker(this.generateTicker());
+			original.setTitle(quolet.getTitle());
 			original.setBody(quolet.getBody());
 			original.setPicture(quolet.getPicture());
 			original.setPublicationMoment(new Date(System.currentTimeMillis() - 1));
 			original.setIsDraft(true);
 		} else {
 			original = this.quoletRepository.findOne(quolet.getId());
-			quolet.setIsDraft(false);
+			quolet.setConference(original.getConference());
 		}
 		this.validator.validate(quolet, binding);
 
 		return quolet;
+	}
+	
+	public Collection<Quolet> findAllByAdministratorId(final int administratorId) {
+		Collection<Quolet> result;
+
+		result = this.quoletRepository.findAllByAdministratorId(administratorId);
+		Assert.notNull(result);
+		return result;
 	}
 
 }

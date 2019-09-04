@@ -11,12 +11,12 @@
 
 <!-- Listing grid -->
 
-<display:table name="quolet" id="row" requestURI="${requestURI }"
+<display:table name="quolets" id="row" requestURI="${requestURI }"
 	pagesize="5" class="displaytag">
 	
 	<!-- Display -->
 	<display:column>
-		<a href="quolet/display.do?quoletId=${row.id}"><spring:message code="quolet.display"/></a>
+		<a href="quolet/administrator/display.do?quoletId=${row.id}"><spring:message code="quolet.display"/></a>
 	</display:column>
 
 	<!-- Attributes -->

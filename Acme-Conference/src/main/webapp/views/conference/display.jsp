@@ -116,15 +116,15 @@
 <acme:button url="conferenceComment/create.do"
 	code="conferenceComment.create" />
 
-<security:authorize access="hasAnyRole('administrator')">
+<security:authorize access="hasRole('ADMIN')">
 		<!-- quolet -->
 <h3><spring:message code="quolet.quolet" /></h3>
 <jstl:choose>
 <jstl:when test="${not empty quolets}">
-<display:table pagesize="5" class="displaytag" name="quolet" requestURI="conference/display.do" id="quolet">
+<display:table pagesize="5" class="displaytag" name="quolets" requestURI="conference/display.do" id="quolet">
 		<!-- Display -->
 	<display:column>
-		<a href="quolet/display.do?quoletId=${quolet.id}"><spring:message code="quolet.display"/></a>		
+		<a href="quolet/administrator/display.do?quoletId=${quolet.id}"><spring:message code="quolet.display"/></a>		
 	</display:column>
 		
 		<!-- Attributes -->
@@ -170,9 +170,8 @@
 </jstl:choose>
 <br/>
 </security:authorize>
-
-<jstl:if test="${conference.position.administrator.id == principal.id}">
-<jstl:if test="${!conference.isDraft}">
+<jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
+<jstl:if test="${conference.isFinal}">
 		<acme:button url="quolet/administrator/create.do?conferenceId=${conference.id}" code="quolet.create"/>
 </jstl:if>
 </jstl:if>

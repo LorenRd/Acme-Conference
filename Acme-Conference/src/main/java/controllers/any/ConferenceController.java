@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -362,6 +363,18 @@ public class ConferenceController extends AbstractController {
 		result.addObject("banner", sponsorship.getBanner());
 		result.addObject("quolets", quolets);
 
+		//Dates
+		final Calendar cal = Calendar.getInstance();
+		//1 month old 
+		cal.add(Calendar.MONTH, -1);
+		final Date dateOneMonth = cal.getTime();
+		//2 months old 
+		cal.add(Calendar.MONTH, -1);
+		final Date dateTwoMonths = cal.getTime();
+		result.addObject("dateOneMonth", dateOneMonth);
+		result.addObject("dateTwoMonths", dateTwoMonths);
+
+		
 		// Env�a la vista
 		return result;
 	}

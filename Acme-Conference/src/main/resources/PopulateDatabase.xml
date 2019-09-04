@@ -1382,4 +1382,41 @@
 		<property name="conference" ref="conference4" />
 	</bean>
 
+	<!-- Quolets -->
+	<bean class="domain.Quolet" id="quolet1">
+		<property name="ticker" value="20190905-AAAA" />
+		<property name="publicationMoment" value="08/15/2019 15:00" />
+		<property name="title" value="TEST- Esto es un title de prueba" />
+		<property name="body" value="Esto es un body de prueba" />
+		<property name="picture" value="http://www.foto.com" />
+		<property name="isDraft" value="false" />
+		<property name="conference" ref="conference1" />
+	</bean>
+	<bean class="domain.Quolet" id="quolet2">
+		<property name="ticker" value="20190905-BBBB" />
+		<property name="publicationMoment" value="08/01/2019 15:00" />
+		<property name="title" value="TEST- Esto es un title de prueba" />
+		<property name="body" value="Esto es un body de prueba" />
+		<property name="picture" value="http://www.foto.com" />
+		<property name="isDraft" value="false" />
+		<property name="conference" ref="conference1" />
+	</bean>
+	<bean class="domain.Quolet" id="quolet3">
+		<property name="ticker" value="20190905-CCCC" />
+		<property name="publicationMoment" value="06/01/2019 15:00" />
+		<property name="title" value="TEST- Esto es un title de prueba" />
+		<property name="body" value="Esto es un body de prueba" />
+		<property name="picture" value="http://www.foto.com" />
+		<property name="isDraft" value="false" />
+		<property name="conference" ref="conference2" />
+	</bean>
+	<bean class="domain.Quolet" id="quolet4">
+		<property name="ticker" value="20190905-DDDD" />
+		<property name="publicationMoment" value="05/01/2019 15:00" />
+		<property name="title" value="TEST- Esto es un title de prueba" />
+		<property name="body" value="Esto es un body de prueba" />
+		<property name="picture" value="http://www.foto.com" />
+		<property name="isDraft" value="false" />
+		<property name="conference" ref="conference2" />
+	</bean>
 </beans>

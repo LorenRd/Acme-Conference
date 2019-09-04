@@ -17,9 +17,6 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-<jstl:choose>
-<jstl:when test="${(quolet.conference.administrator.userAccount.username == pageContext.request.userPrincipal.name)}">
-
 <form:form action="quolet/administrator/edit.do" modelAttribute="quolet">
 		<form:hidden path="id"/>
 		<form:hidden path="version"/>
@@ -41,8 +38,3 @@
 		<acme:cancel url="welcome/index.do" code="quolet.cancel"/>
 		
 </form:form>
-</jstl:when>
-<jstl:otherwise>
-<spring:message code="quolet.notYours" />
-</jstl:otherwise>
-</jstl:choose>

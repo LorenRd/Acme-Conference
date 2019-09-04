@@ -17,4 +17,7 @@ public interface QuoletRepository extends JpaRepository<Quolet, Integer> {
 	@Query("select count(q) from Quolet q where q.ticker = ?1")
 	Integer findRepeatedTickers(String ticker);
 	
+	@Query("select q from Quolet q join q.conference cq where cq.administrator.id = ?1")
+	Collection<Quolet> findAllByAdministratorId(int conferenceId);
+
 }
