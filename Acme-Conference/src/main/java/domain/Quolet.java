@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Date;
@@ -22,12 +23,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Access(AccessType.PROPERTY)
 public class Quolet extends DomainEntity {
-	
+
 	private String	ticker;
 	private Date	publicationMoment;
-	private String 	title;
-	private String 	body;
-	private String 	picture;
+	private String	title;
+	private String	body;
+	private String	picture;
 	private boolean	isDraft;
 
 
@@ -40,7 +41,7 @@ public class Quolet extends DomainEntity {
 	public void setTicker(final String ticker) {
 		this.ticker = ticker;
 	}
-	
+
 	@Past
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
@@ -51,7 +52,7 @@ public class Quolet extends DomainEntity {
 	public void setPublicationMoment(final Date publicationMoment) {
 		this.publicationMoment = publicationMoment;
 	}
-	
+
 	@NotBlank
 	public String getTitle() {
 		return this.title;
@@ -59,7 +60,7 @@ public class Quolet extends DomainEntity {
 	public void setTitle(final String title) {
 		this.title = title;
 	}
-	
+
 	@NotBlank
 	@Size(min = 5, max = 100)
 	public String getBody() {
@@ -68,7 +69,7 @@ public class Quolet extends DomainEntity {
 	public void setBody(final String body) {
 		this.body = body;
 	}
-	
+
 	@URL
 	public String getPicture() {
 		return this.picture;
@@ -77,7 +78,7 @@ public class Quolet extends DomainEntity {
 	public void setPicture(final String picture) {
 		this.picture = picture;
 	}
-	
+
 	public boolean getIsDraft() {
 		return this.isDraft;
 	}
@@ -86,10 +87,11 @@ public class Quolet extends DomainEntity {
 		this.isDraft = isDraft;
 	}
 
-	
+
 	// Relationships--------------------------
 
-	private Conference conference;
+	private Conference	conference;
+
 
 	@NotNull
 	@Valid
@@ -101,5 +103,5 @@ public class Quolet extends DomainEntity {
 	public void setConference(final Conference conference) {
 		this.conference = conference;
 	}
-	
+
 }

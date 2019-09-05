@@ -21,9 +21,7 @@
 <form:form action="quolet/administrator/create.do?conferenceId=${param['conferenceId']}" modelAttribute="quolet">
 		<form:hidden path="id"/>
 		<form:hidden path="version"/>
-		<form:hidden path="publicationMoment"/>
-		<form:hidden path="ticker"/>
-		<form:hidden path="isDraft"/>
+		<form:hidden path="conference"/>
 			
 		<acme:textarea code="quolet.title" path="title"/>
 		<br />	

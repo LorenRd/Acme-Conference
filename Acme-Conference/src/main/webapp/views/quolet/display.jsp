@@ -42,7 +42,7 @@
 
 		<!-- Conference -->
 		<b><spring:message code="quolet.conference" /></b>:
-			<a href="conference/display.do?conferenceId=${quolet.conference.id}"><spring:message code="quolet.conference" /></a>
+			<a href="conference/display.do?conferenceId=${quolet.conference.id}"><jstl:out value="${quolet.conference.title}"/></a>
 		<br/>
 		
 <jstl:if test="${quolet.conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">

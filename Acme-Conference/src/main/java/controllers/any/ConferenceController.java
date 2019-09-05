@@ -1,9 +1,10 @@
+
 package controllers.any;
 
-import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -21,19 +22,19 @@ import org.springframework.web.servlet.ModelAndView;
 import services.CategoryService;
 import services.ConferenceCommentService;
 import services.ConferenceService;
-import services.QuoletService;
-import services.SponsorshipService;
 import services.PanelService;
 import services.PresentationService;
+import services.QuoletService;
+import services.SponsorshipService;
 import services.TutorialService;
 import controllers.AbstractController;
 import domain.Category;
 import domain.Conference;
-import domain.Quolet;
-import domain.Sponsorship;
 import domain.ConferenceComment;
 import domain.Panel;
 import domain.Presentation;
+import domain.Quolet;
+import domain.Sponsorship;
 import domain.Tutorial;
 
 @Controller
@@ -43,28 +44,29 @@ public class ConferenceController extends AbstractController {
 	// Services
 
 	@Autowired
-	private ConferenceService conferenceService;
+	private ConferenceService			conferenceService;
 
 	@Autowired
-	private SponsorshipService	sponsorshipService;
+	private SponsorshipService			sponsorshipService;
 	@Autowired
-	private ConferenceCommentService conferenceCommentService;
+	private ConferenceCommentService	conferenceCommentService;
 
 	@Autowired
-	private TutorialService tutorialService;
+	private TutorialService				tutorialService;
 
 	@Autowired
-	private PanelService panelService;
+	private PanelService				panelService;
 
 	@Autowired
-	private PresentationService presentationService;
+	private PresentationService			presentationService;
 
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryService				categoryService;
 
 	@Autowired
-	private QuoletService quoletService;
-	
+	private QuoletService				quoletService;
+
+
 	// List
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -75,7 +77,7 @@ public class ConferenceController extends AbstractController {
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		
+
 		if (keywordBool && keyword != "") {
 			conferences = this.conferenceService.findByKeyword(keyword);
 
@@ -212,18 +214,15 @@ public class ConferenceController extends AbstractController {
 	// List of forthcoming conferences
 
 	@RequestMapping(value = "/listForthcoming", method = RequestMethod.GET)
-	public ModelAndView listForthcoming(
-			@RequestParam(required = false) final String keyword,
-			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+	public ModelAndView listForthcoming(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		
+
 		if (keywordBool && keyword != null)
-			conferences = this.conferenceService
-					.findFinalForthcomingByKeyword(keyword);
+			conferences = this.conferenceService.findFinalForthcomingByKeyword(keyword);
 		else
 			conferences = this.conferenceService.findFinalForthcoming();
 
@@ -238,18 +237,15 @@ public class ConferenceController extends AbstractController {
 	// List of past conferences
 
 	@RequestMapping(value = "/listPast", method = RequestMethod.GET)
-	public ModelAndView listPast(
-			@RequestParam(required = false) final String keyword,
-			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+	public ModelAndView listPast(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		
+
 		if (keywordBool && keyword != null)
-			conferences = this.conferenceService
-					.findFinalPastByKeyword(keyword);
+			conferences = this.conferenceService.findFinalPastByKeyword(keyword);
 		else
 			conferences = this.conferenceService.findFinalPast();
 
@@ -265,9 +261,7 @@ public class ConferenceController extends AbstractController {
 	// List of running conferences
 
 	@RequestMapping(value = "/listRunning", method = RequestMethod.GET)
-	public ModelAndView listRunning(
-			@RequestParam(required = false) final String keyword,
-			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+	public ModelAndView listRunning(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
 		Collection<Category> categories;
@@ -275,8 +269,7 @@ public class ConferenceController extends AbstractController {
 		categories = this.categoryService.findAll();
 
 		if (keywordBool && keyword != null)
-			conferences = this.conferenceService
-					.findFinalRunningByKeyword(keyword);
+			conferences = this.conferenceService.findFinalRunningByKeyword(keyword);
 		else
 			conferences = this.conferenceService.findFinalRunning();
 
@@ -287,20 +280,20 @@ public class ConferenceController extends AbstractController {
 
 		return result;
 	}
-	
+
 	//List grouped by categories
 	@RequestMapping(value = "/list", method = RequestMethod.GET, params = {
-			"conferenceCategory"
-		})
+		"conferenceCategory"
+	})
 	public ModelAndView listByStatus(@RequestParam final String conferenceCategory) {
 		final ModelAndView result;
 		Collection<Conference> conferences;
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		
+
 		conferences = this.conferenceService.searchByCategory(conferenceCategory);
-				
+
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
 		result.addObject("categories", categories);
@@ -309,7 +302,6 @@ public class ConferenceController extends AbstractController {
 		return result;
 
 	}
-	
 
 	// Display
 
@@ -319,7 +311,7 @@ public class ConferenceController extends AbstractController {
 		ModelAndView result;
 		Conference conference;
 		boolean submissionDeadlineOver = false;
-		Date date = new Date(System.currentTimeMillis());
+		final Date date = new Date(System.currentTimeMillis());
 		List<Sponsorship> sponsorships;
 		Random r;
 		Sponsorship sponsorship;
@@ -329,22 +321,18 @@ public class ConferenceController extends AbstractController {
 		final Collection<Presentation> presentations;
 		final Collection<Quolet> quolets;
 
-		
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
 		Assert.notNull(conference);
-		
-		if(conference.getSubmissionDeadline().before(date)){
+
+		if (conference.getSubmissionDeadline().before(date))
 			submissionDeadlineOver = true;
-		}
-	
 
 		sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
 		r = new Random();
 		sponsorship = sponsorships.get(r.nextInt(sponsorships.size()));
 
-		conferenceComments = this.conferenceCommentService
-				.findAllByConference(conferenceId);
+		conferenceComments = this.conferenceCommentService.findAllByConference(conferenceId);
 
 		tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
 		panels = this.panelService.findAllByConferenceId(conferenceId);
@@ -363,6 +351,9 @@ public class ConferenceController extends AbstractController {
 		result.addObject("banner", sponsorship.getBanner());
 		result.addObject("quolets", quolets);
 
+		for (final Quolet q : quolets)
+			System.out.println("AQUÍ:" + q.getId());
+
 		//Dates
 		final Calendar cal = Calendar.getInstance();
 		//1 month old 
@@ -374,7 +365,6 @@ public class ConferenceController extends AbstractController {
 		result.addObject("dateOneMonth", dateOneMonth);
 		result.addObject("dateTwoMonths", dateTwoMonths);
 
-		
 		// Envï¿½a la vista
 		return result;
 	}

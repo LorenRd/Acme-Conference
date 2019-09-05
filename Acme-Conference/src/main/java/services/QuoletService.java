@@ -24,15 +24,15 @@ public class QuoletService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private QuoletRepository	quoletRepository;
+	private QuoletRepository		quoletRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
 	private AdministratorService	administratorService;
-	
+
 	@Autowired
 	private ConferenceService		conferenceService;
-	
+
 	@Autowired
 	private Validator				validator;
 
@@ -42,7 +42,7 @@ public class QuoletService {
 	public Quolet create(final int conferenceId) {
 		Quolet result;
 		Conference conference;
-		
+
 		conference = this.conferenceService.findOne(conferenceId);
 		result = new Quolet();
 		result.setConference(conference);
@@ -57,14 +57,17 @@ public class QuoletService {
 		final Calendar cal = Calendar.getInstance();
 		cal.setTime(today);
 
-		final String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+		String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
 		String month = String.valueOf(cal.get(Calendar.MONTH));
-		String year = String.valueOf(cal.get(Calendar.YEAR));
+		final String year = String.valueOf(cal.get(Calendar.YEAR));
 
 		//year = year.substring(2, 4);
 
 		if (Integer.parseInt(month) < 10)
 			month = "0" + month;
+
+		if (Integer.parseInt(day) < 10)
+			day = "0" + day;
 
 		final Random r = new Random();
 		final char a = (char) (r.nextInt(26) + 'a');
@@ -92,7 +95,6 @@ public class QuoletService {
 
 		return isRepeated;
 	}
-
 
 	public Quolet save(final Quolet quolet, final boolean isDraft) {
 		Quolet saved;
@@ -134,11 +136,11 @@ public class QuoletService {
 		Assert.notNull(result);
 		return result;
 	}
-	
-	public void delete(Quolet quolet) {
+
+	public void delete(final Quolet quolet) {
 		this.quoletRepository.delete(quolet);
 	}
-	
+
 	public Quolet reconstruct(final Quolet quolet, final BindingResult binding) {
 		Quolet original;
 		if (quolet.getId() == 0) {
@@ -157,7 +159,7 @@ public class QuoletService {
 
 		return quolet;
 	}
-	
+
 	public Collection<Quolet> findAllByAdministratorId(final int administratorId) {
 		Collection<Quolet> result;
 
