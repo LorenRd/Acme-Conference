@@ -31,7 +31,7 @@ public class RegistrationService {
 
 	@Autowired
 	private CreditCardRepository	creditCardRepository;
-	
+
 	// Supporting services ----------------------------------------------------
 	@Autowired
 	private ActorService			actorService;
@@ -40,8 +40,9 @@ public class RegistrationService {
 	private AuthorService			authorService;
 
 	@Autowired
-	private Validator			validator;
-	
+	private Validator				validator;
+
+
 	//-------------------------------------
 
 	public Double avgRegistrationPerConference() {
@@ -101,7 +102,6 @@ public class RegistrationService {
 		result = this.registrationRepository.findAllByConferenceId(id);
 		return result;
 	}
-
 
 	// Simple CRUD Methods
 

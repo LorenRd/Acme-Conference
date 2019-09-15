@@ -59,7 +59,15 @@ public class MessageAdministratorController extends AbstractController {
 		if (binding.hasErrors()) {
 			System.out.println(binding.getAllErrors());
 			result = this.modelAndViewSubmissionAndRegistered(mensaje);
-		} else
+		}
+
+		else if (mensaje.getRecipients().isEmpty())
+			result = this.modelAndViewSubmissionAndRegistered(mensaje, "message.commit.noActors");
+
+		else if (conference == null)
+			result = this.modelAndViewSubmissionAndRegistered(mensaje, "message.commit.noConference");
+
+		else
 			try {
 				this.messageService.broadcastSubmission(mensaje, conference);
 				result = new ModelAndView("redirect:/message/actor/list.do");
@@ -92,7 +100,16 @@ public class MessageAdministratorController extends AbstractController {
 		if (binding.hasErrors()) {
 			System.out.println(binding.getAllErrors());
 			result = this.modelAndViewSubmissionAndRegistered(mensaje);
-		} else
+
+		}
+
+		else if (mensaje.getRecipients().isEmpty())
+			result = this.modelAndViewSubmissionAndRegistered(mensaje, "message.commit.noActors");
+
+		else if (conference == null)
+			result = this.modelAndViewSubmissionAndRegistered(mensaje, "message.commit.noConference");
+
+		else
 			try {
 				this.messageService.broadcastRegistered(mensaje, conference);
 				result = new ModelAndView("redirect:/message/actor/list.do");
@@ -125,7 +142,12 @@ public class MessageAdministratorController extends AbstractController {
 		if (binding.hasErrors()) {
 			System.out.println(binding.getAllErrors());
 			result = this.modelAndViewAuthorsAndAll(mensaje);
-		} else
+		}
+
+		else if (mensaje.getRecipients().isEmpty())
+			result = this.modelAndViewAuthorsAndAll(mensaje, "message.commit.noActors");
+
+		else
 			try {
 				this.messageService.broadcastAuthors(mensaje);
 				result = new ModelAndView("redirect:/message/actor/list.do");

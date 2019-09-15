@@ -41,6 +41,11 @@
 <security:authorize access="hasRole('ADMIN')">
 	<form:form action="submission/administrator/edit.do" modelAttribute="submissionForm">
 	<form:hidden path="id"/>
+	<form:hidden path="title"/>
+	<form:hidden path="author"/>
+	<form:hidden path="summary"/>
+	<form:hidden path="document"/>
+	
 	<h3><spring:message code="submission.reviewers" /></h3>
 
 	<form:label path="reviewers">

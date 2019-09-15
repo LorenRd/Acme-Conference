@@ -43,13 +43,14 @@ public class ConferenceAdministratorController extends AbstractController {
 	private AdministratorService	administratorService;
 
 	@Autowired
-	private SubmissionService	submissionService;
-	
+	private SubmissionService		submissionService;
+
 	@Autowired
-	private CategoryService		categoryService;
+	private CategoryService			categoryService;
+
 
 	// Listing
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool, @RequestParam(required = false) final Double fee,
 		@RequestParam(required = false) final String category, @RequestParam(required = false) final String minDate, @RequestParam(required = false) final String maxDate) {
@@ -58,7 +59,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		
+
 		if (keywordBool && keyword != "") {
 			conferences = this.conferenceService.findByKeyword(keyword);
 
@@ -192,7 +193,6 @@ public class ConferenceAdministratorController extends AbstractController {
 		return result;
 	}
 
-
 	@RequestMapping(value = "/list", method = RequestMethod.GET, params = {
 		"conferenceStatus"
 	})
@@ -229,20 +229,20 @@ public class ConferenceAdministratorController extends AbstractController {
 		return result;
 
 	}
-	
+
 	//List grouped by categories
 	@RequestMapping(value = "/list", method = RequestMethod.GET, params = {
-			"conferenceCategory"
-		})
+		"conferenceCategory"
+	})
 	public ModelAndView listByStatus(@RequestParam final String conferenceCategory) {
 		final ModelAndView result;
 		Collection<Conference> conferences;
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		
+
 		conferences = this.conferenceService.searchByCategory(conferenceCategory);
-				
+
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
 		result.addObject("categories", categories);
@@ -251,8 +251,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		return result;
 
 	}
-	
-	
+
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -357,7 +356,7 @@ public class ConferenceAdministratorController extends AbstractController {
 	// --- EDIT ---
 	//Save Draft
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveDraft")
-	public ModelAndView saveDraft(@ModelAttribute("conference") Conference conference, final BindingResult binding) {
+	public ModelAndView saveDraft(@ModelAttribute("conference") @Valid Conference conference, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
@@ -381,7 +380,7 @@ public class ConferenceAdministratorController extends AbstractController {
 	//Save Final
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView saveFinal(@ModelAttribute("conference") Conference conference, final BindingResult binding) {
+	public ModelAndView saveFinal(@ModelAttribute("conference") @Valid Conference conference, final BindingResult binding) {
 		ModelAndView result;
 
 		try {

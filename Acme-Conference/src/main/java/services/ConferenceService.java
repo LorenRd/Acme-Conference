@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.ConferenceRepository;
 import repositories.ReportRepository;
@@ -45,9 +44,9 @@ public class ConferenceService {
 	@Autowired
 	private AdministratorService	administratorService;
 
-	@Autowired
-	private Validator				validator;
 
+	//	@Autowired
+	//	private Validator				validator;
 
 	// Simple CRUD Methods
 
@@ -102,8 +101,6 @@ public class ConferenceService {
 			binding.rejectValue("startDate", "conference.validation.startDate", "Start date deadline date must be before than End Date");
 		if (conference.getEndDate().before(Calendar.getInstance().getTime()))
 			binding.rejectValue("endDate", "conference.validation.endDate", "End date must be future");
-
-		this.validator.validate(conference, binding);
 
 		return conference;
 	}
@@ -378,14 +375,13 @@ public class ConferenceService {
 			final long duration = (c.getEndDate().getTime() - c.getStartDate().getTime()) / 86400000;
 			conferenceDuration.add(duration);
 		}
-		if(conferenceDuration.size()>0){
+		if (conferenceDuration.size() > 0) {
 			result = conferenceDuration.iterator().next();
 			for (final Long d : conferenceDuration)
 				if (d < result)
 					result = d;
-		}else{
+		} else
 			result = (long) 0.0;
-		}
 		return result;
 	}
 	public Long maxDaysPerConference() {
@@ -403,14 +399,13 @@ public class ConferenceService {
 			conferenceDuration.add(duration);
 		}
 
-		if(conferenceDuration.size()>0){
+		if (conferenceDuration.size() > 0) {
 			result = conferenceDuration.iterator().next();
 			for (final Long d : conferenceDuration)
 				if (d > result)
 					result = d;
-		}else{
+		} else
 			result = (long) 0.0;
-		}
 		return result;
 	}
 
@@ -467,7 +462,7 @@ public class ConferenceService {
 		result = this.conferenceRepository.searchByDateRange(minDate, maxDate);
 		return result;
 	}
-	
+
 	public Double avgConferencePerCategory() {
 		final Authority authority = new Authority();
 		authority.setAuthority(Authority.ADMIN);
@@ -477,7 +472,7 @@ public class ConferenceService {
 		Double result;
 
 		result = this.conferenceRepository.avgConferencePerCategory();
-		
+
 		return result;
 	}
 	public Double minConferencePerCategory() {
@@ -489,7 +484,7 @@ public class ConferenceService {
 		Double result;
 
 		result = this.conferenceRepository.minConferencePerCategory();
-		
+
 		return result;
 	}
 	public Double maxConferencePerCategory() {
@@ -501,11 +496,10 @@ public class ConferenceService {
 		Double result;
 
 		result = this.conferenceRepository.maxConferencePerCategory();
-		
+
 		return result;
 	}
-	
-	
+
 	public Double stddevConferencePerCategory() {
 		final Authority authority = new Authority();
 		authority.setAuthority(Authority.ADMIN);
@@ -515,7 +509,7 @@ public class ConferenceService {
 		Double result;
 
 		result = this.conferenceRepository.stddevConferencePerCategory();
-		
+
 		return result;
 	}
 

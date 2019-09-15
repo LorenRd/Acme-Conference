@@ -43,16 +43,16 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.submissionDeadline < NOW() AND c.submissionDeadline > ?2")
 	Collection<Conference> submissionDeadline5daysOverByAdministratorId(int administratorId, Date dateMax);
-	
+
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.notificationDeadline > ?2")
 	Collection<Conference> notificationDeadline5daysOrLessByAdministratorId(int administratorId, Date dateMax);
-	
+
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.cameraReadyDeadline > ?2")
 	Collection<Conference> cameraReadyDeadline5daysOrLessByAdministratorId(int administratorId, Date dateMax);
-		
+
 	@Query("select c from Conference c where c.administrator.id = ?1 AND c.startDate > ?2")
 	Collection<Conference> conferences5daysOrLessByAdministratorId(int administratorId, Date dateMax);
-		
+
 	@Query("select avg(c.fee) from Conference c")
 	Double avgConferenceFees();
 
@@ -64,10 +64,10 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select stddev(c.fee) from Conference c")
 	Double stddevConferenceFees();
-	
-	@Query("select c from Conference c where c.startDate > NOW()")
+
+	@Query("select c from Conference c where c.startDate > NOW() and c.isFinal = true")
 	Collection<Conference> findAvailableConferencesForRegistration();
-	
+
 	@Query("select f from Conference f where (f.fee <= ?1) and f.isFinal = true")
 	Collection<Conference> searchByMaxFee(Double maxFee);
 
@@ -82,13 +82,13 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select avg(1.0*(select count (co) from Conference co where co.category.id = c.id)) from Category c")
 	Double avgConferencePerCategory();
-	
+
 	@Query("select min(1.0*(select count (co) from Conference co where co.category.id = c.id)) from Category c")
 	Double minConferencePerCategory();
-	
+
 	@Query("select max(1.0*(select count (co) from Conference co where co.category.id = c.id)) from Category c")
 	Double maxConferencePerCategory();
-	
+
 	@Query("select stddev(1.0*(select count (co) from Conference co where co.category.id = c.id)) from Category c")
 	Double stddevConferencePerCategory();
 }

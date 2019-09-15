@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import cz.jirutka.validator.collection.constraints.EachNotBlank;
@@ -24,13 +25,13 @@ import cz.jirutka.validator.collection.constraints.EachNotBlank;
 @Access(AccessType.PROPERTY)
 public class Activity extends DomainEntity implements Cloneable {
 
-	private String	activityTitle;
+	private String				activityTitle;
 	private Collection<String>	speakers;
-	private Date	schedule;
-	private Date	startMoment;
-	private int		duration;
-	private String	room;
-	private String	activitySummary;
+	private Date				schedule;
+	private Date				startMoment;
+	private Integer				duration;
+	private String				room;
+	private String				activitySummary;
 	private Collection<String>	attachments;
 
 
@@ -45,6 +46,7 @@ public class Activity extends DomainEntity implements Cloneable {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	@EachNotBlank
+	@NotEmpty
 	public Collection<String> getSpeakers() {
 		return this.speakers;
 	}
@@ -52,8 +54,7 @@ public class Activity extends DomainEntity implements Cloneable {
 	public void setSpeakers(final Collection<String> speakers) {
 		this.speakers = speakers;
 	}
-	
-	
+
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
@@ -64,7 +65,7 @@ public class Activity extends DomainEntity implements Cloneable {
 	public void setSchedule(final Date schedule) {
 		this.schedule = schedule;
 	}
-	
+
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
@@ -77,11 +78,11 @@ public class Activity extends DomainEntity implements Cloneable {
 	}
 
 	@NotNull
-	public int getDuration() {
+	public Integer getDuration() {
 		return this.duration;
 	}
 
-	public void setDuration(final int duration) {
+	public void setDuration(final Integer duration) {
 		this.duration = duration;
 	}
 
@@ -112,15 +113,16 @@ public class Activity extends DomainEntity implements Cloneable {
 	public void setAttachments(final Collection<String> attachments) {
 		this.attachments = attachments;
 	}
-	
-	
+
+
 	// Relationships----------------------------------------------
 
-	private Conference conference;
-	
+	private Conference	conference;
+
+
 	@NotNull
 	@Valid
-	@ManyToOne(optional=false)
+	@ManyToOne(optional = false)
 	public Conference getConference() {
 		return this.conference;
 	}
@@ -128,7 +130,5 @@ public class Activity extends DomainEntity implements Cloneable {
 	public void setConference(final Conference conference) {
 		this.conference = conference;
 	}
-	
-	
-	
+
 }

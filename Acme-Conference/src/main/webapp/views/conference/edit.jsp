@@ -21,6 +21,7 @@
 <form:form action="conference/administrator/edit.do" modelAttribute="conference">
 		<form:hidden path="id"/>
 		<form:hidden path="version"/>
+		<form:hidden path="administrator"/>
 		
 		<acme:textbox code="conference.title" path="title" placeholder="Conference title"/>
 		<br />
