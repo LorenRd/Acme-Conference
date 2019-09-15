@@ -65,23 +65,7 @@
 			<b><a href="activity/list.do?conferenceId=${conference.id}"><spring:message code="conference.activity" /></a></b>
 		</jstl:if>
 		<br/><br/>
-<!-- Administrator -->
-<security:authorize access="hasRole('ADMIN')">
-<jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
-<br/>
-	<jstl:if test="${!conference.isFinal}">			
-		<a href="conference/administrator/edit.do?conferenceId=${conference.id}"><spring:message code="conference.edit"/></a><br/>
-	</jstl:if>
-</jstl:if>
-<jstl:if test="${conference.isFinal}">			
-	<jstl:if test="${submissionDeadlineOver}">
-			<input type="button" name="analyseSubmissions" value="<spring:message code="conference.analyseSubmissions" />" onclick="redirect: location.href = 'conference/administrator/analyseSubmissions.do?conferenceId=${conference.id}';" />	
-	</jstl:if>
-	<br />
-	<input type="button" name="decisionNotification" value="<spring:message code="conference.decisionNotification" />" onclick="redirect: location.href = 'conference/administrator/decisionNotification.do?conferenceId=${conference.id}';" />	
-</jstl:if>
-</security:authorize>
-
+		
 <!-- Comments -->
 
 <h3>
@@ -112,5 +96,24 @@
 <!-- Create comment -->
 <acme:button url="conferenceComment/create.do"
 	code="conferenceComment.create" />
+		
+<br>
+<!-- Administrator -->
+<security:authorize access="hasRole('ADMIN')">
+<jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
+<br/>
+	<jstl:if test="${!conference.isFinal}">			
+		<a href="conference/administrator/edit.do?conferenceId=${conference.id}"><spring:message code="conference.edit"/></a><br/>
+	</jstl:if>
+<jstl:if test="${conference.isFinal}">			
+	<jstl:if test="${submissionDeadlineOver}">
+			<input type="button" name="analyseSubmissions" value="<spring:message code="conference.analyseSubmissions" />" onclick="redirect: location.href = 'conference/administrator/analyseSubmissions.do?conferenceId=${conference.id}';" />	
+	</jstl:if>
+	<br />
+	<input type="button" name="decisionNotification" value="<spring:message code="conference.decisionNotification" />" onclick="redirect: location.href = 'conference/administrator/decisionNotification.do?conferenceId=${conference.id}';" />	
+</jstl:if>
+</jstl:if>
+</security:authorize>
+
 
 		

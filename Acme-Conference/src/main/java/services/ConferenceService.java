@@ -98,9 +98,20 @@ public class ConferenceService {
 		if (conference.getCameraReadyDeadline().after(conference.getStartDate()))
 			binding.rejectValue("cameraReadyDeadline", "conference.validation.cameraReadyDeadline", "Camera Ready deadline date must be before than Start Date");
 		if (conference.getStartDate().after(conference.getEndDate()))
-			binding.rejectValue("startDate", "conference.validation.startDate", "Start date deadline date must be before than End Date");
+			binding.rejectValue("startDate", "conference.validation.startDate", "Start date date must be before than End Date");
 		if (conference.getEndDate().before(Calendar.getInstance().getTime()))
 			binding.rejectValue("endDate", "conference.validation.endDate", "End date must be future");
+		if (conference.getSubmissionDeadline().before(Calendar.getInstance().getTime()))
+			binding.rejectValue("submissionDeadline", "conference.validation.submissionDeadline", "Submission deadline must be future");
+		if (conference.getNotificationDeadline().before(Calendar.getInstance().getTime()))
+			binding.rejectValue("notificationDeadline", "conference.validation.notificationDeadline", "Notification deadline must be future");
+		if (conference.getCameraReadyDeadline().before(Calendar.getInstance().getTime()))
+			binding.rejectValue("cameraReadyDeadline", "conference.validation.cameraReadyDeadline", "Camera Ready deadline must be future");
+		if (conference.getStartDate().before(Calendar.getInstance().getTime()))
+			binding.rejectValue("startDate", "conference.validation.startDate", "Start date must be future");
+				
+		
+		this.validator.validate(conference, binding);
 
 		return conference;
 	}
@@ -445,9 +456,21 @@ public class ConferenceService {
 		return result;
 	}
 
+	public Collection<Conference> searchByMaxFeeAdminId(final Double fee) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByMaxFeeAdminId(fee);
+		return result;
+	}
+	
 	public Collection<Conference> findByKeyword(final String keyword) {
 		Collection<Conference> result;
 		result = this.conferenceRepository.findByKeyword(keyword);
+		return result;
+	}
+	
+	public Collection<Conference> findByKeywordAdminId(final String keyword) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.findByKeywordAdminId(keyword);
 		return result;
 	}
 
@@ -456,7 +479,19 @@ public class ConferenceService {
 		result = this.conferenceRepository.searchByCategory(categoryId);
 		return result;
 	}
+	
+	public Collection<Conference> searchByCategoryAdminId(final String categoryId) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByCategoryAdminId(categoryId);
+		return result;
+	}
 
+	public Collection<Conference> searchByDatesAdminId(final Date minDate, final Date maxDate) {
+		Collection<Conference> result;
+		result = this.conferenceRepository.searchByDateRangeAdminId(minDate, maxDate);
+		return result;
+	}
+	
 	public Collection<Conference> searchByDates(final Date minDate, final Date maxDate) {
 		Collection<Conference> result;
 		result = this.conferenceRepository.searchByDateRange(minDate, maxDate);

@@ -30,6 +30,9 @@ public interface SubmissionRepository extends
 	@Query("select s from Submission s where s.conference.id = ?1 AND ((s.status = 'ACCEPTED') OR (s.status = 'REJECTED'))")
 	Collection<Submission> findAllByConferenceIdDecision(int conferenceId);
 	
+	@Query("select s from Submission s join s.reviewers sr where sr.id = ?1 AND ((s.status = 'UNDER-REVIEW'))")
+	Collection<Submission> findAllByReviewerIdUnderReview(int reviewerId);
+	
 	@Query("select avg(1.0*(select count(s) from Submission s where s.conference.id = c.id)) from Conference c")
 	Double avgSubmissionPerConference();
 
