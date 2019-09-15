@@ -9,8 +9,9 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-
-<img src="${banner}" width="500px" height="200px">
+<jstl:if test="${banner}">
+	<img src="${banner}" width="500px" height="200px">
+</jstl:if>
 <p>
 		<b><spring:message code="conference.title" /></b>:
 		<jstl:out value="${conference.title}"/><br/>
@@ -65,10 +66,6 @@
 		</jstl:if>
 		<br/><br/>
 <!-- Administrator -->
-<b><spring:message code="conference.administrator" /></b>:
-<a href="administrator/display.do?administratorId=${conference.administrator.id}">
-	<jstl:out value="${conference.administrator.userAccount.username}"/>
-</a><br/>
 <security:authorize access="hasRole('ADMIN')">
 <jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
 <br/>

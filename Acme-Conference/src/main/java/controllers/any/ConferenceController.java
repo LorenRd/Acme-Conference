@@ -316,7 +316,7 @@ public class ConferenceController extends AbstractController {
 		Date date = new Date(System.currentTimeMillis());
 		List<Sponsorship> sponsorships;
 		Random r;
-		Sponsorship sponsorship;
+		Sponsorship sponsorship = null;
 		final Collection<ConferenceComment> conferenceComments;
 		final Collection<Tutorial> tutorials;
 		final Collection<Panel> panels;
@@ -333,9 +333,10 @@ public class ConferenceController extends AbstractController {
 	
 
 		sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
-		r = new Random();
-		sponsorship = sponsorships.get(r.nextInt(sponsorships.size()));
-
+		if(sponsorships.size()>0){
+			r = new Random();
+			sponsorship = sponsorships.get(r.nextInt(sponsorships.size()));
+		}
 		conferenceComments = this.conferenceCommentService
 				.findAllByConference(conferenceId);
 
@@ -352,8 +353,9 @@ public class ConferenceController extends AbstractController {
 		result.addObject("presentations", presentations);
 		result.addObject("conference", conference);
 		result.addObject("submissionDeadlineOver", submissionDeadlineOver);
-		result.addObject("banner", sponsorship.getBanner());
-
+		if(sponsorship!=null){
+			result.addObject("banner", sponsorship.getBanner());
+		}
 		// Env�a la vista
 		return result;
 	}
