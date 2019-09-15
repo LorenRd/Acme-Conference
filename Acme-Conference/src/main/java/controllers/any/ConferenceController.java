@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.AdministratorService;
 import services.CategoryService;
 import services.ConferenceCommentService;
 import services.ConferenceService;
@@ -25,6 +26,7 @@ import services.PanelService;
 import services.PresentationService;
 import services.TutorialService;
 import controllers.AbstractController;
+import domain.Administrator;
 import domain.Category;
 import domain.Conference;
 import domain.Sponsorship;
@@ -44,10 +46,13 @@ public class ConferenceController extends AbstractController {
 
 	@Autowired
 	private SponsorshipService	sponsorshipService;
+	
 	@Autowired
 	private ConferenceCommentService conferenceCommentService;
 
-
+	@Autowired
+	private AdministratorService administratorService;
+	
 	@Autowired
 	private TutorialService tutorialService;
 
@@ -327,34 +332,80 @@ public class ConferenceController extends AbstractController {
 		conference = this.conferenceService.findOne(conferenceId);
 		Assert.notNull(conference);
 		
-		if(conference.getSubmissionDeadline().before(date)){
-			submissionDeadlineOver = true;
-		}
+		if(conference.getIsFinal()){
+			
+			if(conference.getSubmissionDeadline().before(date)){
+				submissionDeadlineOver = true;
+			}
+		
 	
+			sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
+			if(sponsorships.size()>0){
+				r = new Random();
+				sponsorship = sponsorships.get(r.nextInt(sponsorships.size()));
+			}
+			conferenceComments = this.conferenceCommentService
+					.findAllByConference(conferenceId);
+	
+			tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
+			panels = this.panelService.findAllByConferenceId(conferenceId);
+			presentations = this.presentationService.findAllByConferenceId(conferenceId);
+	
+			// Crea y a�ade objetos a la vista
+			result = new ModelAndView("conference/display");
+			result.addObject("requestURI", "conference/display.do");
+			result.addObject("conferenceComments", conferenceComments);
+			result.addObject("tutorials", tutorials);
+			result.addObject("panels", panels);
+			result.addObject("presentations", presentations);
+			result.addObject("conference", conference);
+			result.addObject("submissionDeadlineOver", submissionDeadlineOver);
+			if(sponsorship!=null){
+				result.addObject("banner", sponsorship.getBanner());
+			}
+		}else{
+			try{
+				Administrator principal;
+				principal = this.administratorService.findByPrincipal();
+				
+				if(conference.getAdministrator().getId() == principal.getId()){
+					if(conference.getSubmissionDeadline().before(date)){
+						submissionDeadlineOver = true;
+					}
+				
+			
+					sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
+					if(sponsorships.size()>0){
+						r = new Random();
+						sponsorship = sponsorships.get(r.nextInt(sponsorships.size()));
+					}
+					conferenceComments = this.conferenceCommentService
+							.findAllByConference(conferenceId);
+			
+					tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
+					panels = this.panelService.findAllByConferenceId(conferenceId);
+					presentations = this.presentationService.findAllByConferenceId(conferenceId);
+			
+					// Crea y a�ade objetos a la vista
+					result = new ModelAndView("conference/display");
+					result.addObject("requestURI", "conference/display.do");
+					result.addObject("conferenceComments", conferenceComments);
+					result.addObject("tutorials", tutorials);
+					result.addObject("panels", panels);
+					result.addObject("presentations", presentations);
+					result.addObject("conference", conference);
+					result.addObject("submissionDeadlineOver", submissionDeadlineOver);
+					if(sponsorship!=null){
+						result.addObject("banner", sponsorship.getBanner());
+					}
+					
+				}else{
+					result = new ModelAndView("redirect:/welcome/index.do");
+				}
+			}catch(Exception e){
+				result = new ModelAndView("redirect:/welcome/index.do");
 
-		sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
-		if(sponsorships.size()>0){
-			r = new Random();
-			sponsorship = sponsorships.get(r.nextInt(sponsorships.size()));
-		}
-		conferenceComments = this.conferenceCommentService
-				.findAllByConference(conferenceId);
-
-		tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
-		panels = this.panelService.findAllByConferenceId(conferenceId);
-		presentations = this.presentationService.findAllByConferenceId(conferenceId);
-
-		// Crea y a�ade objetos a la vista
-		result = new ModelAndView("conference/display");
-		result.addObject("requestURI", "conference/display.do");
-		result.addObject("conferenceComments", conferenceComments);
-		result.addObject("tutorials", tutorials);
-		result.addObject("panels", panels);
-		result.addObject("presentations", presentations);
-		result.addObject("conference", conference);
-		result.addObject("submissionDeadlineOver", submissionDeadlineOver);
-		if(sponsorship!=null){
-			result.addObject("banner", sponsorship.getBanner());
+			}
 		}
 		// Env�a la vista
 		return result;

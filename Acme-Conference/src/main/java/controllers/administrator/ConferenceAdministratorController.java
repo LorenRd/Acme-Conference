@@ -4,6 +4,7 @@ package controllers.administrator;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -54,28 +55,31 @@ public class ConferenceAdministratorController extends AbstractController {
 	public ModelAndView list(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool, @RequestParam(required = false) final Double fee,
 		@RequestParam(required = false) final String category, @RequestParam(required = false) final String minDate, @RequestParam(required = false) final String maxDate) {
 		ModelAndView result;
-		Collection<Conference> conferences;
+		Collection<Conference> conferences = new ArrayList<Conference>();
+		Collection<Conference> confSearch;
 		Collection<Category> categories;
-
+		Administrator principal;
+		
+		principal = this.administratorService.findByPrincipal();
 		categories = this.categoryService.findAll();
 		
 		if (keywordBool && keyword != "") {
-			conferences = this.conferenceService.findByKeyword(keyword);
+			confSearch = this.conferenceService.findByKeywordAdminId(keyword);
 
 			if (category != "") {
-				Collection<Conference> conferencesByCategory;
-				conferencesByCategory = this.conferenceService.searchByCategory(category);
-				conferences.retainAll(conferencesByCategory);
+				Collection<Conference> confSearchByCategory;
+				confSearchByCategory = this.conferenceService.searchByCategoryAdminId(category);
+				confSearch.retainAll(confSearchByCategory);
 			}
 
 			if (fee != null) {
-				Collection<Conference> conferencesByMaxFee;
-				conferencesByMaxFee = this.conferenceService.searchByMaxFee(fee);
-				conferences.retainAll(conferencesByMaxFee);
+				Collection<Conference> confSearchByMaxFee;
+				confSearchByMaxFee = this.conferenceService.searchByMaxFeeAdminId(fee);
+				confSearch.retainAll(confSearchByMaxFee);
 			}
 
 			if (minDate != "" && maxDate != "") {
-				Collection<Conference> conferencesByDateRanges;
+				Collection<Conference> confSearchByDateRanges;
 
 				final DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -94,22 +98,22 @@ public class ConferenceAdministratorController extends AbstractController {
 					e.printStackTrace();
 				}
 
-				conferencesByDateRanges = this.conferenceService.searchByDates(date1, date2);
-				conferences.retainAll(conferencesByDateRanges);
+				confSearchByDateRanges = this.conferenceService.searchByDatesAdminId(date1, date2);
+				confSearch.retainAll(confSearchByDateRanges);
 			}
 		}
 
 		else if (keywordBool && fee != null) {
-			conferences = this.conferenceService.searchByMaxFee(fee);
+			confSearch = this.conferenceService.searchByMaxFeeAdminId(fee);
 
 			if (category != "") {
-				Collection<Conference> conferencesByCategory;
-				conferencesByCategory = this.conferenceService.searchByCategory(category);
-				conferences.retainAll(conferencesByCategory);
+				Collection<Conference> confSearchByCategory;
+				confSearchByCategory = this.conferenceService.searchByCategoryAdminId(category);
+				confSearch.retainAll(confSearchByCategory);
 			}
 
 			if (minDate != "" && maxDate != "") {
-				Collection<Conference> conferencesByDateRanges;
+				Collection<Conference> confSearchByDateRanges;
 
 				final DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -128,16 +132,17 @@ public class ConferenceAdministratorController extends AbstractController {
 					e.printStackTrace();
 				}
 
-				conferencesByDateRanges = this.conferenceService.searchByDates(date1, date2);
-				conferences.retainAll(conferencesByDateRanges);
+				confSearchByDateRanges = this.conferenceService.searchByDatesAdminId(date1, date2);
+				confSearch.retainAll(confSearchByDateRanges);
 			}
+			
 		}
 
 		else if (keywordBool && category != "") {
-			conferences = this.conferenceService.searchByCategory(category);
+			confSearch = this.conferenceService.searchByCategory(category);
 
 			if (minDate != "" && maxDate != "") {
-				Collection<Conference> conferencesByDateRanges;
+				Collection<Conference> confSearchByDateRanges;
 
 				final DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -156,8 +161,8 @@ public class ConferenceAdministratorController extends AbstractController {
 					e.printStackTrace();
 				}
 
-				conferencesByDateRanges = this.conferenceService.searchByDates(date1, date2);
-				conferences.retainAll(conferencesByDateRanges);
+				confSearchByDateRanges = this.conferenceService.searchByDates(date1, date2);
+				confSearch.retainAll(confSearchByDateRanges);
 			}
 		}
 
@@ -179,11 +184,18 @@ public class ConferenceAdministratorController extends AbstractController {
 				e.printStackTrace();
 			}
 
-			conferences = this.conferenceService.searchByDates(date1, date2);
+			confSearch = this.conferenceService.searchByDates(date1, date2);
 
 		} else
-			conferences = this.conferenceService.findFinals();
+			confSearch = this.conferenceService.findByAdministratorId(principal.getId());
 
+		conferences.addAll(confSearch);
+		for (Conference c : conferences) {
+			if(c.getAdministrator().getId() != principal.getId()){
+				conferences.remove(c);
+			}
+		}
+		
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
 		result.addObject("categories", categories);
@@ -236,13 +248,24 @@ public class ConferenceAdministratorController extends AbstractController {
 		})
 	public ModelAndView listByStatus(@RequestParam final String conferenceCategory) {
 		final ModelAndView result;
-		Collection<Conference> conferences;
+		Collection<Conference> conferences = new ArrayList<Conference>();
 		Collection<Category> categories;
-
+		Collection<Conference> confSearch;
+		Administrator principal;
+		
+		principal = this.administratorService.findByPrincipal();
 		categories = this.categoryService.findAll();
 		
-		conferences = this.conferenceService.searchByCategory(conferenceCategory);
+		confSearch = this.conferenceService.searchByCategoryAdminId(conferenceCategory);
 				
+		
+		conferences.addAll(confSearch);
+		for (Conference c : confSearch) {
+			if(c.getAdministrator().getId() != principal.getId()){
+				conferences.remove(c);
+			}
+		}
+		
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
 		result.addObject("categories", categories);

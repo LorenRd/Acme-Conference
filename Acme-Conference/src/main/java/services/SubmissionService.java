@@ -27,6 +27,7 @@ import domain.Administrator;
 import domain.Author;
 import domain.Message;
 import domain.Paper;
+import domain.Report;
 import domain.Reviewer;
 import domain.Submission;
 import forms.SubmissionForm;
@@ -62,6 +63,9 @@ public class SubmissionService {
 	@Autowired
 	private PaperService			paperService;
 
+	@Autowired
+	private ReportService			reportService;
+	
 	@Autowired
 	private Validator				validator;
 
@@ -431,9 +435,22 @@ public class SubmissionService {
 	}
 	
 	public Collection<Submission> findAllByReviewerIdUnderReview(final int reviewerId) {
+		Collection<Submission> submissions = new ArrayList<Submission>();
+		Collection<Report> reports = new ArrayList<Report>();
 		Collection<Submission> result = new ArrayList<Submission>();
 		
-		result = this.submissionRepository.findAllByReviewerIdUnderReview(reviewerId);
+		submissions = this.submissionRepository.findAllByReviewerIdUnderReview(reviewerId);
+		result.addAll(submissions);
+		reports = this.reportService.findAllByReviewerId(reviewerId);
+	
+		
+		for (Submission s : submissions) {
+			for (Report r : reports) {
+				if(r.getSubmission().getId() == s.getId()){
+					result.remove(s);
+				}
+			}
+		}
 		
 		return result;
 	}
