@@ -429,4 +429,12 @@ public class SubmissionService {
 
 		return result;
 	}
+	
+	public Collection<Submission> findAllByReviewerIdUnderReview(final int reviewerId) {
+		Collection<Submission> result = new ArrayList<Submission>();
+		
+		result = this.submissionRepository.findAllByReviewerIdUnderReview(reviewerId);
+		
+		return result;
+	}
 }

@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
 
 import cz.jirutka.validator.collection.constraints.EachNotBlank;
 
@@ -26,7 +27,7 @@ public class Report extends DomainEntity {
 	private String				decision;
 	private Collection<String>	comments;
 
-
+	@Range(min = 0, max = 10)
 	public double getOriginalityScore() {
 		return this.originalityScore;
 	}
@@ -34,7 +35,8 @@ public class Report extends DomainEntity {
 	public void setOriginalityScore(final double originalityScore) {
 		this.originalityScore = originalityScore;
 	}
-
+	
+	@Range(min = 0, max = 10)
 	public double getQualityScore() {
 		return this.qualityScore;
 	}
@@ -43,6 +45,7 @@ public class Report extends DomainEntity {
 		this.qualityScore = qualityScore;
 	}
 
+	@Range(min = 0, max = 10)
 	public double getReadabilityScore() {
 		return this.readabilityScore;
 	}
