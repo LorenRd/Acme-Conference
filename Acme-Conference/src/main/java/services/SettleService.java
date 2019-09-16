@@ -1,7 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -197,36 +196,16 @@ public class SettleService {
 	}
 	
 	public Double settlesPublishedVersusTotal(){
-		Collection<Settle> settles = new ArrayList<Settle>();
 		Double result=0.0;
 		
-		settles = this.findAll();
-	
-		if(settles.size()>0){
-			int published = 0;
-			for (Settle s : settles) {
-				if(s.getPublicationMoment()!=null)
-					published++;
-			}
-			result =  ((double) published)/settles.size();
-		}
+		result = this.settleRepository.settlesPublishedVersusTotal();
 		
 		return result;
 	}
 	public Double settlesUnpublishedVersusTotal(){
-		Collection<Settle> settles = new ArrayList<Settle>();
 		Double result=0.0;
 		
-		settles = this.findAll();
-	
-		if(settles.size()>0){
-			int unpublished = 0;
-			for (Settle s : settles) {
-				if(s.getPublicationMoment()==null)
-					unpublished++;
-			}
-			result =  ((double) unpublished)/settles.size();
-		}
+		result = this.settleRepository.settlesUnpublishedVersusTotal();
 		
 		return result;
 	}

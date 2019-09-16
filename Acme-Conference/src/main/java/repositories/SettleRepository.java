@@ -26,4 +26,9 @@ public interface SettleRepository extends JpaRepository<Settle, Integer> {
 	@Query("select stddev(1.0*(select count(s) from Settle s where s.conference.id = c.id)) from Conference c")
 	Double stddevSettlePerConference();
 	
+	@Query("select (count(a) /(select count(b) from Settle b)) * 1.0 from Settle a where a.isDraft = false")
+	Double settlesPublishedVersusTotal();
+	
+	@Query("select (count(a) /(select count(b) from Settle b)) * 1.0 from Settle a where a.isDraft = true")
+	Double settlesUnpublishedVersusTotal();
 }

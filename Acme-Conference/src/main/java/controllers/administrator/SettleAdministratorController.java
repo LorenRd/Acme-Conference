@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -122,7 +120,7 @@ public class SettleAdministratorController extends AbstractController {
 	//Save Draft
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveDraft")
-	public ModelAndView createDraft(@Valid @ModelAttribute("settle") Settle settle, final BindingResult binding) {
+	public ModelAndView createDraft(@ModelAttribute("settle") Settle settle, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
@@ -145,7 +143,7 @@ public class SettleAdministratorController extends AbstractController {
 	//Save Final
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView createFinal(@Valid @ModelAttribute("settle") Settle settle, final BindingResult binding) {
+	public ModelAndView createFinal(@ModelAttribute("settle") Settle settle, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
