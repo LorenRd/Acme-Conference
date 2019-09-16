@@ -18,6 +18,7 @@ import repositories.ReportRepository;
 import security.Authority;
 import domain.Actor;
 import domain.Administrator;
+import domain.Author;
 import domain.Conference;
 import domain.Report;
 import domain.Submission;
@@ -38,6 +39,9 @@ public class ConferenceService {
 	@Autowired
 	private ActorService			actorService;
 
+	@Autowired
+	private AuthorService			authorService;
+	
 	@Autowired
 	private SubmissionService		submissionService;
 
@@ -220,13 +224,18 @@ public class ConferenceService {
 	}
 
 	public Collection<Conference> findConferencesBeforeSubmissionDeadline() {
-		final Collection<Conference> result = this.findConferencesBeforeSubmissionDeadline();
-		final Collection<Conference> finals = this.findConferencesBeforeSubmissionDeadline();
-		final Collection<Submission> allSubmissions = this.submissionService.findAll();
-
+		final Collection<Conference> result = new ArrayList<Conference>();
+		final Collection<Conference> finals = this.conferenceRepository.findConferencesBeforeSubmissionDeadline();
+		final Collection<Submission> allSubmissions;
+		Author principal;
+		principal = this.authorService.findByPrincipal();
+		
+		allSubmissions = this.submissionService.findAllByAuthor(principal.getId());		
+		result.addAll(finals);
+		
 		for (final Submission s : allSubmissions)
 			for (final Conference c : finals)
-				if (s.getConference().equals(c))
+				if (s.getConference().getId() == c.getId())
 					result.remove(c);
 
 		return result;
