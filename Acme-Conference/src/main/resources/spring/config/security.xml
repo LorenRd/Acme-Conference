@@ -149,6 +149,15 @@
 		<security:intercept-url pattern="/category/administrator/edit.do" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/category/administrator/create.do" access="hasRole('ADMIN')" /> 
 	
+		<!-- Husit -->
+		<security:intercept-url pattern="/husit/display.do" access="permitAll"/>
+		<security:intercept-url pattern="/husit/administrator/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/husit/administrator/list.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/husit/administrator/create.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/husit/administrator/edit.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/husit/administrator/delete.do" access="hasRole('ADMIN')"/>
+		<!-- Husit -->
+	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login 

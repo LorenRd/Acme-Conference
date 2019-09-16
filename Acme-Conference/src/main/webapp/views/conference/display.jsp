@@ -9,7 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-<jstl:if test="${banner}">
+<jstl:if test="${banner != null}">
 	<img src="${banner}" width="500px" height="200px">
 </jstl:if>
 <p>
@@ -115,5 +115,63 @@
 </jstl:if>
 </security:authorize>
 
+<security:authorize access="hasRole('ADMIN')">
+		<!-- Husit -->
+<h3><spring:message code="husit.husit" /></h3>
+<jstl:choose>
+<jstl:when test="${not empty husits}">
+<display:table pagesize="5" class="displaytag" name="husits" requestURI="conference/display.do" id="husit">
+		<!-- Display -->
+	<display:column>
+		<a href="husit/administrator/display.do?husitId=${husit.id}"><spring:message code="husit.display"/></a>		
+	</display:column>
+		
+		<!-- Attributes -->
+		<!-- Colors -->
+			<jstl:choose>
+				<jstl:when test="${husit.publicationMoment >= dateOneMonth}">
+					<jstl:set var="background" value="ForestGreen" />
+				</jstl:when>
+	
+				<jstl:when test="${(husit.publicationMoment < dateOneMonth) && (husit.publicationMoment > dateTwoMonths)}">
+					<jstl:set var="background" value="GreenYellow" />
+				</jstl:when>
+		
+				<jstl:otherwise>
+					<jstl:set var="background" value="FloralWhite" />
+				</jstl:otherwise>
+			</jstl:choose>
+		<!--  -->
+		
+	<spring:message code="husit.ticker" var="tickerHeader" />
+	<display:column property="ticker" title="${tickerHeader}"
+		sortable="true" />
+	<jstl:if test="${cookie['language'].getValue()=='es'}">
+		<spring:message code="husit.publicationMoment" var="publicationMomentHeader" />
+    	<display:column class="${background}" property="publicationMoment" format="{0,date, dd-MM-yy HH:mm}" title="${publicationMomentHeader}" />
+	</jstl:if>
+	<jstl:if test="${cookie['language'].getValue()=='en'}">
+		<spring:message code="husit.publicationMoment" var="publicationMomentHeader" />
+    	<display:column class="${background}" property="publicationMoment" format="{0,date, yy/MM/dd HH:mm}" title="${publicationMomentHeader}" />
+	</jstl:if>
 
+			
+	<spring:message code="husit.body" var="bodyHeader" />
+	<display:column property="body" title="${bodyHeader}"
+		sortable="true" />
+		
+			
+</display:table>
+</jstl:when>
+<jstl:otherwise>
+<spring:message code="husit.conferences.empty" /> 
+</jstl:otherwise>
+</jstl:choose>
+<br/>
+</security:authorize>
+<jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
+<jstl:if test="${conference.isFinal}">
+		<acme:button url="husit/administrator/create.do?conferenceId=${conference.id}" code="husit.create"/>
+</jstl:if>
+</jstl:if>
 		

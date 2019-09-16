@@ -86,6 +86,12 @@
 		
 		<bean class="converters.SectionToStringConverter" />
 		<bean class="converters.StringToSectionConverter" />
+		
+		<!-- Husit -->
+		
+		<bean class="converters.HusitToStringConverter" />
+		<bean class="converters.StringToHusitConverter" />
+		
 	</util:list>
 
 </beans>

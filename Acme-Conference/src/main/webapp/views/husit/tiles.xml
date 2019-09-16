@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="husit/list" extends="master.page">
+		<put-attribute name="title" value="Husits' list" />
+		<put-attribute name="body" value="/views/husit/list.jsp" />
+	</definition>
+	
+	<definition name="husit/display" extends="master.page">
+		<put-attribute name="title" value="Display husit" />
+		<put-attribute name="body" value="/views/husit/display.jsp" />
+	</definition>
+	
+	<definition name="husit/create" extends="master.page">
+		<put-attribute name="title" value="Create husit" />
+		<put-attribute name="body" value="/views/husit/create.jsp" />
+	</definition>
+	
+	<definition name="husit/edit" extends="master.page">
+		<put-attribute name="title" value="Edit husit" />
+		<put-attribute name="body" value="/views/husit/edit.jsp" />
+	</definition>
+	
+</tiles-definitions>

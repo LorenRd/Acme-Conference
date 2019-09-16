@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ import services.AdministratorService;
 import services.CategoryService;
 import services.ConferenceCommentService;
 import services.ConferenceService;
+import services.HusitService;
 import services.SponsorshipService;
 import services.PanelService;
 import services.PresentationService;
@@ -29,6 +31,7 @@ import controllers.AbstractController;
 import domain.Administrator;
 import domain.Category;
 import domain.Conference;
+import domain.Husit;
 import domain.Sponsorship;
 import domain.ConferenceComment;
 import domain.Panel;
@@ -64,6 +67,10 @@ public class ConferenceController extends AbstractController {
 
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private HusitService				husitService;
+	
 	// List
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -326,6 +333,7 @@ public class ConferenceController extends AbstractController {
 		final Collection<Tutorial> tutorials;
 		final Collection<Panel> panels;
 		final Collection<Presentation> presentations;
+		final Collection<Husit> husits;
 
 		
 		// Busca en el repositorio
@@ -350,6 +358,7 @@ public class ConferenceController extends AbstractController {
 			tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
 			panels = this.panelService.findAllByConferenceId(conferenceId);
 			presentations = this.presentationService.findAllByConferenceId(conferenceId);
+			husits = this.husitService.findAllByConferenceId(conferenceId);
 	
 			// Crea y a�ade objetos a la vista
 			result = new ModelAndView("conference/display");
@@ -360,6 +369,19 @@ public class ConferenceController extends AbstractController {
 			result.addObject("presentations", presentations);
 			result.addObject("conference", conference);
 			result.addObject("submissionDeadlineOver", submissionDeadlineOver);
+			result.addObject("husits", husits);
+			
+			//Dates
+			final Calendar cal = Calendar.getInstance();
+			//1 month old 
+			cal.add(Calendar.MONTH, -1);
+			final Date dateOneMonth = cal.getTime();
+			//2 months old 
+			cal.add(Calendar.MONTH, -1);
+			final Date dateTwoMonths = cal.getTime();
+			result.addObject("dateOneMonth", dateOneMonth);
+			result.addObject("dateTwoMonths", dateTwoMonths);
+			
 			if(sponsorship!=null){
 				result.addObject("banner", sponsorship.getBanner());
 			}
@@ -385,6 +407,7 @@ public class ConferenceController extends AbstractController {
 					tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
 					panels = this.panelService.findAllByConferenceId(conferenceId);
 					presentations = this.presentationService.findAllByConferenceId(conferenceId);
+					husits = this.husitService.findAllByConferenceId(conferenceId);
 			
 					// Crea y a�ade objetos a la vista
 					result = new ModelAndView("conference/display");
@@ -395,6 +418,19 @@ public class ConferenceController extends AbstractController {
 					result.addObject("presentations", presentations);
 					result.addObject("conference", conference);
 					result.addObject("submissionDeadlineOver", submissionDeadlineOver);
+					result.addObject("husits", husits);
+					
+					//Dates
+					final Calendar cal = Calendar.getInstance();
+					//1 month old 
+					cal.add(Calendar.MONTH, -1);
+					final Date dateOneMonth = cal.getTime();
+					//2 months old 
+					cal.add(Calendar.MONTH, -1);
+					final Date dateTwoMonths = cal.getTime();
+					result.addObject("dateOneMonth", dateOneMonth);
+					result.addObject("dateTwoMonths", dateTwoMonths);
+					
 					if(sponsorship!=null){
 						result.addObject("banner", sponsorship.getBanner());
 					}

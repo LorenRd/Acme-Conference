@@ -35,8 +35,6 @@
 		<value>/views/submission/messages</value>
 		<value>/views/report/messages</value>
 		
-<!-- 		<value>/views/paper/messages</value>
-		<value>/views/cameraReadyPaper/messages</value> -->
 		<value>/views/cameraReadyPaper/messages</value>
 		<value>/views/message/messages</value>
 		<value>/views/category/messages</value>
@@ -47,6 +45,7 @@
 		<value>/views/presentation/messages</value>
 		<value>/views/sponsor/messages</value>
 		<value>/views/sponsorship/messages</value>
+		<value>/views/husit/messages</value>
 	</util:list>
 
 </beans>

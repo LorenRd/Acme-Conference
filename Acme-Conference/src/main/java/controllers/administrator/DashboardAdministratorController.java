@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActivityCommentService;
 import services.ConferenceCommentService;
 import services.ConferenceService;
+import services.HusitService;
 import services.RegistrationService;
 import services.SubmissionService;
 
@@ -31,6 +32,9 @@ public class DashboardAdministratorController {
 
 	@Autowired
 	private ConferenceCommentService conferenceCommentService;
+	
+	@Autowired
+	private HusitService husitService;
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -46,8 +50,19 @@ public class DashboardAdministratorController {
 		final Double avgCommentPerConference, minCommentPerConference, maxCommentPerConference, stddevCommentPerConference;
 		final Double avgCommentPerActivity, minCommentPerActivity, maxCommentPerActivity, stddevCommentPerActivity;
 		final Double avgConferencePerCategory, minConferencePerCategory, maxConferencePerCategory, stddevConferencePerCategory;
+		final Double avgHusitPerConference, stddevHusitPerConference;
+		final Double ratioPublishedHusits;
+		final Double ratioUnpublishedHusits;
 		
 		// Stadistics
+		//HusitPerConference
+		avgHusitPerConference = this.husitService.avgHusitPerConference();
+		stddevHusitPerConference = this.husitService.stddevHusitPerConference();
+				
+		//Ratios
+		ratioPublishedHusits = this.husitService.ratioPublishedHusits();
+		ratioUnpublishedHusits = this.husitService.ratioUnpublishedHusits();
+		
 		// SubmissionPerConference
 		avgSubmissionPerConference = this.submissionService.avgSubmissionPerConference();
 		minSubmissionPerConference = this.submissionService.minSubmissionPerConference();
@@ -94,6 +109,12 @@ public class DashboardAdministratorController {
 
 		//----------------------------------------------------------------------------------
 		result = new ModelAndView("administrator/dashboard");
+		result.addObject("avgHusitPerConference", avgHusitPerConference);
+		result.addObject("stddevHusitPerConference", stddevHusitPerConference);
+		
+		result.addObject("ratioPublishedHusits", ratioPublishedHusits);
+		result.addObject("ratioUnpublishedHusits", ratioUnpublishedHusits);
+		
 		result.addObject("avgSubmissionPerConference", avgSubmissionPerConference);
 		result.addObject("minSubmissionPerConference", minSubmissionPerConference);
 		result.addObject("maxSubmissionPerConference", maxSubmissionPerConference);

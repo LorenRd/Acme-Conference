@@ -36,6 +36,51 @@
 		<tr>
 			<th><spring:message code="administrator.metrics" /></th>
 			<th><spring:message code="administrator.average" /></th>
+			<th><spring:message code="administrator.std" /></th>
+		</tr>
+
+		<tr>
+			<td><spring:message code="administrator.husitPerConference" /></td>
+			<td><jstl:out value="${avgHusitPerConference }" /></td>
+			<td><jstl:out value="${stddevHusitPerConference }" /></td>
+		</tr>
+	</table>
+
+	<h3><spring:message code="administrator.ratios" /></h3>
+	
+	<table class="displayStyle">
+		<tr>
+			<th colspan="2"><spring:message code="administrator.ratios" /></th>
+		</tr>
+		
+		<tr>
+			<th><spring:message code="administrator.metrics" /></th>
+			<th><spring:message code="administrator.value" /></th>
+		</tr>
+		
+		<tr>
+			<td><spring:message code="administrator.ratioPublishedHusits" /></td>
+			<td><jstl:out value="${ratioPublishedHusits }" /></td>
+		</tr>
+		<tr>
+			<td><spring:message code="administrator.ratioUnpublishedHusits" /></td>
+			<td><jstl:out value="${ratioUnpublishedHusits }" /></td>
+		</tr>
+
+	</table>
+
+	<h3>
+		<spring:message code="administrator.statistics" />
+	</h3>
+
+	<table class="displayStyle">
+		<tr>
+			<th colspan="5"><spring:message code="administrator.statistics" /></th>
+		</tr>
+
+		<tr>
+			<th><spring:message code="administrator.metrics" /></th>
+			<th><spring:message code="administrator.average" /></th>
 			<th><spring:message code="administrator.minimum" /></th>
 			<th><spring:message code="administrator.maximum" /></th>
 			<th><spring:message code="administrator.std" /></th>
