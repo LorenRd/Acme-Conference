@@ -23,6 +23,37 @@
 <!-- Listing grid -->
 
 <security:authorize access="hasRole('ADMIN')">
+	
+	<h3>
+		<spring:message code="settle.statistics" />
+	</h3>
+		<table class="displayStyle">
+		<tr>
+			<th colspan="5"><spring:message code="administrator.statistics" /></th>
+		</tr>
+
+		<tr>
+			<th><spring:message code="administrator.metrics" /></th>
+			<th><spring:message code="administrator.average" /></th>
+			<th><spring:message code="administrator.std" /></th>
+			<th><spring:message code="settle.publishedVersusTotal" /></th>
+			<th><spring:message code="settle.unpublishedVersusTotal" /></th>
+		</tr>
+
+		<tr>
+			<td><spring:message code="settle.settlesPerConference" /></td>
+			<td><jstl:out value="${avgSettlesPerConference }" /></td>
+			<td><jstl:out value="${stddevSettlesPerConference }" /></td>
+			<td><jstl:out value="${settlesPublishedVersusTotal }" /></td>
+			<td><jstl:out value="${settlesUnpublishedVersusTotal }" /></td>
+
+		</tr>
+
+
+
+	</table>
+	
+	
 
 	<h3>
 		<spring:message code="administrator.statistics" />

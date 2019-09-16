@@ -18,22 +18,20 @@
 
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="quolet/administrator/create.do?conferenceId=${param['conferenceId']}" modelAttribute="quolet">
+<form:form action="settle/administrator/create.do?conferenceId=${param['conferenceId']}" modelAttribute="settle">
 		<form:hidden path="id"/>
 		<form:hidden path="version"/>
 		<form:hidden path="conference"/>
-			
-		<acme:textarea code="quolet.title" path="title"/>
-		<br />	
-		<acme:textarea code="quolet.body" path="body"/>
+		
+		<acme:textarea code="settle.body" path="body"/>
 		<br />		
-		<acme:textbox code="quolet.picture" path="picture" />
+		<acme:textbox code="settle.picture" path="picture" />
 		<br />
 		
-		<acme:submit name="saveDraft" code="quolet.saveDraft"/>
+		<acme:submit name="saveDraft" code="settle.saveDraft"/>
 		
-		<acme:submit name="saveFinal" code="quolet.save"/>
+		<acme:submit name="saveFinal" code="settle.save"/>
 		
-		<acme:cancel url="welcome/index.do" code="quolet.cancel"/>
+		<acme:cancel url="welcome/index.do" code="settle.cancel"/>
 		
 </form:form>

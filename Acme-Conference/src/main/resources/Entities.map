@@ -1,5 +1,5 @@
 #./src/main/resources/Entities.map
-#Thu Sep 05 00:45:07 CEST 2019
+#Thu Sep 05 11:30:15 CEST 2019
 reviewer1=1510
 cameraReadyPaper2=1556
 cameraReadyPaper1=1555
@@ -33,6 +33,10 @@ administrator3=1506
 administrator2=1505
 administrator1=1504
 section1=1565
+settle4=1572
+settle3=1571
+settle2=1570
+settle1=1569
 report2=1558
 report1=1557
 author3=1509
@@ -46,13 +50,9 @@ registration1=1549
 creditCard1=1516
 presentation1=1564
 customisation=1519
-quolet4=1572
 submission3=1554
-quolet3=1571
 submission2=1553
-quolet2=1570
 submission1=1552
-quolet1=1569
 category9=1531
 category8=1530
 category7=1529

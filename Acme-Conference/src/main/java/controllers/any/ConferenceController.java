@@ -24,7 +24,7 @@ import services.ConferenceCommentService;
 import services.ConferenceService;
 import services.PanelService;
 import services.PresentationService;
-import services.QuoletService;
+import services.SettleService;
 import services.SponsorshipService;
 import services.TutorialService;
 import controllers.AbstractController;
@@ -33,7 +33,7 @@ import domain.Conference;
 import domain.ConferenceComment;
 import domain.Panel;
 import domain.Presentation;
-import domain.Quolet;
+import domain.Settle;
 import domain.Sponsorship;
 import domain.Tutorial;
 
@@ -64,7 +64,7 @@ public class ConferenceController extends AbstractController {
 	private CategoryService				categoryService;
 
 	@Autowired
-	private QuoletService				quoletService;
+	private SettleService				settleService;
 
 
 	// List
@@ -319,7 +319,7 @@ public class ConferenceController extends AbstractController {
 		final Collection<Tutorial> tutorials;
 		final Collection<Panel> panels;
 		final Collection<Presentation> presentations;
-		final Collection<Quolet> quolets;
+		final Collection<Settle> settles;
 
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
@@ -337,7 +337,7 @@ public class ConferenceController extends AbstractController {
 		tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
 		panels = this.panelService.findAllByConferenceId(conferenceId);
 		presentations = this.presentationService.findAllByConferenceId(conferenceId);
-		quolets = this.quoletService.findAllByConferenceId(conferenceId);
+		settles = this.settleService.findAllByConferenceId(conferenceId);
 
 		// Crea y aï¿½ade objetos a la vista
 		result = new ModelAndView("conference/display");
@@ -349,10 +349,7 @@ public class ConferenceController extends AbstractController {
 		result.addObject("conference", conference);
 		result.addObject("submissionDeadlineOver", submissionDeadlineOver);
 		result.addObject("banner", sponsorship.getBanner());
-		result.addObject("quolets", quolets);
-
-		for (final Quolet q : quolets)
-			System.out.println("AQUÍ:" + q.getId());
+		result.addObject("settles", settles);
 
 		//Dates
 		final Calendar cal = Calendar.getInstance();

@@ -86,6 +86,11 @@
 		
 		<bean class="converters.SectionToStringConverter" />
 		<bean class="converters.StringToSectionConverter" />
+		
+		<!-- Settle -->
+		
+		<bean class="converters.SettleToStringConverter" />
+		<bean class="converters.StringToSettleConverter" />
 	</util:list>
 
 </beans>

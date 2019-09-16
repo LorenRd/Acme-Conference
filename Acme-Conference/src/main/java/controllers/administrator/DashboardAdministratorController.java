@@ -10,6 +10,7 @@ import services.ActivityCommentService;
 import services.ConferenceCommentService;
 import services.ConferenceService;
 import services.RegistrationService;
+import services.SettleService;
 import services.SubmissionService;
 
 @Controller
@@ -31,6 +32,9 @@ public class DashboardAdministratorController {
 
 	@Autowired
 	private ConferenceCommentService conferenceCommentService;
+
+	@Autowired
+	private SettleService settleService;
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -46,6 +50,8 @@ public class DashboardAdministratorController {
 		final Double avgCommentPerConference, minCommentPerConference, maxCommentPerConference, stddevCommentPerConference;
 		final Double avgCommentPerActivity, minCommentPerActivity, maxCommentPerActivity, stddevCommentPerActivity;
 		final Double avgConferencePerCategory, minConferencePerCategory, maxConferencePerCategory, stddevConferencePerCategory;
+		
+		final Double avgSettlesPerConference, stddevSettlesPerConference, settlesPublishedVersusTotal, settlesUnpublishedVersusTotal;
 		
 		// Stadistics
 		// SubmissionPerConference
@@ -91,6 +97,13 @@ public class DashboardAdministratorController {
 		minCommentPerActivity = this.activityCommentService.minCommentsPerActivity();
 		maxCommentPerActivity = this.activityCommentService.maxCommentsPerActivity();
 		stddevCommentPerActivity = this.activityCommentService.stddevCommentsPerActivity();
+		
+		//Settles
+		avgSettlesPerConference = this.settleService.avgSettlePerConference();
+		stddevSettlesPerConference = this.settleService.stddevSettlePerConference();
+		settlesPublishedVersusTotal = this.settleService.settlesPublishedVersusTotal();
+		settlesUnpublishedVersusTotal = this.settleService.settlesUnpublishedVersusTotal();
+		
 
 		//----------------------------------------------------------------------------------
 		result = new ModelAndView("administrator/dashboard");
@@ -128,6 +141,11 @@ public class DashboardAdministratorController {
 		result.addObject("minCommentPerActivity", minCommentPerActivity);
 		result.addObject("maxCommentPerActivity", maxCommentPerActivity);
 		result.addObject("stddevCommentPerActivity", stddevCommentPerActivity);
+		
+		result.addObject("avgSettlesPerConference", avgSettlesPerConference);
+		result.addObject("stddevSettlesPerConference", stddevSettlesPerConference);
+		result.addObject("settlesPublishedVersusTotal", settlesPublishedVersusTotal);
+		result.addObject("settlesUnpublishedVersusTotal", settlesUnpublishedVersusTotal);
 		
 		return result;
 

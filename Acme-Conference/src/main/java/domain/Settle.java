@@ -22,18 +22,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Quolet extends DomainEntity {
+public class Settle extends DomainEntity {
 
 	private String	ticker;
 	private Date	publicationMoment;
-	private String	title;
 	private String	body;
 	private String	picture;
 	private boolean	isDraft;
 
 
 	@Column(unique = true)
-	@Pattern(regexp = "^[0-9]{8}-([A-Z]{4})$")
+	@Pattern(regexp = "^[a-zA-Z0-9_]{2}[0-9]{2}-[0-9]{6}$")
 	public String getTicker() {
 		return this.ticker;
 	}
@@ -54,15 +53,7 @@ public class Quolet extends DomainEntity {
 	}
 
 	@NotBlank
-	public String getTitle() {
-		return this.title;
-	}
-	public void setTitle(final String title) {
-		this.title = title;
-	}
-
-	@NotBlank
-	@Size(min = 5, max = 100)
+	@Size(max = 251)
 	public String getBody() {
 		return this.body;
 	}

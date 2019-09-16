@@ -6,19 +6,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import repositories.QuoletRepository;
-import domain.Quolet;
+import repositories.SettleRepository;
+import domain.Settle;
 
 @Component
 @Transactional
-public class StringToQuoletConverter implements Converter<String, Quolet> {
+public class StringToSettleConverter implements Converter<String, Settle> {
 
 	@Autowired
-	QuoletRepository quoletRepository;
+	SettleRepository settleRepository;
 
 	@Override
-	public Quolet convert(final String text) {
-		Quolet result;
+	public Settle convert(final String text) {
+		Settle result;
 		int id;
 
 		try {
@@ -26,7 +26,7 @@ public class StringToQuoletConverter implements Converter<String, Quolet> {
 				result = null;
 			else {
 				id = Integer.valueOf(text);
-				result = this.quoletRepository.findOne(id);
+				result = this.settleRepository.findOne(id);
 			}
 		} catch (final Throwable oops) {
 			throw new IllegalArgumentException(oops);

@@ -389,6 +389,10 @@
 		<property name="conference" ref="conference2" />
 		<property name="paper" ref="paper2" />
 		<property name="decisionNotification" value="false" />
+		<property name="reviewers">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<bean class="domain.Submission" id="submission3">
@@ -399,6 +403,10 @@
 		<property name="conference" ref="conference3" />
 		<property name="paper" ref="paper3" />
 		<property name="decisionNotification" value="false" />
+		<property name="reviewers">
+			<list>
+			</list>
+		</property>
 	</bean>
 
 	<!-- Paper -->
@@ -590,13 +598,17 @@
 				<value>AMEX</value>
 			</list>
 		</property>
-		<property name="topics">
+		<property name="englishTopics">
 			<list>
 				<value>INQUIRY</value>
 				<value>REBUTTAL</value>
 				<value>REGISTRATION</value>
 				<value>TOPICS</value>
 				<value>OTHER</value>
+			</list>
+		</property>
+		<property name="spanishTopics">
+			<list>
 				<value>CONSULTA</value>
 				<value>REFUTACIÓN</value>
 				<value>INSCRIPCIÓN</value>
@@ -1370,4 +1382,37 @@
 		<property name="conference" ref="conference4" />
 	</bean>
 
+	<!-- Settle -->
+	<bean class="domain.Settle" id="settle1">
+		<property name="ticker" value="aA12-090519" />
+		<property name="publicationMoment" value="08/15/2019 15:00" />
+		<property name="body" value="TEST - Esto es un body de prueba" />
+		<property name="picture" value="http://www.foto.com" />
+		<property name="isDraft" value="false" />
+		<property name="conference" ref="conference2" />
+	</bean>
+	<bean class="domain.Settle" id="settle2">
+		<property name="ticker" value="bB12-090519" />
+		<property name="publicationMoment" value="08/01/2019 15:00" />
+		<property name="body" value="TEST - Esto es un body de prueba" />
+		<property name="picture" value="http://www.foto.com" />
+		<property name="isDraft" value="false" />
+		<property name="conference" ref="conference2" />
+	</bean>
+	<bean class="domain.Settle" id="settle3">
+		<property name="ticker" value="cC12-090519" />
+		<property name="publicationMoment" value="06/01/2019 15:00" />
+		<property name="body" value="TEST - Esto es un body de prueba" />
+		<property name="picture" value="http://www.foto.com" />
+		<property name="isDraft" value="false" />
+		<property name="conference" ref="conference3" />
+	</bean>
+	<bean class="domain.Settle" id="settle4">
+		<property name="ticker" value="dD12-090519" />
+		<property name="publicationMoment" value="05/01/2019 15:00" />
+		<property name="body" value="TEST - Esto es un body de prueba" />
+		<property name="picture" value="http://www.foto.com" />
+		<property name="isDraft" value="false" />
+		<property name="conference" ref="conference3" />
+	</bean>
 </beans>

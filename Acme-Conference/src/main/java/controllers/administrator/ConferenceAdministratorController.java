@@ -25,13 +25,13 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AdministratorService;
 import services.CategoryService;
 import services.ConferenceService;
-import services.QuoletService;
+import services.SettleService;
 import services.SubmissionService;
 import controllers.AbstractController;
 import domain.Administrator;
 import domain.Category;
 import domain.Conference;
-import domain.Quolet;
+import domain.Settle;
 
 @Controller
 @RequestMapping("/conference/administrator")
@@ -52,7 +52,7 @@ public class ConferenceAdministratorController extends AbstractController {
 	private CategoryService		categoryService;
 
 	@Autowired
-	private QuoletService quoletService;
+	private SettleService settleService;
 	
 	
 	// Listing
@@ -269,7 +269,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		Conference conference;
 		boolean submissionDeadlineOver = false;
 		final Date date = new Date(System.currentTimeMillis());
-		final Collection<Quolet> quolets;
+		final Collection<Settle> settles;
 
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
@@ -278,14 +278,14 @@ public class ConferenceAdministratorController extends AbstractController {
 		if (conference.getSubmissionDeadline().before(date))
 			submissionDeadlineOver = true;
 
-		quolets = this.quoletService.findAllByConferenceId(conferenceId);
+		settles = this.settleService.findAllByConferenceId(conferenceId);
 		
 		// Crea y a�ade objetos a la vista
 		result = new ModelAndView("conference/display");
 		result.addObject("requestURI", "conference/display.do");
 		result.addObject("conference", conference);
 		result.addObject("submissionDeadlineOver", submissionDeadlineOver);
-		result.addObject("quolets", quolets);
+		result.addObject("settles", settles);
 
 		//Dates
 		final Calendar cal = Calendar.getInstance();

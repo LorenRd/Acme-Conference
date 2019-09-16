@@ -14,20 +14,20 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Quolet;
+import domain.Settle;
 
 @Component
 @Transactional
-public class QuoletToStringConverter implements Converter<Quolet, String> {
+public class SettleToStringConverter implements Converter<Settle, String> {
 
 	@Override
-	public String convert(final Quolet quolet) {
+	public String convert(final Settle settle) {
 		String result;
 
-		if (quolet == null)
+		if (settle == null)
 			result = null;
 		else
-			result = String.valueOf(quolet.getId());
+			result = String.valueOf(settle.getId());
 
 		return result;
 	}

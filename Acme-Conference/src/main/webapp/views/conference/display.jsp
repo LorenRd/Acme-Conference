@@ -117,47 +117,47 @@
 	code="conferenceComment.create" />
 
 <security:authorize access="hasRole('ADMIN')">
-		<!-- quolet -->
-<h3><spring:message code="quolet.quolet" /></h3>
+		<!-- Settle -->
+<h3><spring:message code="settle.settle" /></h3>
 <jstl:choose>
-<jstl:when test="${not empty quolets}">
-<display:table pagesize="5" class="displaytag" name="quolets" requestURI="conference/display.do" id="quolet">
+<jstl:when test="${not empty settles}">
+<display:table pagesize="5" class="displaytag" name="settles" requestURI="conference/display.do" id="settle">
 		<!-- Display -->
 	<display:column>
-		<a href="quolet/administrator/display.do?quoletId=${quolet.id}"><spring:message code="quolet.display"/></a>		
+		<a href="settle/administrator/display.do?settleId=${settle.id}"><spring:message code="settle.display"/></a>		
 	</display:column>
 		
 		<!-- Attributes -->
 		<!-- Colors -->
 			<jstl:choose>
-				<jstl:when test="${quolet.publicationMoment >= dateOneMonth}">
-					<jstl:set var="background" value="MediumSlateBlue" />
+				<jstl:when test="${settle.publicationMoment >= dateOneMonth}">
+					<jstl:set var="background" value="Indigo" />
 				</jstl:when>
 	
-				<jstl:when test="${(quolet.publicationMoment < dateOneMonth) && (quolet.publicationMoment > dateTwoMonths)}">
-					<jstl:set var="background" value="DarkGoldenRod" />
+				<jstl:when test="${(settle.publicationMoment < dateOneMonth) && (settle.publicationMoment > dateTwoMonths)}">
+					<jstl:set var="background" value="DarkSlateGray" />
 				</jstl:when>
 		
 				<jstl:otherwise>
-					<jstl:set var="background" value="SandyBrown" />
+					<jstl:set var="background" value="PapayaWhip" />
 				</jstl:otherwise>
 			</jstl:choose>
 		<!--  -->
 		
-	<spring:message code="quolet.ticker" var="tickerHeader" />
+	<spring:message code="settle.ticker" var="tickerHeader" />
 	<display:column property="ticker" title="${tickerHeader}"
 		sortable="true" />
 	<jstl:if test="${cookie['language'].getValue()=='es'}">
-		<spring:message code="quolet.publicationMoment" var="publicationMomentHeader" />
+		<spring:message code="settle.publicationMoment" var="publicationMomentHeader" />
     	<display:column class="${background}" property="publicationMoment" format="{0,date, dd-MM-yy HH:mm}" title="${publicationMomentHeader}" />
 	</jstl:if>
 	<jstl:if test="${cookie['language'].getValue()=='en'}">
-		<spring:message code="quolet.publicationMoment" var="publicationMomentHeader" />
+		<spring:message code="settle.publicationMoment" var="publicationMomentHeader" />
     	<display:column class="${background}" property="publicationMoment" format="{0,date, yy/MM/dd HH:mm}" title="${publicationMomentHeader}" />
 	</jstl:if>
 
 			
-	<spring:message code="quolet.body" var="bodyHeader" />
+	<spring:message code="settle.body" var="bodyHeader" />
 	<display:column property="body" title="${bodyHeader}"
 		sortable="true" />
 		
@@ -165,14 +165,14 @@
 </display:table>
 </jstl:when>
 <jstl:otherwise>
-<spring:message code="quolet.conferences.empty" /> 
+<spring:message code="settle.conferences.empty" /> 
 </jstl:otherwise>
 </jstl:choose>
 <br/>
 </security:authorize>
 <jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
 <jstl:if test="${conference.isFinal}">
-		<acme:button url="quolet/administrator/create.do?conferenceId=${conference.id}" code="quolet.create"/>
+		<acme:button url="settle/administrator/create.do?conferenceId=${conference.id}" code="settle.create"/>
 </jstl:if>
 </jstl:if>
 		

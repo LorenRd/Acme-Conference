@@ -87,10 +87,10 @@
 		<bean class="converters.SectionToStringConverter" />
 		<bean class="converters.StringToSectionConverter" />
 		
-		<!-- Quolet -->
+		<!-- Settle -->
 		
-		<bean class="converters.QuoletToStringConverter" />
-		<bean class="converters.StringToQuoletConverter" />
+		<bean class="converters.SettleToStringConverter" />
+		<bean class="converters.StringToSettleConverter" />
 	</util:list>
 
 </beans>

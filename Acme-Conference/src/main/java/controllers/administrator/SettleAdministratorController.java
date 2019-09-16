@@ -20,15 +20,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AdministratorService;
-import services.QuoletService;
+import services.SettleService;
 import controllers.AbstractController;
 import domain.Administrator;
 import domain.Conference;
-import domain.Quolet;
+import domain.Settle;
 
 @Controller
-@RequestMapping("/quolet/administrator")
-public class QuoletAdministratorController extends AbstractController {
+@RequestMapping("/settle/administrator")
+public class SettleAdministratorController extends AbstractController {
 
 	// Services
 
@@ -36,7 +36,7 @@ public class QuoletAdministratorController extends AbstractController {
 	private AdministratorService	administratorService;
 
 	@Autowired
-	private QuoletService	quoletService;
+	private SettleService	settleService;
 
 
 	// Listing
@@ -44,15 +44,15 @@ public class QuoletAdministratorController extends AbstractController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		final ModelAndView result;
-		final Collection<Quolet> quolets;
+		final Collection<Settle> settles;
 		Administrator principal;
 		
 		principal = this.administratorService.findByPrincipal();
-		quolets = this.quoletService.findAllByAdministratorId(principal.getId());
+		settles = this.settleService.findAllByAdministratorId(principal.getId());
 		
-		result = new ModelAndView("quolet/list");
-		result.addObject("quolets", quolets);
-		result.addObject("requestURI", "quolet/administrator/list.do");
+		result = new ModelAndView("settle/list");
+		result.addObject("settles", settles);
+		result.addObject("requestURI", "settle/administrator/list.do");
 	
 		//Dates
 		final Calendar cal = Calendar.getInstance();
@@ -74,19 +74,19 @@ public class QuoletAdministratorController extends AbstractController {
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int quoletId) {
+	public ModelAndView display(@RequestParam final int settleId) {
 		// Inicializa resultado
 		ModelAndView result;
-		Quolet quolet;
+		Settle settle;
 		Conference conference;
 
-		quolet = this.quoletService.findOne(quoletId);
-		conference = quolet.getConference();
+		settle = this.settleService.findOne(settleId);
+		conference = settle.getConference();
 
-		result = new ModelAndView("quolet/display");
-		result.addObject("requestURI", "quolet/display.do");
+		result = new ModelAndView("settle/display");
+		result.addObject("requestURI", "settle/display.do");
 		result.addObject("conference", conference);
-		result.addObject("quolet", quolet);
+		result.addObject("settle", settle);
 
 		return result;
 	}
@@ -96,10 +96,10 @@ public class QuoletAdministratorController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int conferenceId) {
 		ModelAndView result;
-		Quolet quolet;
+		Settle settle;
 
-		quolet = this.quoletService.create(conferenceId);
-		result = this.createModelAndView(quolet);
+		settle = this.settleService.create(conferenceId);
+		result = this.createModelAndView(settle);
 
 		return result;
 	}
@@ -107,13 +107,13 @@ public class QuoletAdministratorController extends AbstractController {
 	//Edit
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int quoletId) {
+	public ModelAndView edit(@RequestParam final int settleId) {
 		ModelAndView result;
-		Quolet quolet;
+		Settle settle;
 
-		quolet = this.quoletService.findOne(quoletId);
-		Assert.notNull(quolet);
-		result = this.createEditModelAndView(quolet);
+		settle = this.settleService.findOne(settleId);
+		Assert.notNull(settle);
+		result = this.createEditModelAndView(settle);
 
 		return result;
 	}
@@ -122,22 +122,22 @@ public class QuoletAdministratorController extends AbstractController {
 	//Save Draft
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveDraft")
-	public ModelAndView createDraft(@Valid @ModelAttribute("quolet") Quolet quolet, final BindingResult binding) {
+	public ModelAndView createDraft(@Valid @ModelAttribute("settle") Settle settle, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			quolet = this.quoletService.reconstruct(quolet, binding);
+			settle = this.settleService.reconstruct(settle, binding);
 			if (binding.hasErrors()) {
-				result = this.createModelAndView(quolet);
+				result = this.createModelAndView(settle);
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 			} else {
-				quolet = this.quoletService.save(quolet,true);
+				settle = this.settleService.save(settle,true);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
 
 		} catch (final Throwable oops) {
-			result = this.createModelAndView(quolet, "quolet.commit.error");
+			result = this.createModelAndView(settle, "settle.commit.error");
 		}
 		return result;
 	}
@@ -145,22 +145,22 @@ public class QuoletAdministratorController extends AbstractController {
 	//Save Final
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView createFinal(@Valid @ModelAttribute("quolet") Quolet quolet, final BindingResult binding) {
+	public ModelAndView createFinal(@Valid @ModelAttribute("settle") Settle settle, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			quolet = this.quoletService.reconstruct(quolet, binding);
+			settle = this.settleService.reconstruct(settle, binding);
 			if (binding.hasErrors()) {
-				result = this.createModelAndView(quolet);
+				result = this.createModelAndView(settle);
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 			} else {
-				quolet = this.quoletService.save(quolet, false);
+				settle = this.settleService.save(settle, false);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
 
 		} catch (final Throwable oops) {
-			result = this.createModelAndView(quolet, "quolet.commit.error");
+			result = this.createModelAndView(settle, "settle.commit.error");
 		}
 		return result;
 	}
@@ -168,22 +168,22 @@ public class QuoletAdministratorController extends AbstractController {
 	// --- EDIT ---
 	//Save Draft
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveDraft")
-	public ModelAndView saveDraft(@ModelAttribute("quolet") Quolet quolet, final BindingResult binding) {
+	public ModelAndView saveDraft(@ModelAttribute("settle") Settle settle, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			quolet = this.quoletService.reconstruct(quolet, binding);
+			settle = this.settleService.reconstruct(settle, binding);
 			if (binding.hasErrors()) {
-				result = this.createEditModelAndView(quolet);
+				result = this.createEditModelAndView(settle);
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 			} else {
-				quolet = this.quoletService.save(quolet, true);
+				settle = this.settleService.save(settle, true);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
 
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(quolet, "quolet.commit.error");
+			result = this.createEditModelAndView(settle, "settle.commit.error");
 		}
 
 		return result;
@@ -192,22 +192,22 @@ public class QuoletAdministratorController extends AbstractController {
 	//Save Final
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "saveFinal")
-	public ModelAndView saveFinal(@ModelAttribute("quolet") Quolet quolet, final BindingResult binding) {
+	public ModelAndView saveFinal(@ModelAttribute("settle") Settle settle, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			quolet = this.quoletService.reconstruct(quolet, binding);
+			settle = this.settleService.reconstruct(settle, binding);
 			if (binding.hasErrors()) {
-				result = this.createEditModelAndView(quolet);
+				result = this.createEditModelAndView(settle);
 				for (final ObjectError e : binding.getAllErrors())
 					System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 			} else {
-				quolet = this.quoletService.save(quolet, false);
+				settle = this.settleService.save(settle, false);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			}
 
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(quolet, "quolet.commit.error");
+			result = this.createEditModelAndView(settle, "settle.commit.error");
 		}
 
 		return result;
@@ -216,17 +216,17 @@ public class QuoletAdministratorController extends AbstractController {
 	//Delete
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(final int quoletId) {
+	public ModelAndView delete(final int settleId) {
 		ModelAndView result;
-		Quolet quolet;
+		Settle settle;
 
-		quolet = this.quoletService.findOne(quoletId);
+		settle = this.settleService.findOne(settleId);
 
 		try {
-			this.quoletService.delete(quolet);
+			this.settleService.delete(settle);
 			result = new ModelAndView("redirect:/welcome/index.do");
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(quolet, "quolet.commit.error");
+			result = this.createEditModelAndView(settle, "settle.commit.error");
 		}
 		return result;
 	}
@@ -235,37 +235,37 @@ public class QuoletAdministratorController extends AbstractController {
 
 	// -------------------
 
-	protected ModelAndView createEditModelAndView(final Quolet quolet) {
+	protected ModelAndView createEditModelAndView(final Settle settle) {
 		ModelAndView result;
 
-		result = this.createEditModelAndView(quolet, null);
+		result = this.createEditModelAndView(settle, null);
 
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final Quolet quolet, final String messageCode) {
+	protected ModelAndView createEditModelAndView(final Settle settle, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("quolet/edit");
-		result.addObject("quolet", quolet);
+		result = new ModelAndView("settle/edit");
+		result.addObject("settle", settle);
 		result.addObject("message", messageCode);
 
 		return result;
 	}
 
-	private ModelAndView createModelAndView(final Quolet quolet) {
+	private ModelAndView createModelAndView(final Settle settle) {
 		ModelAndView result;
 
-		result = this.createModelAndView(quolet, null);
+		result = this.createModelAndView(settle, null);
 		return result;
 	}
 
-	private ModelAndView createModelAndView(final Quolet quolet, final String messageCode) {
+	private ModelAndView createModelAndView(final Settle settle, final String messageCode) {
 		ModelAndView result;
 
 
-		result = new ModelAndView("quolet/create");
-		result.addObject("quolet", quolet);
+		result = new ModelAndView("settle/create");
+		result.addObject("settle", settle);
 		result.addObject("message", messageCode);
 		return result;
 	}
