@@ -73,25 +73,25 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select f from Conference f where (f.fee <= ?1)")
 	Collection<Conference> searchByMaxFeeAdminId(Double maxFee);
-	
+
 	@Query("select distinct c from Conference c where (c.title like %:keyword% or c.acronym like %:keyword% or c.summary like %:keyword% or c.venue like %:keyword%) and c.isFinal = true")
 	Collection<Conference> findByKeyword(@Param("keyword") String keyword);
 
 	@Query("select distinct c from Conference c where (c.title like %:keyword% or c.acronym like %:keyword% or c.summary like %:keyword% or c.venue like %:keyword%)")
 	Collection<Conference> findByKeywordAdminId(@Param("keyword") String keyword);
-	
+
 	@Query("select f from Conference f where (f.category.englishName like %:keyword% or f.category.spanishName like %:keyword%) and f.isFinal = true")
 	Collection<Conference> searchByCategory(@Param("keyword") String category);
 
 	@Query("select f from Conference f where (f.category.englishName like %:keyword% or f.category.spanishName like %:keyword%)")
 	Collection<Conference> searchByCategoryAdminId(@Param("keyword") String category);
-	
+
 	@Query("select f from Conference f where (f.startDate BETWEEN ?1 AND ?2) and f.isFinal = true")
 	Collection<Conference> searchByDateRange(Date dateMin, Date dateMax);
 
 	@Query("select f from Conference f where (f.startDate BETWEEN ?1 AND ?2)")
 	Collection<Conference> searchByDateRangeAdminId(Date dateMin, Date dateMax);
-	
+
 	@Query("select avg(1.0*(select count (co) from Conference co where co.category.id = c.id)) from Category c")
 	Double avgConferencePerCategory();
 
@@ -103,4 +103,7 @@ public interface ConferenceRepository extends JpaRepository<Conference, Integer>
 
 	@Query("select stddev(1.0*(select count (co) from Conference co where co.category.id = c.id)) from Category c")
 	Double stddevConferencePerCategory();
+
+	@Query("select c from Conference c where c.submissionDeadline > NOW() and c.isFinal = true")
+	Collection<Conference> findConferencesBeforeSubmissionDeadline();
 }

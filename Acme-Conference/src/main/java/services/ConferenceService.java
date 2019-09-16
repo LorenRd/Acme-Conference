@@ -202,8 +202,26 @@ public class ConferenceService {
 	}
 
 	public Collection<Conference> findAvailableConferences() {
-		final Collection<Conference> result = this.findFinals();
-		final Collection<Conference> finals = this.findFinals();
+
+		final Collection<Conference> result = new ArrayList<Conference>();
+		Collection<Conference> finals = new ArrayList<Conference>();
+		Collection<Submission> allSubmissions = new ArrayList<Submission>();
+
+		finals = this.findConferencesBeforeSubmissionDeadline();
+		result.addAll(finals);
+		allSubmissions = this.submissionService.findAll();
+
+		for (final Submission s : allSubmissions)
+			for (final Conference c : finals)
+				if (s.getConference().getId() == c.getId())
+					result.remove(c);
+
+		return result;
+	}
+
+	public Collection<Conference> findConferencesBeforeSubmissionDeadline() {
+		final Collection<Conference> result = this.findConferencesBeforeSubmissionDeadline();
+		final Collection<Conference> finals = this.findConferencesBeforeSubmissionDeadline();
 		final Collection<Submission> allSubmissions = this.submissionService.findAll();
 
 		for (final Submission s : allSubmissions)

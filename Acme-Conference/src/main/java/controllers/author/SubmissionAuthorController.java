@@ -206,7 +206,7 @@ public class SubmissionAuthorController extends AbstractController {
 			result = new ModelAndView("submission/create");
 
 		result.addObject("submissionForm", submissionForm);
-		result.addObject("conferences", this.conferenceService.findAvailableConferences());
+		result.addObject("conferences", this.conferenceService.findConferencesBeforeSubmissionDeadline());
 		result.addObject("message", messageCode);
 		return result;
 	}
