@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
-
 import repositories.PaperRepository;
 import repositories.SubmissionRepository;
 import security.Authority;
@@ -66,8 +64,8 @@ public class SubmissionService {
 	@Autowired
 	private ReportService			reportService;
 	
-	@Autowired
-	private Validator				validator;
+	//@Autowired
+	//private Validator				validator;
 
 
 	// Simple CRUD Methods
@@ -253,7 +251,7 @@ public class SubmissionService {
 			result.setReviewers(new ArrayList<Reviewer>());
 			this.paperService.save(paper);
 			result.setPaper(paper);
-
+			
 		} else {
 			result = this.submissionRepository.findOne(submissionForm.getId());
 			if (submissionForm.getReviewers() != null)
@@ -266,7 +264,8 @@ public class SubmissionService {
 			}
 		}
 
-		this.validator.validate(result, binding);
+		//this.validator.validate(result, binding);
+		
 		if (binding.hasErrors())
 			throw new ValidationException();
 

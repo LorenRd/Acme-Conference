@@ -26,6 +26,7 @@
 		<form:select id="conference" path="conference">
 		<form:options items="${conferences}" itemLabel="title" />
 		</form:select>
+		<form:errors cssClass="error" path="conference" />
 		<br />
 		
 		<h3><spring:message code="submission.paper" /></h3>

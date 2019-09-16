@@ -79,7 +79,8 @@ public class CameraReadyPaperService {
 		if (cameraReadyPaper.getId() == 0) {
 			result = cameraReadyPaper;
 			result.setSubmission(cameraReadyPaper.getSubmission());
-
+			
+			
 		} else
 			result = this.cameraReadyPaperRepository.findOne(cameraReadyPaper.getId());
 
