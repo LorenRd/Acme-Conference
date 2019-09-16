@@ -68,6 +68,9 @@ public class ConferenceController extends AbstractController {
 
 	@Autowired
 	private SettleService				settleService;
+	
+	@Autowired
+	private PanelService				panelService;
 
 
 	// List
@@ -346,7 +349,8 @@ public class ConferenceController extends AbstractController {
 			tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
 			panels = this.panelService.findAllByConferenceId(conferenceId);
 			presentations = this.presentationService.findAllByConferenceId(conferenceId);
-	
+			settles = this.settleService.findAllByConferenceId(conferenceId);
+
 			// Crea y a�ade objetos a la vista
 			result = new ModelAndView("conference/display");
 			result.addObject("requestURI", "conference/display.do");
@@ -356,6 +360,19 @@ public class ConferenceController extends AbstractController {
 			result.addObject("presentations", presentations);
 			result.addObject("conference", conference);
 			result.addObject("submissionDeadlineOver", submissionDeadlineOver);
+            result.addObject("settles", settles);
+
+            //Dates
+            final Calendar cal = Calendar.getInstance();
+            //1 month old 
+            cal.add(Calendar.MONTH, -1);
+            final Date dateOneMonth = cal.getTime();
+            //2 months old 
+            cal.add(Calendar.MONTH, -1);
+            final Date dateTwoMonths = cal.getTime();
+            result.addObject("dateOneMonth", dateOneMonth);
+            result.addObject("dateTwoMonths", dateTwoMonths);
+
 			if(sponsorship!=null){
 				result.addObject("banner", sponsorship.getBanner());
 			}
