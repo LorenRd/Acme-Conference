@@ -41,9 +41,10 @@ public class SubmissionAuthorController extends AbstractController {
 	@Autowired
 	private ConferenceService	conferenceService;
 
-
 	@Autowired
-	private ReportService reportService;
+	private ReportService		reportService;
+
+
 	// Listing
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -71,21 +72,20 @@ public class SubmissionAuthorController extends AbstractController {
 		final ModelAndView result;
 		Submission submission;
 		Author author;
-		Collection <Report> reports;
-		
+		Collection<Report> reports;
+
 		author = this.authorService.findByPrincipal();
 		submission = this.submissionService.findOne(submissionId);
 		reports = this.reportService.findReportsBySubmissionId(submissionId);
-		
-		if(submission.getAuthor().getId()== author.getId()){
+
+		if (submission.getAuthor().getId() == author.getId()) {
 			result = new ModelAndView("submission/display");
 			result.addObject("submission", submission);
 			result.addObject("requestURI", "submission/display.do");
 			result.addObject("reports", reports);
-			
-		}else{
+
+		} else
 			result = new ModelAndView("redirect:/welcome/index.do");
-		}
 
 		return result;
 	}
@@ -112,8 +112,13 @@ public class SubmissionAuthorController extends AbstractController {
 
 		try {
 			submission = this.submissionService.reconstruct(submissionForm, binding);
-			this.submissionService.save(submission);
-			result = new ModelAndView("redirect:/welcome/index.do");
+
+			if (submission.getConference() == null)
+				result = this.createEditModelAndView(submissionForm, "registration.commit.noConference");
+			else {
+				this.submissionService.save(submission);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			}
 		} catch (final ValidationException oops) {
 			// submissionForm = this.submissionService.construct(submission);
 			result = this.createEditModelAndView(submissionForm);
@@ -201,7 +206,7 @@ public class SubmissionAuthorController extends AbstractController {
 			result = new ModelAndView("submission/create");
 
 		result.addObject("submissionForm", submissionForm);
-		result.addObject("conferences", this.conferenceService.findAvailableConferences());
+		result.addObject("conferences", this.conferenceService.findConferencesBeforeSubmissionDeadline());
 		result.addObject("message", messageCode);
 		return result;
 	}

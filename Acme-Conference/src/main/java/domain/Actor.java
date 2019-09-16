@@ -35,7 +35,6 @@ public class Actor extends DomainEntity implements Cloneable {
 		this.name = name;
 	}
 
-	@NotBlank
 	public String getMiddleName() {
 		return this.middleName;
 	}

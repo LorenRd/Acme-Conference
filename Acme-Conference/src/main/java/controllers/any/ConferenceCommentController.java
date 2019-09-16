@@ -1,3 +1,4 @@
+
 package controllers.any;
 
 import java.util.Collection;
@@ -10,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ConferenceCommentService;
@@ -25,41 +27,38 @@ public class ConferenceCommentController extends AbstractController {
 	// Services
 
 	@Autowired
-	private ConferenceCommentService conferenceCommentService;
+	private ConferenceCommentService	conferenceCommentService;
 
 	@Autowired
-	private ConferenceService conferenceService;
+	private ConferenceService			conferenceService;
+
 
 	// Create
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
+	public ModelAndView create(@RequestParam final int conferenceId) {
 		ModelAndView result;
 		ConferenceComment conferenceComment;
 
-		conferenceComment = this.conferenceCommentService.create();
+		conferenceComment = this.conferenceCommentService.create(conferenceId);
 		result = this.createEditModelAndView(conferenceComment);
 
 		return result;
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-	public ModelAndView create(
-			@ModelAttribute("conferenceComment") ConferenceComment conferenceComment,
-			final BindingResult binding) {
+	public ModelAndView create(@ModelAttribute("conferenceComment") ConferenceComment conferenceComment, final BindingResult binding) {
 		ModelAndView result;
 
 		try {
-			conferenceComment = this.conferenceCommentService.reconstruct(
-					conferenceComment, binding);
+			conferenceComment = this.conferenceCommentService.reconstruct(conferenceComment, binding);
 			this.conferenceCommentService.save(conferenceComment);
 			result = new ModelAndView("redirect:/welcome/index.do");
-		} catch (ValidationException oops) {
+		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(conferenceComment);
 			oops.printStackTrace();
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(conferenceComment,
-					"conferenceComment.commit.error");
+			result = this.createEditModelAndView(conferenceComment, "conferenceComment.commit.error");
 			oops.printStackTrace();
 		}
 		return result;
@@ -67,15 +66,13 @@ public class ConferenceCommentController extends AbstractController {
 
 	// -------------------
 
-	protected ModelAndView createEditModelAndView(
-			final ConferenceComment conferenceComment) {
+	protected ModelAndView createEditModelAndView(final ConferenceComment conferenceComment) {
 		ModelAndView result;
 		result = this.createEditModelAndView(conferenceComment, null);
 		return result;
 	}
 
-	private ModelAndView createEditModelAndView(
-			final ConferenceComment conferenceComment, final String messageCode) {
+	private ModelAndView createEditModelAndView(final ConferenceComment conferenceComment, final String messageCode) {
 		ModelAndView result;
 		final Collection<Conference> conferences;
 

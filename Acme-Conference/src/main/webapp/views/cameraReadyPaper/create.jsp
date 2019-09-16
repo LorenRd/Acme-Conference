@@ -26,6 +26,7 @@
 		<form:select id="submission" path="submission">
 		<form:options items="${submissions}" itemLabel="ticker" />
 		</form:select>
+		<form:errors cssClass="error" path="submission" />
 		<br />
 		
 		<h3><spring:message code="cameraReadyPaper" /></h3>

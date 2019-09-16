@@ -1,5 +1,7 @@
 package controllers.administrator;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -39,7 +41,7 @@ public class SectionAdministratorController extends AbstractController {
 		//Save Final
 		
 		@RequestMapping(value = "/create", method = RequestMethod.POST, params = "save")
-		public ModelAndView createFinal(@RequestParam final int tutorialId, @ModelAttribute("section") Section section, final BindingResult binding) {
+		public ModelAndView createFinal( @RequestParam final int tutorialId,@Valid @ModelAttribute("section") Section section, final BindingResult binding) {
 			ModelAndView result;
 			
 			try {

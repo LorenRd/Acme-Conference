@@ -85,6 +85,10 @@
 		<security:intercept-url pattern="/customisation/administrator/display.do" access="hasRole('ADMIN')"/> 
 		<security:intercept-url pattern="/customisation/administrator/edit.do" access="hasRole('ADMIN')"/> 
 		
+		<security:intercept-url pattern="/report/reviewer/display.do" access="hasRole('REVIEWER')"/>
+		<security:intercept-url pattern="/report/reviewer/list.do" access="hasRole('REVIEWER')"/>
+		<security:intercept-url pattern="/report/reviewer/create.do" access="hasRole('REVIEWER')"/>
+		
 		<security:intercept-url pattern="/conference/administrator/display.do" access="hasRole('ADMIN')"/>
 		<security:intercept-url pattern="/conference/administrator/list.do" access="hasRole('ADMIN')"/>
 		<security:intercept-url pattern="/conference/administrator/create.do" access="hasRole('ADMIN')"/>

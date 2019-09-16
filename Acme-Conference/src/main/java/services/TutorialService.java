@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
 import repositories.TutorialRepository;
 import domain.Conference;
 import domain.Section;
@@ -22,13 +23,14 @@ public class TutorialService {
 	private TutorialRepository	tutorialRepository;
 
 	// Supporting services ----------------------------------------------------
-	
+
 	@Autowired
 	private SectionService		sectionService;
-	
+
 	@Autowired
-	private ConferenceService		conferenceService;
-	
+	private ConferenceService	conferenceService;
+
+
 	// Additional functions
 
 	// Simple CRUD Methods
@@ -44,16 +46,18 @@ public class TutorialService {
 	public Tutorial save(final Tutorial tutorial, final int conferenceId) {
 		Tutorial saved;
 		Conference conference;
-		
+
 		conference = this.conferenceService.findOne(conferenceId);
-		
-		Calendar calendar = Calendar.getInstance();
+
+		final Calendar calendar = Calendar.getInstance();
 		calendar.setTime(tutorial.getStartMoment());
 		calendar.add(Calendar.HOUR_OF_DAY, tutorial.getDuration());
-		
+
 		tutorial.setSchedule(calendar.getTime());
 		tutorial.setConference(conference);
-		
+
+		//		Assert.isTrue(tutorial.getStartMoment().after(conference.getStartDate()), "Must be after of conference start date");
+
 		saved = this.tutorialRepository.save(tutorial);
 		return saved;
 	}
@@ -82,16 +86,15 @@ public class TutorialService {
 		Assert.notNull(result);
 		return result;
 	}
-	
-	public void delete(Tutorial tutorial) {
+
+	public void delete(final Tutorial tutorial) {
 		Collection<Section> sections;
-		
+
 		sections = this.sectionService.findByTutorialId(tutorial.getId());
-		
-		for (Section section : sections) {
+
+		for (final Section section : sections)
 			this.sectionService.delete(section);
-		}
-		
+
 		this.tutorialRepository.delete(tutorial);
 	}
 

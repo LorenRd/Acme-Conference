@@ -21,7 +21,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 		
 
-	<form:form action="reviewer/register.do" modelAttribute="reviewer">
+	<form:form action="reviewer/register.do" modelAttribute="reviewer" onsubmit="return validatePhone('Phone does not match the pattern', ${countryCode})">
 		
 		<form:hidden path="id" />
 		<form:hidden path="version" />

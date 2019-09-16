@@ -106,8 +106,13 @@ public class RegistrationAuthorController extends AbstractController {
 		} else
 			try {
 				registration = this.registrationService.reconstruct(registrationForm, binding);
-				this.registrationService.save(registration);
-				result = new ModelAndView("redirect:/welcome/index.do");
+
+				if (registration.getConference() == null)
+					result = this.createEditModelAndView(registrationForm, "registration.commit.noConference");
+				else {
+					this.registrationService.save(registration);
+					result = new ModelAndView("redirect:/welcome/index.do");
+				}
 			} catch (final ValidationException oops) {
 				//				registrationForm = this.registrationService.construct(registration);
 				result = this.createEditModelAndView(registrationForm);

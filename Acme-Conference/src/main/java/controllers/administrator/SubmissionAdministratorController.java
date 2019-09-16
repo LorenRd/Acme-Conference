@@ -1,3 +1,4 @@
+
 package controllers.administrator;
 
 import java.util.ArrayList;
@@ -20,12 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AdministratorService;
 import services.ReviewerService;
 import services.SubmissionService;
-
 import controllers.AbstractController;
 import domain.Administrator;
 import domain.Submission;
 import forms.SubmissionForm;
-
 
 @Controller
 @RequestMapping("/submission/administrator")
@@ -34,13 +33,14 @@ public class SubmissionAdministratorController extends AbstractController {
 	// Services
 
 	@Autowired
-	private SubmissionService	submissionService;
+	private SubmissionService		submissionService;
 
 	@Autowired
 	private AdministratorService	administratorService;
-	
+
 	@Autowired
-	private ReviewerService reviewerService;
+	private ReviewerService			reviewerService;
+
 
 	// Listing
 
@@ -72,7 +72,7 @@ public class SubmissionAdministratorController extends AbstractController {
 		principal = this.administratorService.findByPrincipal();
 
 		submissions = this.submissionService.findAllByAdministratorId(principal.getId());
-		
+
 		groupedSubmission = this.submissionService.groupByStatus(submissions);
 
 		if (submissionStatus == 0)
@@ -125,45 +125,42 @@ public class SubmissionAdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView edit(
-			@ModelAttribute("submissionForm") SubmissionForm submissionForm,
-			final BindingResult binding) {
+	public ModelAndView edit(@ModelAttribute("submissionForm") final SubmissionForm submissionForm, final BindingResult binding) {
 		ModelAndView result;
 		Submission submission;
 
 		try {
-			submission = this.submissionService.reconstruct(submissionForm,binding);
-			this.submissionService.saveSubmissionAdmin(submission);
-			result = new ModelAndView("redirect:/welcome/index.do");
-		} catch (ValidationException oops) {
+			submission = this.submissionService.reconstruct(submissionForm, binding);
+
+			if (submission.getReviewers().isEmpty())
+				result = this.createEditModelAndView(submissionForm, "submission.commit.noReviewers");
+			else {
+
+				this.submissionService.saveSubmissionAdmin(submission);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			}
+		} catch (final ValidationException oops) {
 			result = this.createEditModelAndView(submissionForm);
 			oops.printStackTrace();
 		} catch (final Throwable oops) {
-			result = this.createEditModelAndView(submissionForm,
-					"submission.commit.error");
+			result = this.createEditModelAndView(submissionForm, "submission.commit.error");
 			oops.printStackTrace();
 		}
 		return result;
 	}
 
-	
-	
-	
-	
-	
 	//Assing reviewers procedure
-	@RequestMapping(value = "/list", method = RequestMethod.GET, params ="assignReviewers")
-	public ModelAndView assignReviewers(){
+	@RequestMapping(value = "/list", method = RequestMethod.GET, params = "assignReviewers")
+	public ModelAndView assignReviewers() {
 		final ModelAndView result;
-		
+
 		this.submissionService.reviewerAssignation();
-		
+
 		result = new ModelAndView("redirect:list.do");
-		
+
 		return result;
 	}
-	
-	
+
 	//--------------------
 	protected ModelAndView createEditModelAndView(final SubmissionForm submissionForm) {
 		ModelAndView result;
@@ -175,7 +172,6 @@ public class SubmissionAdministratorController extends AbstractController {
 		ModelAndView result;
 
 		result = new ModelAndView("submission/edit");
-
 
 		result.addObject("submissionForm", submissionForm);
 		result.addObject("reviewers", this.reviewerService.findAll());

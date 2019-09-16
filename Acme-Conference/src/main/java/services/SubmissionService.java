@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
-
 import repositories.PaperRepository;
 import repositories.SubmissionRepository;
 import security.Authority;
@@ -27,6 +25,7 @@ import domain.Administrator;
 import domain.Author;
 import domain.Message;
 import domain.Paper;
+import domain.Report;
 import domain.Reviewer;
 import domain.Submission;
 import forms.SubmissionForm;
@@ -63,7 +62,10 @@ public class SubmissionService {
 	private PaperService			paperService;
 
 	@Autowired
-	private Validator				validator;
+	private ReportService			reportService;
+	
+	//@Autowired
+	//private Validator				validator;
 
 
 	// Simple CRUD Methods
@@ -249,7 +251,7 @@ public class SubmissionService {
 			result.setReviewers(new ArrayList<Reviewer>());
 			this.paperService.save(paper);
 			result.setPaper(paper);
-
+			
 		} else {
 			result = this.submissionRepository.findOne(submissionForm.getId());
 			if (submissionForm.getReviewers() != null)
@@ -262,7 +264,8 @@ public class SubmissionService {
 			}
 		}
 
-		this.validator.validate(result, binding);
+		//this.validator.validate(result, binding);
+		
 		if (binding.hasErrors())
 			throw new ValidationException();
 
@@ -427,6 +430,27 @@ public class SubmissionService {
 			if (s.getConference().getCameraReadyDeadline().after(date) && s.getAuthor().getId() == authorId)
 				result.add(s);
 
+		return result;
+	}
+	
+	public Collection<Submission> findAllByReviewerIdUnderReview(final int reviewerId) {
+		Collection<Submission> submissions = new ArrayList<Submission>();
+		Collection<Report> reports = new ArrayList<Report>();
+		Collection<Submission> result = new ArrayList<Submission>();
+		
+		submissions = this.submissionRepository.findAllByReviewerIdUnderReview(reviewerId);
+		result.addAll(submissions);
+		reports = this.reportService.findAllByReviewerId(reviewerId);
+	
+		
+		for (Submission s : submissions) {
+			for (Report r : reports) {
+				if(r.getSubmission().getId() == s.getId()){
+					result.remove(s);
+				}
+			}
+		}
+		
 		return result;
 	}
 }

@@ -71,6 +71,15 @@
 			</li>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('REVIEWER')">
+			<li><a class="fNiv"><spring:message	code="master.page.reviewer" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="report/reviewer/list.do"><spring:message code="master.page.reviewer.report" /></a></li>							
+				</ul>
+			</li>
+		</security:authorize>
+		
 		<security:authorize access="hasRole('AUTHOR')">
 			<li><a class="fNiv"><spring:message	code="master.page.author" /></a>
 				<ul>

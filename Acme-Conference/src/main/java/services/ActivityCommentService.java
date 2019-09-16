@@ -1,5 +1,7 @@
+
 package services;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 
 import repositories.ActivityCommentRepository;
@@ -23,19 +26,20 @@ public class ActivityCommentService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ActivityCommentRepository activityCommentRepository;
+	private ActivityCommentRepository	activityCommentRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private ActorService actorService;
-	
-	@Autowired
-	private ActivityService activityService;
+	private ActorService				actorService;
 
 	@Autowired
-	private Validator validator;
+	private ActivityService				activityService;
 
-	public Collection<ActivityComment> findAllByActivity(int activityId) {
+	@Autowired
+	private Validator					validator;
+
+
+	public Collection<ActivityComment> findAllByActivity(final int activityId) {
 
 		Collection<ActivityComment> result;
 
@@ -62,9 +66,8 @@ public class ActivityCommentService {
 		return result;
 	}
 
-	public ActivityComment reconstruct(final ActivityComment activityComment,
-			final int activityId, final BindingResult binding) {
-		ActivityComment result = activityComment;
+	public ActivityComment reconstruct(final ActivityComment activityComment, final int activityId, final BindingResult binding) {
+		final ActivityComment result = activityComment;
 
 		result.setTitle(activityComment.getTitle());
 		result.setMoment(new Date(System.currentTimeMillis() - 1));
@@ -74,14 +77,16 @@ public class ActivityCommentService {
 
 		this.validator.validate(result, binding);
 		if (binding.hasErrors()) {
+			for (final ObjectError e : binding.getAllErrors())
+				System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
 			throw new ValidationException();
 		}
 
 		return result;
 	}
-	
+
 	//----------------------------------------
-	
+
 	public Double avgCommentsPerActivity() {
 		final Authority authority = new Authority();
 		authority.setAuthority(Authority.ADMIN);

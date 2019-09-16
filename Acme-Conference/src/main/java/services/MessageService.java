@@ -226,6 +226,8 @@ public class MessageService {
 		Assert.notNull(recipients);
 		message.setRecipients(recipients);
 
+		Assert.notEmpty(message.getRecipients(), "There are no actors");
+
 		saved = this.messageRepository.save(message);
 		Assert.notNull(saved);
 
