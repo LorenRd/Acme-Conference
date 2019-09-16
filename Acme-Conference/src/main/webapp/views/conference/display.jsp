@@ -9,7 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-<jstl:if test="${banner}">
+<jstl:if test="${banner != null}">
 	<img src="${banner}" width="500px" height="200px">
 </jstl:if>
 <p>
