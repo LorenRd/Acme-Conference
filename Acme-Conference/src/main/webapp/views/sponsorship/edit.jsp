@@ -49,11 +49,10 @@
 	<form:errors cssClass="error" path="creditCard.holderName" />
 	<br />
 	
-	<form:label path="creditCard.brandName">
-		<spring:message code="sponsorship.creditCard.brandName" />:
-	</form:label>
-	<form:input path="creditCard.brandName" />
-	<form:errors cssClass="error" path="creditCard.brandName" />
+	<spring:message code="sponsorship.creditCard.brandName" />
+	<form:select id="brandName" path="creditCard.brandName">
+	<form:options items="${creditCardMakes}"/>
+	</form:select>
 	<br />
 	
 	<form:label path="creditCard.number">

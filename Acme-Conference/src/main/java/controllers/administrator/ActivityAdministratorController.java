@@ -1,7 +1,6 @@
 
 package controllers.administrator;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -156,18 +154,12 @@ public class ActivityAdministratorController {
 	public ModelAndView createFinalTutorial(@RequestParam final int conferenceId, @ModelAttribute("tutorial") @Valid Tutorial tutorial, final BindingResult binding) {
 		ModelAndView result;
 
-		if (binding.hasErrors()) {
-			for (final ObjectError e : binding.getAllErrors())
-				System.out.println(e.getObjectName() + " error [" + e.getDefaultMessage() + "] " + Arrays.toString(e.getCodes()));
-			result = this.createModelAndViewTutorial(tutorial);
-		} else
-
-			try {
-				tutorial = this.tutorialService.save(tutorial, conferenceId);
-				result = new ModelAndView("redirect:/welcome/index.do");
-			} catch (final Throwable oops) {
-				result = this.createModelAndViewTutorial(tutorial, "tutorial.commit.error");
-			}
+		try {
+			tutorial = this.tutorialService.save(tutorial, conferenceId);
+			result = new ModelAndView("redirect:/welcome/index.do");
+		} catch (final Throwable oops) {
+			result = this.createModelAndViewTutorial(tutorial, "tutorial.commit.error");
+		}
 		return result;
 	}
 	//Panel

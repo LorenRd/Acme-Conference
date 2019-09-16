@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -15,6 +16,7 @@ import org.springframework.validation.Validator;
 import repositories.ConferenceCommentRepository;
 import security.Authority;
 import domain.Actor;
+import domain.Conference;
 import domain.ConferenceComment;
 
 @Service
@@ -23,28 +25,35 @@ public class ConferenceCommentService {
 
 	// Managed repository -----------------------------------------------------
 	@Autowired
-	private ConferenceCommentRepository conferenceCommentRepository;
+	private ConferenceCommentRepository	conferenceCommentRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private ActorService actorService;
-	
-	@Autowired
-	private Validator validator;
+	private ActorService				actorService;
 
-	public Collection<ConferenceComment> findAllByConference(int conferenceId) {
+	@Autowired
+	private ConferenceService			conferenceService;
+
+	@Autowired
+	private Validator					validator;
+
+
+	public Collection<ConferenceComment> findAllByConference(final int conferenceId) {
 
 		Collection<ConferenceComment> result;
 
-		result = this.conferenceCommentRepository
-				.findAllByConference(conferenceId);
+		result = this.conferenceCommentRepository.findAllByConference(conferenceId);
 		return result;
 	}
 
-	public ConferenceComment create() {
+	public ConferenceComment create(final int conferenceId) {
 		ConferenceComment result;
+		Conference conference;
 
 		result = new ConferenceComment();
+
+		conference = this.conferenceService.findOne(conferenceId);
+		result.setConference(conference);
 
 		return result;
 	}
@@ -60,10 +69,8 @@ public class ConferenceCommentService {
 		return result;
 	}
 
-	public ConferenceComment reconstruct(
-			final ConferenceComment conferenceComment,
-			final BindingResult binding) {
-		ConferenceComment result = conferenceComment;
+	public ConferenceComment reconstruct(final ConferenceComment conferenceComment, final BindingResult binding) {
+		final ConferenceComment result = conferenceComment;
 
 		result.setTitle(conferenceComment.getTitle());
 		result.setMoment(new Date(System.currentTimeMillis() - 1));
@@ -72,15 +79,14 @@ public class ConferenceCommentService {
 		result.setConference(conferenceComment.getConference());
 
 		this.validator.validate(result, binding);
-		if (binding.hasErrors()) {
+		if (binding.hasErrors())
 			throw new ValidationException();
-		}
 
 		return result;
 	}
-	
+
 	//----------------------------------------
-	
+
 	public Double avgCommentsPerConference() {
 		final Authority authority = new Authority();
 		authority.setAuthority(Authority.ADMIN);

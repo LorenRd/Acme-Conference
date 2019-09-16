@@ -56,7 +56,7 @@ public class TutorialService {
 		tutorial.setSchedule(calendar.getTime());
 		tutorial.setConference(conference);
 
-		Assert.isTrue(tutorial.getStartMoment().after(tutorial.getConference().getStartDate()), "Must be after of conference start date");
+		//		Assert.isTrue(tutorial.getStartMoment().after(conference.getStartDate()), "Must be after of conference start date");
 
 		saved = this.tutorialRepository.save(tutorial);
 		return saved;

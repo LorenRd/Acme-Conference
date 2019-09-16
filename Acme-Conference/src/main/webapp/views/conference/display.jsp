@@ -94,7 +94,7 @@
 </display:table>
 
 <!-- Create comment -->
-<acme:button url="conferenceComment/create.do"
+<acme:button url="conferenceComment/create.do?conferenceId=${conference.id}"
 	code="conferenceComment.create" />
 		
 <br>

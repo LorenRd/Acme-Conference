@@ -119,6 +119,7 @@ public class CategoryAdministratorController extends AbstractController {
 		Collection<Category> allPossibleParents;
 
 		allPossibleParents = this.categoryService.findAll();
+		allPossibleParents.remove(category);
 
 		result = new ModelAndView("category/edit");
 		result.addObject("category", category);

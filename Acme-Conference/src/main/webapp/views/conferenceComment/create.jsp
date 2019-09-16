@@ -20,6 +20,7 @@
 
 <form:form action="conferenceComment/create.do" modelAttribute="conferenceComment">
 		<form:hidden path="id"/>
+		<form:hidden path="conference"/>
 		
 		<h3><spring:message code="conferenceComment" /></h3>
 		
@@ -29,11 +30,6 @@
 		
 		<acme:textbox code="conferenceComment.text" path="text"/>
 		
-		<spring:message code="conferenceComment.conference" />
-		
-		<form:select id="conference" path="conference">
-		<form:options items="${conferences}" itemLabel="title" />
-		</form:select>
 		<br />
 		
 		<acme:submit name="save" code="conferenceComment.save"/>
