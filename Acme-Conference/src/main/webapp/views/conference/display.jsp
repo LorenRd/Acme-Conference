@@ -9,7 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-<jstl:if test="${banner}">
+<jstl:if test="${banner != null}">
 	<img src="${banner}" width="500px" height="200px">
 </jstl:if>
 <p>
@@ -115,5 +115,61 @@
 </jstl:if>
 </security:authorize>
 
+		<!-- kolem -->
+<h3><spring:message code="kolem.kolem" /></h3>
+<jstl:choose>
+<jstl:when test="${not empty kolems}">
+<display:table pagesize="5" class="displaytag" name="kolems" requestURI="conference/display.do" id="kolem">
+		<!-- Display -->
+	<display:column>
+		<a href="kolem/administrator/display.do?kolemId=${kolem.id}"><spring:message code="kolem.display"/></a>		
+	</display:column>
+		
+		<!-- Attributes -->
+		<!-- Colors -->
+			<jstl:choose>
+				<jstl:when test="${kolem.publicationMoment >= dateOneMonth}">
+					<jstl:set var="background" value="DarkOrange" />
+				</jstl:when>
+	
+				<jstl:when test="${(kolem.publicationMoment < dateOneMonth) && (kolem.publicationMoment > dateTwoMonths)}">
+					<jstl:set var="background" value="DarkMagenta" />
+				</jstl:when>
+		
+				<jstl:otherwise>
+					<jstl:set var="background" value="Thistle" />
+				</jstl:otherwise>
+			</jstl:choose>
+		<!--  -->
+		
+	<spring:message code="kolem.ticker" var="tickerHeader" />
+	<display:column property="ticker" title="${tickerHeader}"
+		sortable="true" />
+	<jstl:if test="${cookie['language'].getValue()=='es'}">
+		<spring:message code="kolem.publicationMoment" var="publicationMomentHeader" />
+    	<display:column class="${background}" property="publicationMoment" format="{0,date, dd-MM-yy HH:mm}" title="${publicationMomentHeader}" />
+	</jstl:if>
+	<jstl:if test="${cookie['language'].getValue()=='en'}">
+		<spring:message code="kolem.publicationMoment" var="publicationMomentHeader" />
+    	<display:column class="${background}" property="publicationMoment" format="{0,date, yy/MM/dd HH:mm}" title="${publicationMomentHeader}" />
+	</jstl:if>
 
+			
+	<spring:message code="kolem.body" var="bodyHeader" />
+	<display:column property="body" title="${bodyHeader}"
+		sortable="true" />
+		
+			
+</display:table>
+</jstl:when>
+<jstl:otherwise>
+<spring:message code="kolem.conferences.empty" /> 
+</jstl:otherwise>
+</jstl:choose>
+<br/>
+<jstl:if test="${conference.administrator.userAccount.username == pageContext.request.userPrincipal.name}">
+<jstl:if test="${conference.isFinal}">
+		<acme:button url="kolem/administrator/create.do?conferenceId=${conference.id}" code="kolem.create"/>
+</jstl:if>
+</jstl:if>
 		

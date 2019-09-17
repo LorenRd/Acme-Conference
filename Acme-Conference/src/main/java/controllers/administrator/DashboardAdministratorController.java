@@ -1,3 +1,4 @@
+
 package controllers.administrator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActivityCommentService;
 import services.ConferenceCommentService;
 import services.ConferenceService;
+import services.KolemService;
 import services.RegistrationService;
 import services.SubmissionService;
 
@@ -18,26 +20,30 @@ public class DashboardAdministratorController {
 
 	// Services
 	@Autowired
-	private SubmissionService submissionService;
-	
-	@Autowired
-	private RegistrationService registrationService;
-	
-	@Autowired
-	private ConferenceService conferenceService;
-	
-	@Autowired
-	private ActivityCommentService activityCommentService;
+	private SubmissionService			submissionService;
 
 	@Autowired
-	private ConferenceCommentService conferenceCommentService;
+	private RegistrationService			registrationService;
+
+	@Autowired
+	private ConferenceService			conferenceService;
+
+	@Autowired
+	private ActivityCommentService		activityCommentService;
+
+	@Autowired
+	private ConferenceCommentService	conferenceCommentService;
+
+	@Autowired
+	private KolemService				kolemService;
+
+
 	// Display
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display() {
 		final ModelAndView result;
-		
-		
+
 		final Double avgSubmissionPerConference, minSubmissionPerConference, maxSubmissionPerConference, stddevSubmissionPerConference;
 		final Double avgRegistrationPerConference, minRegistrationPerConference, maxRegistrationPerConference, stddevRegistrationPerConference;
 		final Double avgConferenceFees, minConferenceFees, maxConferenceFees, stddevConferenceFees;
@@ -46,20 +52,21 @@ public class DashboardAdministratorController {
 		final Double avgCommentPerConference, minCommentPerConference, maxCommentPerConference, stddevCommentPerConference;
 		final Double avgCommentPerActivity, minCommentPerActivity, maxCommentPerActivity, stddevCommentPerActivity;
 		final Double avgConferencePerCategory, minConferencePerCategory, maxConferencePerCategory, stddevConferencePerCategory;
-		
+		final Double avgKolemScoreConference, stddevKolemScoreConference, ratioPublishedKolems;
+
 		// Stadistics
 		// SubmissionPerConference
 		avgSubmissionPerConference = this.submissionService.avgSubmissionPerConference();
 		minSubmissionPerConference = this.submissionService.minSubmissionPerConference();
 		maxSubmissionPerConference = this.submissionService.maxSubmissionPerConference();
 		stddevSubmissionPerConference = this.submissionService.stddevSubmissionPerConference();
-		
+
 		// RegistrationPerConference
 		avgRegistrationPerConference = this.registrationService.avgRegistrationPerConference();
 		minRegistrationPerConference = this.registrationService.minRegistrationPerConference();
 		maxRegistrationPerConference = this.registrationService.maxRegistrationPerConference();
 		stddevRegistrationPerConference = this.registrationService.stddevRegistrationPerConference();
-		
+
 		// ConferenceFees
 		avgConferenceFees = this.conferenceService.avgConferenceFees();
 		minConferenceFees = this.conferenceService.minConferenceFees();
@@ -72,14 +79,12 @@ public class DashboardAdministratorController {
 		maxDaysPerConference = this.conferenceService.maxDaysPerConference();
 		stddevDaysPerConference = this.conferenceService.stddevDaysPerConference();
 
-		
 		//ConferencePerCategory
 		avgConferencePerCategory = this.conferenceService.avgConferencePerCategory();
 		minConferencePerCategory = this.conferenceService.minConferencePerCategory();
 		maxConferencePerCategory = this.conferenceService.maxConferencePerCategory();
 		stddevConferencePerCategory = this.conferenceService.stddevConferencePerCategory();
 
-		
 		//CommentPerConference
 		avgCommentPerConference = this.conferenceCommentService.avgCommentsPerConference();
 		minCommentPerConference = this.conferenceCommentService.minCommentsPerConference();
@@ -92,43 +97,53 @@ public class DashboardAdministratorController {
 		maxCommentPerActivity = this.activityCommentService.maxCommentsPerActivity();
 		stddevCommentPerActivity = this.activityCommentService.stddevCommentsPerActivity();
 
+		//Kolem
+
+		avgKolemScoreConference = this.kolemService.avgKolemScoreConference();
+		stddevKolemScoreConference = this.kolemService.stddevKolemScoreConference();
+		ratioPublishedKolems = this.kolemService.ratioPublishedKolems();
+
 		//----------------------------------------------------------------------------------
 		result = new ModelAndView("administrator/dashboard");
 		result.addObject("avgSubmissionPerConference", avgSubmissionPerConference);
 		result.addObject("minSubmissionPerConference", minSubmissionPerConference);
 		result.addObject("maxSubmissionPerConference", maxSubmissionPerConference);
 		result.addObject("stddevSubmissionPerConference", stddevSubmissionPerConference);
-		
+
 		result.addObject("avgRegistrationPerConference", avgRegistrationPerConference);
 		result.addObject("minRegistrationPerConference", minRegistrationPerConference);
 		result.addObject("maxRegistrationPerConference", maxRegistrationPerConference);
 		result.addObject("stddevRegistrationPerConference", stddevRegistrationPerConference);
-		
+
 		result.addObject("avgConferenceFees", avgConferenceFees);
 		result.addObject("minConferenceFees", minConferenceFees);
 		result.addObject("maxConferenceFees", maxConferenceFees);
 		result.addObject("stddevConferenceFees", stddevConferenceFees);
-		
+
 		result.addObject("avgDaysPerConference", avgDaysPerConference);
 		result.addObject("minDaysPerConference", minDaysPerConference);
 		result.addObject("maxDaysPerConference", maxDaysPerConference);
 		result.addObject("stddevDaysPerConference", stddevDaysPerConference);
-		
+
 		result.addObject("avgConferencePerCategory", avgConferencePerCategory);
 		result.addObject("minConferencePerCategory", minConferencePerCategory);
 		result.addObject("maxConferencePerCategory", maxConferencePerCategory);
 		result.addObject("stddevConferencePerCategory", stddevConferencePerCategory);
-		
+
 		result.addObject("avgCommentPerConference", avgCommentPerConference);
 		result.addObject("minCommentPerConference", minCommentPerConference);
 		result.addObject("maxCommentPerConference", maxCommentPerConference);
 		result.addObject("stddevCommentPerConference", stddevCommentPerConference);
-		
+
 		result.addObject("avgCommentPerActivity", avgCommentPerActivity);
 		result.addObject("minCommentPerActivity", minCommentPerActivity);
 		result.addObject("maxCommentPerActivity", maxCommentPerActivity);
 		result.addObject("stddevCommentPerActivity", stddevCommentPerActivity);
-		
+
+		result.addObject("avgKolemScoreConference", avgKolemScoreConference);
+		result.addObject("stddevKolemScoreConference", stddevKolemScoreConference);
+		result.addObject("ratioPublishedKolems", ratioPublishedKolems);
+
 		return result;
 
 	}

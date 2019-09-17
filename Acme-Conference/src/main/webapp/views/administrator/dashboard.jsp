@@ -36,6 +36,27 @@
 		<tr>
 			<th><spring:message code="administrator.metrics" /></th>
 			<th><spring:message code="administrator.average" /></th>
+			<th><spring:message code="administrator.std" /></th>
+			<th><spring:message code="administrator.ratio" /></th>
+			
+		</tr>
+
+		<tr>
+			<td><spring:message code="administrator.kolemsPerConference" /></td>
+			<td><jstl:out value="${avgKolemScoreConference }" /></td>
+			<td><jstl:out value="${stddevKolemScoreConference }" /></td>
+			<td><jstl:out value="${ratioPublishedKolems }" /></td>
+		</tr>
+	</table>
+
+	<table class="displayStyle">
+		<tr>
+			<th colspan="5"><spring:message code="administrator.statistics" /></th>
+		</tr>
+
+		<tr>
+			<th><spring:message code="administrator.metrics" /></th>
+			<th><spring:message code="administrator.average" /></th>
 			<th><spring:message code="administrator.minimum" /></th>
 			<th><spring:message code="administrator.maximum" /></th>
 			<th><spring:message code="administrator.std" /></th>

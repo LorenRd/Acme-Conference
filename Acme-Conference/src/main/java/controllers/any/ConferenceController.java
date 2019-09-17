@@ -1,9 +1,11 @@
+
 package controllers.any;
 
-import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -21,18 +23,20 @@ import services.AdministratorService;
 import services.CategoryService;
 import services.ConferenceCommentService;
 import services.ConferenceService;
-import services.SponsorshipService;
+import services.KolemService;
 import services.PanelService;
 import services.PresentationService;
+import services.SponsorshipService;
 import services.TutorialService;
 import controllers.AbstractController;
 import domain.Administrator;
 import domain.Category;
 import domain.Conference;
-import domain.Sponsorship;
 import domain.ConferenceComment;
+import domain.Kolem;
 import domain.Panel;
 import domain.Presentation;
+import domain.Sponsorship;
 import domain.Tutorial;
 
 @Controller
@@ -42,28 +46,33 @@ public class ConferenceController extends AbstractController {
 	// Services
 
 	@Autowired
-	private ConferenceService conferenceService;
+	private ConferenceService			conferenceService;
 
 	@Autowired
-	private SponsorshipService	sponsorshipService;
-	
-	@Autowired
-	private ConferenceCommentService conferenceCommentService;
+	private SponsorshipService			sponsorshipService;
 
 	@Autowired
-	private AdministratorService administratorService;
-	
-	@Autowired
-	private TutorialService tutorialService;
+	private ConferenceCommentService	conferenceCommentService;
 
 	@Autowired
-	private PanelService panelService;
+	private AdministratorService		administratorService;
 
 	@Autowired
-	private PresentationService presentationService;
+	private TutorialService				tutorialService;
 
 	@Autowired
-	private CategoryService categoryService;
+	private PanelService				panelService;
+
+	@Autowired
+	private PresentationService			presentationService;
+
+	@Autowired
+	private CategoryService				categoryService;
+
+	@Autowired
+	private KolemService				kolemService;
+
+
 	// List
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -74,7 +83,7 @@ public class ConferenceController extends AbstractController {
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		
+
 		if (keywordBool && keyword != "") {
 			conferences = this.conferenceService.findByKeyword(keyword);
 
@@ -211,18 +220,15 @@ public class ConferenceController extends AbstractController {
 	// List of forthcoming conferences
 
 	@RequestMapping(value = "/listForthcoming", method = RequestMethod.GET)
-	public ModelAndView listForthcoming(
-			@RequestParam(required = false) final String keyword,
-			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+	public ModelAndView listForthcoming(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		
+
 		if (keywordBool && keyword != null)
-			conferences = this.conferenceService
-					.findFinalForthcomingByKeyword(keyword);
+			conferences = this.conferenceService.findFinalForthcomingByKeyword(keyword);
 		else
 			conferences = this.conferenceService.findFinalForthcoming();
 
@@ -237,18 +243,15 @@ public class ConferenceController extends AbstractController {
 	// List of past conferences
 
 	@RequestMapping(value = "/listPast", method = RequestMethod.GET)
-	public ModelAndView listPast(
-			@RequestParam(required = false) final String keyword,
-			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+	public ModelAndView listPast(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		
+
 		if (keywordBool && keyword != null)
-			conferences = this.conferenceService
-					.findFinalPastByKeyword(keyword);
+			conferences = this.conferenceService.findFinalPastByKeyword(keyword);
 		else
 			conferences = this.conferenceService.findFinalPast();
 
@@ -264,9 +267,7 @@ public class ConferenceController extends AbstractController {
 	// List of running conferences
 
 	@RequestMapping(value = "/listRunning", method = RequestMethod.GET)
-	public ModelAndView listRunning(
-			@RequestParam(required = false) final String keyword,
-			@RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
+	public ModelAndView listRunning(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool) {
 		ModelAndView result;
 		Collection<Conference> conferences;
 		Collection<Category> categories;
@@ -274,8 +275,7 @@ public class ConferenceController extends AbstractController {
 		categories = this.categoryService.findAll();
 
 		if (keywordBool && keyword != null)
-			conferences = this.conferenceService
-					.findFinalRunningByKeyword(keyword);
+			conferences = this.conferenceService.findFinalRunningByKeyword(keyword);
 		else
 			conferences = this.conferenceService.findFinalRunning();
 
@@ -286,20 +286,20 @@ public class ConferenceController extends AbstractController {
 
 		return result;
 	}
-	
+
 	//List grouped by categories
 	@RequestMapping(value = "/list", method = RequestMethod.GET, params = {
-			"conferenceCategory"
-		})
+		"conferenceCategory"
+	})
 	public ModelAndView listByStatus(@RequestParam final String conferenceCategory) {
 		final ModelAndView result;
 		Collection<Conference> conferences;
 		Collection<Category> categories;
 
 		categories = this.categoryService.findAll();
-		
+
 		conferences = this.conferenceService.searchByCategory(conferenceCategory);
-				
+
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
 		result.addObject("categories", categories);
@@ -308,7 +308,6 @@ public class ConferenceController extends AbstractController {
 		return result;
 
 	}
-	
 
 	// Display
 
@@ -318,7 +317,7 @@ public class ConferenceController extends AbstractController {
 		ModelAndView result;
 		Conference conference;
 		boolean submissionDeadlineOver = false;
-		Date date = new Date(System.currentTimeMillis());
+		final Date date = new Date(System.currentTimeMillis());
 		List<Sponsorship> sponsorships;
 		Random r;
 		Sponsorship sponsorship = null;
@@ -326,31 +325,29 @@ public class ConferenceController extends AbstractController {
 		final Collection<Tutorial> tutorials;
 		final Collection<Panel> panels;
 		final Collection<Presentation> presentations;
+		final Collection<Kolem> kolems;
 
-		
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
 		Assert.notNull(conference);
-		
-		if(conference.getIsFinal()){
-			
-			if(conference.getSubmissionDeadline().before(date)){
+
+		if (conference.getIsFinal()) {
+
+			if (conference.getSubmissionDeadline().before(date))
 				submissionDeadlineOver = true;
-			}
-		
-	
+
 			sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
-			if(sponsorships.size()>0){
+			if (sponsorships.size() > 0) {
 				r = new Random();
 				sponsorship = sponsorships.get(r.nextInt(sponsorships.size()));
 			}
-			conferenceComments = this.conferenceCommentService
-					.findAllByConference(conferenceId);
-	
+			conferenceComments = this.conferenceCommentService.findAllByConference(conferenceId);
+
 			tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
 			panels = this.panelService.findAllByConferenceId(conferenceId);
 			presentations = this.presentationService.findAllByConferenceId(conferenceId);
-	
+			kolems = this.kolemService.findAllByConferenceId(conferenceId);
+
 			// Crea y a�ade objetos a la vista
 			result = new ModelAndView("conference/display");
 			result.addObject("requestURI", "conference/display.do");
@@ -360,32 +357,42 @@ public class ConferenceController extends AbstractController {
 			result.addObject("presentations", presentations);
 			result.addObject("conference", conference);
 			result.addObject("submissionDeadlineOver", submissionDeadlineOver);
-			if(sponsorship!=null){
+			result.addObject("kolems", kolems);
+
+			//Dates
+			final Calendar cal = Calendar.getInstance();
+			//1 month old 
+			cal.add(Calendar.MONTH, -1);
+			final Date dateOneMonth = cal.getTime();
+			//2 months old 
+			cal.add(Calendar.MONTH, -1);
+			final Date dateTwoMonths = cal.getTime();
+			result.addObject("dateOneMonth", dateOneMonth);
+			result.addObject("dateTwoMonths", dateTwoMonths);
+
+			if (sponsorship != null)
 				result.addObject("banner", sponsorship.getBanner());
-			}
-		}else{
-			try{
+		} else
+			try {
 				Administrator principal;
 				principal = this.administratorService.findByPrincipal();
-				
-				if(conference.getAdministrator().getId() == principal.getId()){
-					if(conference.getSubmissionDeadline().before(date)){
+
+				if (conference.getAdministrator().getId() == principal.getId()) {
+					if (conference.getSubmissionDeadline().before(date))
 						submissionDeadlineOver = true;
-					}
-				
-			
+
 					sponsorships = new ArrayList<>(this.sponsorshipService.findAll());
-					if(sponsorships.size()>0){
+					if (sponsorships.size() > 0) {
 						r = new Random();
 						sponsorship = sponsorships.get(r.nextInt(sponsorships.size()));
 					}
-					conferenceComments = this.conferenceCommentService
-							.findAllByConference(conferenceId);
-			
+					conferenceComments = this.conferenceCommentService.findAllByConference(conferenceId);
+
 					tutorials = this.tutorialService.findAllByConferenceId(conferenceId);
 					panels = this.panelService.findAllByConferenceId(conferenceId);
 					presentations = this.presentationService.findAllByConferenceId(conferenceId);
-			
+					kolems = this.kolemService.findAllByConferenceId(conferenceId);
+
 					// Crea y a�ade objetos a la vista
 					result = new ModelAndView("conference/display");
 					result.addObject("requestURI", "conference/display.do");
@@ -395,18 +402,29 @@ public class ConferenceController extends AbstractController {
 					result.addObject("presentations", presentations);
 					result.addObject("conference", conference);
 					result.addObject("submissionDeadlineOver", submissionDeadlineOver);
-					if(sponsorship!=null){
+					result.addObject("kolems", kolems);
+
+					//Dates
+					final Calendar cal = Calendar.getInstance();
+					//1 month old 
+					cal.add(Calendar.MONTH, -1);
+					final Date dateOneMonth = cal.getTime();
+					//2 months old 
+					cal.add(Calendar.MONTH, -1);
+					final Date dateTwoMonths = cal.getTime();
+					result.addObject("dateOneMonth", dateOneMonth);
+					result.addObject("dateTwoMonths", dateTwoMonths);
+
+					if (sponsorship != null)
 						result.addObject("banner", sponsorship.getBanner());
-					}
-					
-				}else{
+
+				} else
 					result = new ModelAndView("redirect:/welcome/index.do");
-				}
-			}catch(Exception e){
+			} catch (final Exception e) {
 				result = new ModelAndView("redirect:/welcome/index.do");
 
 			}
-		}
+
 		// Env�a la vista
 		return result;
 	}

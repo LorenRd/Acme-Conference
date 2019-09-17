@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="kolem/list" extends="master.page">
+		<put-attribute name="title" value="kolem's list" />
+		<put-attribute name="body" value="/views/kolem/list.jsp" />
+	</definition>
+	
+	<definition name="kolem/display" extends="master.page">
+		<put-attribute name="title" value="Display kolem" />
+		<put-attribute name="body" value="/views/kolem/display.jsp" />
+	</definition>
+	
+	<definition name="kolem/create" extends="master.page">
+		<put-attribute name="title" value="Create kolem" />
+		<put-attribute name="body" value="/views/kolem/create.jsp" />
+	</definition>
+	
+	<definition name="kolem/edit" extends="master.page">
+		<put-attribute name="title" value="Edit kolem" />
+		<put-attribute name="body" value="/views/kolem/edit.jsp" />
+	</definition>
+	
+</tiles-definitions>

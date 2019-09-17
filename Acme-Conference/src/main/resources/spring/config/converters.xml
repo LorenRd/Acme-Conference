@@ -86,6 +86,9 @@
 		
 		<bean class="converters.SectionToStringConverter" />
 		<bean class="converters.StringToSectionConverter" />
+		
+		<bean class="converters.KolemToStringConverter" />
+		<bean class="converters.StringToKolemConverter" />
 	</util:list>
 
 </beans>

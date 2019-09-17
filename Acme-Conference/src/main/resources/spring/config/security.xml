@@ -148,6 +148,13 @@
 		<security:intercept-url pattern="/category/administrator/list.do" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/category/administrator/edit.do" access="hasRole('ADMIN')" /> 
 		<security:intercept-url pattern="/category/administrator/create.do" access="hasRole('ADMIN')" /> 
+		
+		<security:intercept-url pattern="/kolem/display.do" access="permitAll"/>
+		<security:intercept-url pattern="/kolem/administrator/display.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/kolem/administrator/list.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/kolem/administrator/create.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/kolem/administrator/edit.do" access="hasRole('ADMIN')"/>
+		<security:intercept-url pattern="/kolem/administrator/delete.do" access="hasRole('ADMIN')"/>
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

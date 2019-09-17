@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -25,11 +26,13 @@ import org.springframework.web.servlet.ModelAndView;
 import services.AdministratorService;
 import services.CategoryService;
 import services.ConferenceService;
+import services.KolemService;
 import services.SubmissionService;
 import controllers.AbstractController;
 import domain.Administrator;
 import domain.Category;
 import domain.Conference;
+import domain.Kolem;
 
 @Controller
 @RequestMapping("/conference/administrator")
@@ -49,6 +52,9 @@ public class ConferenceAdministratorController extends AbstractController {
 	@Autowired
 	private CategoryService			categoryService;
 
+	@Autowired
+	private KolemService			kolemService;
+
 
 	// Listing
 
@@ -56,11 +62,11 @@ public class ConferenceAdministratorController extends AbstractController {
 	public ModelAndView list(@RequestParam(required = false) final String keyword, @RequestParam(required = false, defaultValue = "false") final Boolean keywordBool, @RequestParam(required = false) final Double fee,
 		@RequestParam(required = false) final String category, @RequestParam(required = false) final String minDate, @RequestParam(required = false) final String maxDate) {
 		ModelAndView result;
-		Collection<Conference> conferences = new ArrayList<Conference>();
+		final Collection<Conference> conferences = new ArrayList<Conference>();
 		Collection<Conference> confSearch;
 		Collection<Category> categories;
 		Administrator principal;
-		
+
 		principal = this.administratorService.findByPrincipal();
 		categories = this.categoryService.findAll();
 
@@ -136,7 +142,7 @@ public class ConferenceAdministratorController extends AbstractController {
 				confSearchByDateRanges = this.conferenceService.searchByDatesAdminId(date1, date2);
 				confSearch.retainAll(confSearchByDateRanges);
 			}
-			
+
 		}
 
 		else if (keywordBool && category != "") {
@@ -191,12 +197,10 @@ public class ConferenceAdministratorController extends AbstractController {
 			confSearch = this.conferenceService.findByAdministratorId(principal.getId());
 
 		conferences.addAll(confSearch);
-		for (Conference c : conferences) {
-			if(c.getAdministrator().getId() != principal.getId()){
+		for (final Conference c : conferences)
+			if (c.getAdministrator().getId() != principal.getId())
 				conferences.remove(c);
-			}
-		}
-		
+
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
 		result.addObject("categories", categories);
@@ -248,24 +252,21 @@ public class ConferenceAdministratorController extends AbstractController {
 	})
 	public ModelAndView listByStatus(@RequestParam final String conferenceCategory) {
 		final ModelAndView result;
-		Collection<Conference> conferences = new ArrayList<Conference>();
+		final Collection<Conference> conferences = new ArrayList<Conference>();
 		Collection<Category> categories;
 		Collection<Conference> confSearch;
 		Administrator principal;
-		
+
 		principal = this.administratorService.findByPrincipal();
 		categories = this.categoryService.findAll();
-		
+
 		confSearch = this.conferenceService.searchByCategoryAdminId(conferenceCategory);
-				
-		
+
 		conferences.addAll(confSearch);
-		for (Conference c : confSearch) {
-			if(c.getAdministrator().getId() != principal.getId()){
+		for (final Conference c : confSearch)
+			if (c.getAdministrator().getId() != principal.getId())
 				conferences.remove(c);
-			}
-		}
-		
+
 		result = new ModelAndView("conference/list");
 		result.addObject("conferences", conferences);
 		result.addObject("categories", categories);
@@ -284,6 +285,7 @@ public class ConferenceAdministratorController extends AbstractController {
 		Conference conference;
 		boolean submissionDeadlineOver = false;
 		final Date date = new Date(System.currentTimeMillis());
+		final Collection<Kolem> kolems;
 
 		// Busca en el repositorio
 		conference = this.conferenceService.findOne(conferenceId);
@@ -292,11 +294,25 @@ public class ConferenceAdministratorController extends AbstractController {
 		if (conference.getSubmissionDeadline().before(date))
 			submissionDeadlineOver = true;
 
+		kolems = this.kolemService.findAllByConferenceId(conferenceId);
+
 		// Crea y a�ade objetos a la vista
 		result = new ModelAndView("conference/display");
 		result.addObject("requestURI", "conference/display.do");
 		result.addObject("conference", conference);
 		result.addObject("submissionDeadlineOver", submissionDeadlineOver);
+		result.addObject("kolems", kolems);
+
+		//Dates
+		final Calendar cal = Calendar.getInstance();
+		//1 month old 
+		cal.add(Calendar.MONTH, -1);
+		final Date dateOneMonth = cal.getTime();
+		//2 months old 
+		cal.add(Calendar.MONTH, -1);
+		final Date dateTwoMonths = cal.getTime();
+		result.addObject("dateOneMonth", dateOneMonth);
+		result.addObject("dateTwoMonths", dateTwoMonths);
 
 		// Env�a la vista
 		return result;
